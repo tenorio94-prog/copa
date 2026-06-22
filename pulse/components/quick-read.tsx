@@ -21,13 +21,13 @@ export function QuickRead({ brief }: QuickReadProps) {
         <h2 className="font-editorial text-[clamp(20px,3.5vw,24px)] font-bold leading-[1.15] tracking-tight mb-4 text-[#f4f4f5]">
           {brief.headline}
         </h2>
-        <div className="flex flex-col gap-2.5">
+        <div className="flex flex-col gap-3">
           {brief.bullets.map((b, i) => (
             <div
               key={i}
-              className="flex items-start gap-2 text-[13px] leading-snug text-[#c8c8cc]"
+              className="flex items-start gap-2.5 text-[13px] leading-[1.5] text-[#c8c8cc]"
             >
-              <span className="mt-0.5 shrink-0">{b.split(" ")[0]}</span>
+              <span className="mt-0.5 shrink-0 text-base">{b.split(" ")[0]}</span>
               <span>{b.slice(b.indexOf(" ") + 1)}</span>
             </div>
           ))}

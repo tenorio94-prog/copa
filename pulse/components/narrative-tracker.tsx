@@ -31,24 +31,24 @@ export function NarrativeTracker({ narratives }: NarrativeTrackerProps) {
           {narratives.map((n) => (
             <div
               key={n.id}
-              className="flex items-center gap-3 rounded-lg bg-[#1a1a1e] border border-[#222226] p-3 transition-colors hover:border-[#6366f1]/30"
+              className="flex items-center gap-3 rounded-lg bg-[#1a1a1e] border border-[#222226] p-3"
             >
-              <span className="text-sm">{statusIcon(n.status)}</span>
+              <span className="text-sm leading-none">{statusIcon(n.status)}</span>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-[13px] font-semibold truncate">{n.title}</span>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[13px] font-semibold truncate leading-snug">{n.title}</span>
                   {n.status === "active" && (
-                    <span className="shrink-0 text-[9px] text-[#22c55e] bg-[#22c55e]/10 px-1.5 py-0.5 rounded">
+                    <span className="shrink-0 text-[9px] font-medium text-[#22c55e] bg-[#22c55e]/10 px-1.5 py-0.5 rounded leading-none">
                       Cap. {n.currentChapter}/{n.totalChaptersKnown}
                     </span>
                   )}
                   {n.status === "completed" && (
-                    <span className="shrink-0 text-[9px] text-[#818cf8] bg-[#6366f1]/10 px-1.5 py-0.5 rounded">
+                    <span className="shrink-0 text-[9px] font-medium text-[#818cf8] bg-[#6366f1]/10 px-1.5 py-0.5 rounded leading-none">
                       ✅ Concluída
                     </span>
                   )}
                 </div>
-                <p className="text-[11px] text-[#71717a] mt-0.5 truncate">
+                <p className="text-[11px] text-[#71717a] mt-1 leading-snug truncate">
                   {n.status === "active" ? `Próximo: ${n.nextChapter}` : n.journey.slice(-1)[0] || ""}
                 </p>
               </div>

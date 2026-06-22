@@ -10,7 +10,7 @@ export function ContinuityBar({ continuity }: ContinuityBarProps) {
       <span className="inline-flex items-center gap-1 rounded-full border border-[#222226] bg-[#121214] px-3 py-1.5">
         📅 Dia {continuity.day}
       </span>
-      <span className="inline-flex items-center gap-1 rounded-full border border-[#222226] bg-[#121214] px-3 py-1.5">
+      <span className="inline-flex items-center gap-1.5 rounded-full border border-[#f59e0b]/30 bg-[#f59e0b]/8 px-3.5 py-1.5 text-[12px] font-semibold text-[#fbbf24] shadow-sm">
         🏆 {continuity.phase}
       </span>
       <span className="inline-flex items-center gap-1 rounded-full border border-[#6366f1]/20 bg-[#6366f1]/5 px-3 py-1.5 text-[#818cf8]">
