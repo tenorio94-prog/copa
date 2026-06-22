@@ -1,117 +1,154 @@
-# Copa Pulse — PROJECT MEMORY
+﻿# Copa Pulse â€” PROJECT MEMORY
 
-**Última atualização:** Junho 2026  
-**Status:** Pronto para validação com usuários reais  
-**Próximo passo:** Testar com 10 usuários antes de qualquer nova funcionalidade
+**Ãšltima atualizaÃ§Ã£o:** Julho 2026  
+**Status:** Online em produÃ§Ã£o. NUNCA testado com usuÃ¡rios reais.  
+**PrÃ³ximo passo:** Testar com 10 usuÃ¡rios antes de qualquer nova funcionalidade  
+**URL pÃºblica:** https://pulse-indol-sigma.vercel.app
 
 ---
 
-## 1. Product Vision
+## 2. Product Vision
 
-### O que é
+### O que Ã©
 
-Copa Pulse é um resumo diário da Copa do Mundo. O usuário abre, lê em 15 segundos, entende o dia. Não é um portal de notícias. É um produto editorial que responde "se você tem 3 minutos, o que precisa saber sobre a Copa hoje?"
+Copa Pulse Ã© um resumo diÃ¡rio da Copa do Mundo. O usuÃ¡rio abre, lÃª em 15 segundos, entende o dia. NÃ£o Ã© um portal de notÃ­cias. Ã‰ um produto editorial que responde "se vocÃª tem 3 minutos, o que precisa saber sobre a Copa hoje?"
 
 ### Problema que resolve
 
-Portais esportivos tradicionais (ESPN, Globo Esporte, FIFA) são feitos para consumo prolongado: artigos longos, estatísticas, vídeos, anúncios. O fã casual da Copa — que trabalha, tem família, não acompanha cada jogo — não tem 15 minutos para navegar. Ele quer saber o que importa em segundos.
+Portais esportivos tradicionais (ESPN, Globo Esporte, FIFA) sÃ£o feitos para consumo prolongado: artigos longos, estatÃ­sticas, vÃ­deos, anÃºncios. O fÃ£ casual da Copa â€” que trabalha, tem famÃ­lia, nÃ£o acompanha cada jogo â€” nÃ£o tem 15 minutos para navegar. Ele quer saber o que importa em segundos.
 
-### Diferenciação
+### DiferenciaÃ§Ã£o
 
-- **Não é portal de placares:** placares existem em 50 lugares. O Copa Pulse entrega **contexto editorial**.
-- **Não é site de estatísticas:** não tem xG, posse de bola, chances criadas. Tem narrativa.
-- **É resumo premium:** curadoria editorial + IA + design premium + dark mode + mobile-first.
+- **NÃ£o Ã© portal de placares:** placares existem em 50 lugares. O Copa Pulse entrega **contexto editorial**.
+- **NÃ£o Ã© site de estatÃ­sticas:** nÃ£o tem xG, posse de bola, chances criadas. Tem narrativa.
+- **Ã‰ resumo premium:** curadoria editorial + IA + design premium + dark mode + mobile-first.
 
 ### Por que foi criado
 
-A Copa do Mundo é o maior evento esportivo do planeta, mas a experiência de consumo digital é dominada por portais poluídos e apps de estatísticas. Não existe um produto que responda "o que importa hoje?" de forma rápida, bonita e inteligente. O Copa Pulse foi criado para preencher esse vazio.
+A Copa do Mundo Ã© o maior evento esportivo do planeta, mas a experiÃªncia de consumo digital Ã© dominada por portais poluÃ­dos e apps de estatÃ­sticas. NÃ£o existe um produto que responda "o que importa hoje?" de forma rÃ¡pida, bonita e inteligente. O Copa Pulse foi criado para preencher esse vazio.
 
 ---
 
-## 2. Core Product Thesis
+## 3. Core Product Thesis
 
-> Fãs casuais da Copa preferem um resumo narrativo de 15 segundos a um portal de placares tradicional.
+> FÃ£s casuais da Copa preferem um resumo narrativo de 15 segundos a um portal de placares tradicional.
 
 ### Detalhamento da tese
 
-- O usuário não quer saber o placar de todos os jogos — quer saber qual é a história mais importante.
-- O usuário não quer tabelas completas — quer entender como o grupo está se desenhando.
-- O usuário não quer estatísticas — quer contexto ("por que isso importa?").
-- O usuário volta não por notificações — mas porque a história não acabou ("Marrocos enfrenta a França amanhã — será que a zebra chega à final?").
-- 15 segundos de consumo diário é o suficiente para criar hábito se o valor for consistente.
+- O usuÃ¡rio nÃ£o quer saber o placar de todos os jogos â€” quer saber qual Ã© a histÃ³ria mais importante.
+- O usuÃ¡rio nÃ£o quer tabelas completas â€” quer entender como o grupo estÃ¡ se desenhando.
+- O usuÃ¡rio nÃ£o quer estatÃ­sticas â€” quer contexto ("por que isso importa?").
+- O usuÃ¡rio volta nÃ£o por notificaÃ§Ãµes â€” mas porque a histÃ³ria nÃ£o acabou ("Marrocos enfrenta a FranÃ§a amanhÃ£ â€” serÃ¡ que a zebra chega Ã  final?").
+- 15 segundos de consumo diÃ¡rio Ã© o suficiente para criar hÃ¡bito se o valor for consistente.
 
 ---
 
-## 3. Product Positioning
+## 4. Product Positioning
 
-### O Copa Pulse NÃO é
+### O Copa Pulse NÃƒO Ã©
 
 - Portal de placares (ESPN, Globo Esporte)
-- Site de estatísticas (Sofascore, Transfermarkt)
+- Site de estatÃ­sticas (Sofascore, Transfermarkt)
 - Fantasy game (Cartola)
 - Site de apostas
 - Rede social (Twitter, Instagram)
-- Newsletter genérica
-- Agregador de notícias (Google News)
+- Newsletter genÃ©rica
+- Agregador de notÃ­cias (Google News)
 
-### O Copa Pulse É
+### O Copa Pulse Ã‰
 
-- Resumo narrativo diário da Copa do Mundo
-- Motor editorial que transforma dados em histórias
-- Produto de consumo ultra-rápido (15-30 segundos)
+- Resumo narrativo diÃ¡rio da Copa do Mundo
+- Motor editorial que transforma dados em histÃ³rias
+- Produto de consumo ultra-rÃ¡pido (15-30 segundos)
 - Curadoria editorial automatizada por IA
-- Experiência premium, dark mode, mobile-first
-- Acompanhamento baseado em histórias, não em partidas isoladas
+- ExperiÃªncia premium, dark mode, mobile-first
+- Acompanhamento baseado em histÃ³rias, nÃ£o em partidas isoladas
 
-### Posicionamento para o usuário
+### Posicionamento para o usuÃ¡rio
 
-"Abra o Copa Pulse todo dia. Em 15 segundos, você entende a Copa."
+"Abra o Copa Pulse todo dia. Em 15 segundos, vocÃª entende a Copa."
 
 ---
 
-## 4. Current Product Status
+## 5. Current Design Philosophy
 
-**Status:** Tecnicamente funcional. NUNCA testado com usuários reais. Produto nunca foi aberto por uma pessoa de fora do projeto.
+### O Copa Pulse NÃƒO Ã©
 
-**O que NÃO existe ainda:**
-- ❌ Nenhum usuário real viu o produto
-- ❌ Nenhum deploy público validado
-- ❌ Nenhuma operação contínua
-- ❌ Nenhum dado de retenção
-- ❌ Nenhuma API-Football paga
-- ❌ Nenhum cron rodando em produção
+- Dashboard esportivo
+- Portal de estatÃ­sticas
+- Site de resultados
+- SaaS analytics
 
-### O que já está pronto (código)
+### O Copa Pulse Ã‰
 
-- Homepage funcional (ContinuityBar → QuickRead → NextChapter → HeroMini → NarrativeTracker → Matches → Standings)
-- Editorial Story Engine (seleciona a história mais importante)
-- Historical Facts (5 fatos detectados automaticamente)
+- Produto editorial premium
+- Produto narrativo
+- Resumo de Copa em 15 segundos
+- Curadoria automatizada com IA
+
+### ReferÃªncias visuais
+
+- **The Athletic** â€” tipografia editorial premium, hierarquia limpa
+- **Apple News** â€” cards, espaÃ§amento, escaneabilidade
+- **Spotify Editorial** â€” dark mode, narrativa visual, badges
+
+### PrincÃ­pios de design
+
+1. **QuickRead Ã© o centro da experiÃªncia.** Nada deve competir visualmente com o QuickRead. Ã‰ o primeiro componente que o olho encontra e o Ãºltimo que abandona.
+2. **Narrativas > EstatÃ­sticas.** Headlines editoriais (Fraunces) vs corpo informacional (Inter). A tipografia reflete a hierarquia de importÃ¢ncia.
+3. **RetenÃ§Ã£o vem de histÃ³rias inacabadas.** NextChapter existe para criar uma pergunta que sÃ³ serÃ¡ respondida amanhÃ£. O design reforÃ§a isso com gradiente e destaque visual.
+4. **A homepage responde 3 perguntas, nesta ordem:** (a) O que aconteceu? (b) Por que importa? (c) O que acontece depois? â€” cada componente responde uma.
+5. **Complemento nÃ£o compete.** HeroMini Ã© intencionalmente mais sutil que NextChapter, mesmo falando da mesma narrativa. O NextChapter provoca. O HeroMini confirma.
+6. **Mobile-first de verdade.** Todo componente Ã© testado em viewport de iPhone. EspaÃ§amento, line-height e quebra de linha sÃ£o ajustados para leitura em pÃ©.
+
+### Tipografia
+
+- **Fraunces** (serifada editorial) â€” headlines do QuickRead, NextChapter, HeroMini, NavBar
+- **Inter** (sans-serif) â€” corpo, metadata, navbar secundÃ¡ria, NarrativeTracker, Matches, Standings
+- A escolha de serifa para headlines editoriais foi intencional: diferenciar visualmente o produto de dashboards esportivos, aproximando-o de veÃ­culos como The Athletic e Apple News.
+
+---
+
+## 6. Current Product Status
+
+**Status:** Online em produÃ§Ã£o (https://pulse-indol-sigma.vercel.app). NUNCA testado com usuÃ¡rios reais.
+
+**O que NÃƒO existe ainda:**
+- âŒ Nenhum usuÃ¡rio real viu o produto
+- âŒ Nenhuma validaÃ§Ã£o de hipÃ³tese
+- âŒ Nenhum dado de retenÃ§Ã£o
+- âŒ Nenhuma API-Football paga
+- âŒ Nenhum cron rodando em produÃ§Ã£o
+
+**O que JÃ EXISTE:**
+- âœ… Deploy pÃºblico na Vercel (https://pulse-indol-sigma.vercel.app)
+- âœ… Build automÃ¡tico via GitHub + Vercel
+- âœ… DeepSeek integrado com env var configurada
+- âœ… Mock data representativo (Copa 2022 semi-final)
+- âœ… DomÃ­nio: pulse-indol-sigma.vercel.app
+
+### O que jÃ¡ estÃ¡ pronto (cÃ³digo)
+
+- Homepage funcional (ContinuityBar â†’ QuickRead â†’ NextChapter â†’ HeroMini â†’ NarrativeTracker â†’ Matches â†’ Standings)
+- Editorial Story Engine (seleciona a histÃ³ria mais importante)
+- Historical Facts (10 fatos detectados: first_african_semifinalist, giant_killing, years_since_last_title, defending_champion_eliminated, streak_broken, first_title_ever, title_drought_ended, repeat_final, back_to_back_final, best_result_surpassed)
 - Historical Intelligence (datasets world-cup-history.json + teams.json)
-- Narrative Arcs (4 arcos detectados: redemption, cinderella, giant_slayer, multi_upset)
+- Narrative Arcs (4 arcos: redemption, cinderella, giant_slayer, multi_upset)
 - Tournament Memory (teamJourneys, teamForm, narratives)
-- StoryBrief (entidade central de consumo — 3 bullets + continuity)
-- NextChapter (mecanismo de retenção — "o que acontece agora?")
-- NarrativeTracker (capítulos ativos por time)
-- HeroMini (versão compacta do Hero)
-- DeepSeek integrado (provedor LLM principal)
+- StoryBrief (entidade central de consumo â€” 3 bullets + continuity)
+- NextChapter (mecanismo de retenÃ§Ã£o â€” "o que acontece agora?")
+- NarrativeTracker (capÃ­tulos ativos por time)
+- HeroMini (versÃ£o compacta do Hero)
+- DeepSeek integrado (provedor LLM principal, configurado na Vercel)
 - API-Football client (com fallback para dados mockados)
-- 81.6kB First Load JS
+- 81.8kB First Load JS
 - Dark mode, mobile-first
-
-### O que ainda falta (para produção)
-
-- API-Football key paga ($99/ano)
-- Cron para fetch de dados em VPS
-- scripts/build-data.mjs para pipeline de dados
-- ISR configurado para revalidar a cada 60s
-
-### O que está em teste
-
-- Nada. Nenhum usuário real viu o produto ainda. Este é o próximo passo.
+- Design editorial com Fraunces + Inter
+- Polimentos UX/UI aplicados (confidence removida, links mortos removidos, ContinuityBar reforÃ§ada, iPhone otimizado)
 
 ---
 
-## 5. Current Architecture
+## 7. Current Architecture
 
 ### 5.1 API Layer (`lib/api-football.ts`)
 
@@ -120,70 +157,70 @@ A Copa do Mundo é o maior evento esportivo do planeta, mas a experiência de co
 | **Responsabilidade** | Cliente HTTP para API-Football v3 |
 | **Inputs** | Env vars (API_FOOTBALL_KEY, API_FOOTBALL_LEAGUE_ID) |
 | **Outputs** | ApiFixture[], ApiStandingEntry[] |
-| **Dependências** | fetch nativo |
+| **DependÃªncias** | fetch nativo |
 
 ### 5.2 Transformers (`lib/transformers.ts`)
 
 | Campo | Valor |
 |---|---|
-| **Responsabilidade** | Converte ApiFixture → Match, calcula importanceScore |
+| **Responsabilidade** | Converte ApiFixture â†’ Match, calcula importanceScore |
 | **Inputs** | ApiFixture |
 | **Outputs** | Match |
-| **Dependências** | api-football.ts |
+| **DependÃªncias** | api-football.ts |
 
 ### 5.3 Context Builder (`lib/context-builder.ts`)
 
 | Campo | Valor |
 |---|---|
-| **Responsabilidade** | Enriquece Match → EnrichedMatch com flags, impacto, form |
+| **Responsabilidade** | Enriquece Match â†’ EnrichedMatch com flags, impacto, form |
 | **Inputs** | Match[] |
 | **Outputs** | EnrichedMatch[] |
-| **Dependências** | types |
+| **DependÃªncias** | types |
 
 ### 5.4 Knowledge Base (`lib/knowledge.ts`)
 
 | Campo | Valor |
 |---|---|
-| **Responsabilidade** | Carrega teams.json + world-cup-history.json. Fornece funções de consulta (getTitles, isAfrican, isTraditional, wasFinalInPreviousEdition, etc.) |
+| **Responsabilidade** | Carrega teams.json + world-cup-history.json. Fornece funÃ§Ãµes de consulta (getTitles, isAfrican, isTraditional, wasFinalInPreviousEdition, etc.) |
 | **Inputs** | Nome do time |
 | **Outputs** | TeamInfo, boolean, number |
-| **Dependências** | data/teams.json, data/world-cup-history.json |
+| **DependÃªncias** | data/teams.json, data/world-cup-history.json |
 
 ### 5.5 Historical Context Builder (`lib/historical-context-builder.ts`)
 
 | Campo | Valor |
 |---|---|
-| **Responsabilidade** | Detecta fatos históricos a partir de EnrichedMatch |
+| **Responsabilidade** | Detecta fatos histÃ³ricos a partir de EnrichedMatch |
 | **Inputs** | EnrichedMatch, TournamentMemory |
 | **Outputs** | HistoricalFact[] |
-| **Dependências** | knowledge.ts |
+| **DependÃªncias** | knowledge.ts |
 
 ### 5.6 Tournament Memory (`lib/tournament-memory.ts`)
 
 | Campo | Valor |
 |---|---|
-| **Responsabilidade** | Constrói a memória do torneio: teamJourneys, narratives, teamForm, narrativeArcs |
+| **Responsabilidade** | ConstrÃ³i a memÃ³ria do torneio: teamJourneys, narratives, teamForm, narrativeArcs |
 | **Inputs** | Match[] |
 | **Outputs** | TournamentMemory |
-| **Dependências** | narrative-accumulation.ts |
+| **DependÃªncias** | narrative-accumulation.ts |
 
 ### 5.7 Narrative Accumulation (`lib/narrative-accumulation.ts`)
 
 | Campo | Valor |
 |---|---|
-| **Responsabilidade** | Detecta padrões narrativos em múltiplos jogos |
+| **Responsabilidade** | Detecta padrÃµes narrativos em mÃºltiplos jogos |
 | **Inputs** | Match[] |
 | **Outputs** | NarrativeArc[] |
-| **Dependências** | types |
+| **DependÃªncias** | types |
 
 ### 5.8 Editorial Story Engine (`lib/editorial-story-engine.ts`)
 
 | Campo | Valor |
 |---|---|
-| **Responsabilidade** | Módulo central de seleção. Para cada partida: classifica storyType, calcula confidence (0-1), gera evidence[], headline, narrativeHook, whyItMatters. Ordena por confidence. Define priority 1 (hero), 2 (secondary), 3 (emerging) |
+| **Responsabilidade** | MÃ³dulo central de seleÃ§Ã£o. Para cada partida: classifica storyType, calcula confidence (0-1), gera evidence[], headline, narrativeHook, whyItMatters. Ordena por confidence. Define priority 1 (hero), 2 (secondary), 3 (emerging) |
 | **Inputs** | EnrichedMatch[], TournamentMemory |
 | **Outputs** | EditorialStory[] |
-| **Dependências** | Todos os módulos anteriores |
+| **DependÃªncias** | Todos os mÃ³dulos anteriores |
 
 ### 5.9 StoryBrief (`lib/story-brief.ts`)
 
@@ -192,119 +229,119 @@ A Copa do Mundo é o maior evento esportivo do planeta, mas a experiência de co
 | **Responsabilidade** | Gera o resumo de 15 segundos: headline + 3 bullets + continuity (dia, fase, ontem, hoje). Entidade central de consumo |
 | **Inputs** | EditorialStory[], TournamentMemory |
 | **Outputs** | StoryBrief |
-| **Dependências** | types |
+| **DependÃªncias** | types |
 
 ### 5.10 NextChapter (`lib/next-chapter.ts`)
 
 | Campo | Valor |
 |---|---|
-| **Responsabilidade** | Gera o gancho de retenção: headline + hook + openQuestion + próximo evento. Só gera se hasOpenQuestion === true |
+| **Responsabilidade** | Gera o gancho de retenÃ§Ã£o: headline + hook + openQuestion + prÃ³ximo evento. SÃ³ gera se hasOpenQuestion === true |
 | **Inputs** | StoryBrief, NarrativeArc[], TournamentMemory |
 | **Outputs** | NextChapter | null |
-| **Dependências** | types |
+| **DependÃªncias** | types |
 
 ### 5.11 Narrative Tracker (`lib/narrative-tracker.ts`)
 
 | Campo | Valor |
 |---|---|
-| **Responsabilidade** | Transforma NarrativeArc[] em ActiveNarrative[] visível. Calcula capítulo atual, status, próximo passo. Máximo 3 narrativas |
+| **Responsabilidade** | Transforma NarrativeArc[] em ActiveNarrative[] visÃ­vel. Calcula capÃ­tulo atual, status, prÃ³ximo passo. MÃ¡ximo 3 narrativas |
 | **Inputs** | NarrativeArc[], TournamentMemory |
 | **Outputs** | ActiveNarrative[] |
-| **Dependências** | types |
+| **DependÃªncias** | types |
 
 ### 5.12 Data Orchestration (`lib/mock-data.ts`)
 
 | Campo | Valor |
 |---|---|
-| **Responsabilidade** | Ponto central de integração. Tenta API-Football, cai para fallback hardcoded. Constrói todo o estado do dashboard |
+| **Responsabilidade** | Ponto central de integraÃ§Ã£o. Tenta API-Football, cai para fallback hardcoded. ConstrÃ³i todo o estado do dashboard |
 | **Inputs** | Env vars |
 | **Outputs** | { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings } |
-| **Dependências** | Todos os módulos |
+| **DependÃªncias** | Todos os mÃ³dulos |
 
 ---
 
-## 6. Data Flow
+## 8. Data Flow
 
 ```
 API-Football (ou fallback mockado)
-  ↓
-toMatch() → Match[]
-  ↓
-enrichMatches() → EnrichedMatch[]
-  ↓
-tournament-memory: buildMemory() → TournamentMemory
-  ├── teamJourneys (texto descritivo por time)
-  ├── narratives (frases detectadas)
-  ├── teamForm (momentum, streaks)
-  ├── narrativeArcs (redemption, cinderella, etc.)
-  └── historicalFacts (fatos históricos)
-  ↓
-editorial-story-engine: selectStories() → EditorialStory[]
-  ├── storyType (redemption, milestone, upset, etc.)
-  ├── confidence (0-1)
-  ├── evidence[] (lista de razões)
-  └── priority (1=hero, 2=secondary, 3=emerging)
-  ↓
-story-brief: buildBrief() → StoryBrief
-  ├── headline
-  ├── bullets[3]
-  └── continuity { day, phase, matchCount, yesterday, today }
-  ↓
-next-chapter: buildNextChapter() → NextChapter | null
-  ├── openQuestion
-  └── nextEvent
-  ↓
-narrative-tracker: buildNarratives() → ActiveNarrative[]
-  ├── currentChapter
-  └── status (active/completed/archived)
-  ↓
+  â†“
+toMatch() â†’ Match[]
+  â†“
+enrichMatches() â†’ EnrichedMatch[]
+  â†“
+tournament-memory: buildMemory() â†’ TournamentMemory
+  â”œâ”€â”€ teamJourneys (texto descritivo por time)
+  â”œâ”€â”€ narratives (frases detectadas)
+  â”œâ”€â”€ teamForm (momentum, streaks)
+  â”œâ”€â”€ narrativeArcs (redemption, cinderella, etc.)
+  â””â”€â”€ historicalFacts (fatos histÃ³ricos)
+  â†“
+editorial-story-engine: selectStories() â†’ EditorialStory[]
+  â”œâ”€â”€ storyType (redemption, milestone, upset, etc.)
+  â”œâ”€â”€ confidence (0-1)
+  â”œâ”€â”€ evidence[] (lista de razÃµes)
+  â””â”€â”€ priority (1=hero, 2=secondary, 3=emerging)
+  â†“
+story-brief: buildBrief() â†’ StoryBrief
+  â”œâ”€â”€ headline
+  â”œâ”€â”€ bullets[3]
+  â””â”€â”€ continuity { day, phase, matchCount, yesterday, today }
+  â†“
+next-chapter: buildNextChapter() â†’ NextChapter | null
+  â”œâ”€â”€ openQuestion
+  â””â”€â”€ nextEvent
+  â†“
+narrative-tracker: buildNarratives() â†’ ActiveNarrative[]
+  â”œâ”€â”€ currentChapter
+  â””â”€â”€ status (active/completed/archived)
+  â†“
 Homepage (componentes renderizam)
-  ├── ContinuityBar
-  ├── QuickRead
-  ├── NextChapter
-  ├── HeroMini
-  ├── NarrativeTracker
-  ├── Matches
-  └── Standings (apenas grupos)
+  â”œâ”€â”€ ContinuityBar
+  â”œâ”€â”€ QuickRead
+  â”œâ”€â”€ NextChapter
+  â”œâ”€â”€ HeroMini
+  â”œâ”€â”€ NarrativeTracker
+  â”œâ”€â”€ Matches
+  â””â”€â”€ Standings (apenas grupos)
 ```
 
 ---
 
-## 7. Homepage Structure
+## 9. Homepage Structure
 
 ### Ordem atual (mobile)
 
-1. **ContinuityBar** — "Dia X • Fase Y • Z jogos • Ontem: X • Hoje: Y". Orientação temporal. Cria progressão.
-2. **QuickRead** — Headline editorial + 3 bullets. 15 segundos. É o **produto central**.
-3. **NextChapter** — "Será que Marrocos chega à final?" Mecanismo de retenção. Só aparece se hasOpenQuestion.
-4. **HeroMini** — Tag + headline + why it matters. Versão compacta do Hero. Evita redundância com QuickRead.
-5. **NarrativeTracker** — Lista de histórias ativas. "Capítulo 4 de 6". Máximo 3.
-6. **Matches** — Jogos ao vivo + próximos. Essencial.
+1. **ContinuityBar** — "Dia X • Fase Y • Z jogos • Ontem: X • Hoje: Y". Chip da fase atual (ex: "Final") destacado em dourado (#fbbf24). Orientacao temporal. Cria progressao.
+2. **QuickRead** — Headline editorial (Fraunces 20-24px bold) + 3 bullets. 15 segundos. E o **produto central**. Componente visualmente dominante.
+3. **NextChapter** — "Messi finalmente conquista o titulo que faltava?" Mecanismo de retencao. So aparece se hasOpenQuestion. Gradient roxo mais forte que HeroMini para estabelecer hierarquia.
+4. **HeroMini** — Tag + headline (Fraunces 14px semibold). Versao intencionalmente sutil para nao competir com NextChapter. Se o NextChapter provoca, o HeroMini confirma.
+5. **NarrativeTracker** — Lista de historias ativas. "Capitulo 4 de 6". Maximo 3. Badges com leading-none para mobile.
+6. **Matches** — Jogos ao vivo + proximos. Essencial.
 7. **Standings** — Tabela do grupo. **ONLY na fase de grupos** (escondido no mata-mata).
 
 ### Desktop sidebar
 
 ```
-Matches → NarrativeTracker → Standings (groups only) → Footer
+Matches â†’ NarrativeTracker â†’ Standings (groups only) â†’ Footer
 ```
 
-### Componentes essenciais (não podem ser removidos)
+### Componentes essenciais (nÃ£o podem ser removidos)
 
 ContinuityBar, QuickRead, NextChapter, Matches.
 
-### Componentes sob validação
+### Componentes sob validaÃ§Ã£o
 
-NarrativeTracker: "Capítulo 4 de 6" precisa ser testado com usuários. Pode ser confuso.
+NarrativeTracker: "CapÃ­tulo 4 de 6" precisa ser testado com usuÃ¡rios. Pode ser confuso.
 
 ---
 
-## 8. Historical Intelligence
+## 10. Historical Intelligence
 
 ### 8.1 Datasets
 
 #### `data/teams.json`
 
-39 seleções. Cada entrada:
+39 seleÃ§Ãµes. Cada entrada:
 
 ```json
 {
@@ -320,36 +357,36 @@ NarrativeTracker: "Capítulo 4 de 6" precisa ser testado com usuários. Pode ser
 }
 ```
 
-Usado por `knowledge.ts` para consultas de: títulos, finalista anterior, time tradicional, continente.
+Usado por `knowledge.ts` para consultas de: tÃ­tulos, finalista anterior, time tradicional, continente.
 
 #### `data/world-cup-history.json`
 
-22 edições (1930-2022). Cada entrada:
+22 ediÃ§Ãµes (1930-2022). Cada entrada:
 
 ```json
 { "year": 2022, "host": "Qatar", "champion": "Argentina", "runnerUp": "France", "third": "Croatia" }
 ```
 
-Usado para detectar: repeat_final, back_to_back_final, revenge_match, três-peat attempt.
+Usado para detectar: repeat_final, back_to_back_final, revenge_match, trÃªs-peat attempt.
 
 ### 8.2 Historical Facts implementados
 
 | Fato | Regra | Peso | Exemplo |
 |---|---|---|---|
-| `first_african_semifinalist` | Time africano vence mata-mata que leva à semi | 95 | "Marrocos é a primeira seleção africana na semifinal" |
-| `giant_killing` | Diferença de ranking ≥ 10 | 85 | "Arábia Saudita (51ª) venceu Argentina (3ª)" |
-| `years_since_last_title` | Time na final ou mata-mata não vence há 8+ anos | 90 | "Argentina não vencia desde 1986 — há 40 anos" |
-| `defending_champion_eliminated` | Time eliminado com título recente (≤8 anos) | 85 | "França, atual campeã (2018), foi eliminada" |
-| `streak_broken` | Perdedor com momentum dominant ou lost_opener + upset | 80 | "Argentina teve sequência invicta quebrada" |
-| `first_title_ever` | Time com 0 títulos chega ao mata-mata ou final | 85 | "Croácia pode conquistar seu primeiro título" |
+| `first_african_semifinalist` | Time africano vence mata-mata que leva Ã  semi | 95 | "Marrocos Ã© a primeira seleÃ§Ã£o africana na semifinal" |
+| `giant_killing` | DiferenÃ§a de ranking â‰¥ 10 | 85 | "ArÃ¡bia Saudita (51Âª) venceu Argentina (3Âª)" |
+| `years_since_last_title` | Time na final ou mata-mata nÃ£o vence hÃ¡ 8+ anos | 90 | "Argentina nÃ£o vencia desde 1986 â€” hÃ¡ 40 anos" |
+| `defending_champion_eliminated` | Time eliminado com tÃ­tulo recente (â‰¤8 anos) | 85 | "FranÃ§a, atual campeÃ£ (2018), foi eliminada" |
+| `streak_broken` | Perdedor com momentum dominant ou lost_opener + upset | 80 | "Argentina teve sequÃªncia invicta quebrada" |
+| `first_title_ever` | Time com 0 tÃ­tulos chega ao mata-mata ou final | 85 | "CroÃ¡cia pode conquistar seu primeiro tÃ­tulo" |
 | `title_drought_ended` | Vencedor na final + yearsSinceLastTitle > 8 | 90 | "Argentina encerra jejum de 36 anos" |
-| `repeat_final` | Final com mesmo par da edição anterior | 85 | "Repetição da final anterior" |
-| `back_to_back_final` | Time em 2 finais consecutivas | 80 | "França está em sua segunda final consecutiva" |
-| `best_result_surpassed` | Time supera seu melhor resultado histórico | 90 | "Marrocos superou melhor resultado" |
+| `repeat_final` | Final com mesmo par da ediÃ§Ã£o anterior | 85 | "RepetiÃ§Ã£o da final anterior" |
+| `back_to_back_final` | Time em 2 finais consecutivas | 80 | "FranÃ§a estÃ¡ em sua segunda final consecutiva" |
+| `best_result_surpassed` | Time supera seu melhor resultado histÃ³rico | 90 | "Marrocos superou melhor resultado" |
 
 ### 8.3 Confidence bonuses no Editorial Story Engine
 
-| Fato | Bônus |
+| Fato | BÃ´nus |
 |---|---|
 | `first_title_ever` | +0.15 |
 | `title_drought_ended` | +0.10 |
@@ -359,39 +396,39 @@ Usado para detectar: repeat_final, back_to_back_final, revenge_match, três-peat
 
 ---
 
-## 9. Narrative System
+## 11. Narrative System
 
 ### 9.1 Narrative Arcs
 
-| Arco | Condição | Peso | Exemplo |
+| Arco | CondiÃ§Ã£o | Peso | Exemplo |
 |---|---|---|---|
-| `redemption_journey` | Time perde na estreia E chega à final E vence | 95 | Argentina 2022 |
-| `cinderella_progression` | Time vence 2+ populares em mata-mata (inclui pênaltis) | 90 | Marrocos 2022 |
+| `redemption_journey` | Time perde na estreia E chega Ã  final E vence | 95 | Argentina 2022 |
+| `cinderella_progression` | Time vence 2+ populares em mata-mata (inclui pÃªnaltis) | 90 | Marrocos 2022 |
 | `giant_slayer` | Time elimina 2+ populares em mata-mata | 85 | Marrocos 2022 |
-| `multi_upset_run` | Time vence 2+ favoritos na fase de grupos | 85 | Japão 2022 |
+| `multi_upset_run` | Time vence 2+ favoritos na fase de grupos | 85 | JapÃ£o 2022 |
 
 ### 9.2 NextChapter
 
 Gerado a partir do NarrativeArc ativo de maior weight. Cada tipo de arco tem:
-- headline específica
+- headline especÃ­fica
 - hook narrativo
 - pergunta aberta (openQuestion)
 
-Só é gerado se `hasOpenQuestion === true`. Se a narrativa foi concluída (ex: Argentina campeã), não gera NextChapter.
+SÃ³ Ã© gerado se `hasOpenQuestion === true`. Se a narrativa foi concluÃ­da (ex: Argentina campeÃ£), nÃ£o gera NextChapter.
 
 ### 9.3 NarrativeTracker
 
-Mostra ao usuário as histórias ativas da Copa:
-- Título da narrativa ("Marrocos: Campanha histórica")
-- Capítulo atual ("Capítulo 4 de 6")
+Mostra ao usuÃ¡rio as histÃ³rias ativas da Copa:
+- TÃ­tulo da narrativa ("Marrocos: Campanha histÃ³rica")
+- CapÃ­tulo atual ("CapÃ­tulo 4 de 6")
 - Status (active / completed / archived)
-- Próximo passo
+- PrÃ³ximo passo
 
-**Em validação:** o conceito de "Capítulo 4 de 6" pode não ser intuitivo para todos os usuários. Precisa de teste.
+**Em validaÃ§Ã£o:** o conceito de "CapÃ­tulo 4 de 6" pode nÃ£o ser intuitivo para todos os usuÃ¡rios. Precisa de teste.
 
 ---
 
-## 10. Editorial Story Engine
+## 12. Editorial Story Engine
 
 ### 10.1 EditorialStory
 
@@ -401,321 +438,322 @@ interface EditorialStory {
   headline: string        // 8-15 palavras, editorial
   storyType: "redemption" | "historical" | "upset" | "elimination" | "dynasty_fall" | "cinderella" | "milestone" | "rivalry"
   confidence: number      // 0-1
-  evidence: string[]      // razões legíveis
+  evidence: string[]      // razÃµes legÃ­veis
   narrativeHook: string   // frase de abertura
-  whyItMatters: string    // consequência
+  whyItMatters: string    // consequÃªncia
   priority: number        // 1=hero, 2=secondary, 3=emerging
   matchId: string
-  tag: string             // "🔥 Redenção", "🌍 Marco histórico"
+  tag: string             // "ðŸ”¥ RedenÃ§Ã£o", "ðŸŒ Marco histÃ³rico"
 }
 ```
 
-### 10.2 Seleção de histórias
+### 10.2 SeleÃ§Ã£o de histÃ³rias
 
-1. **classifyStoryType** — por ordem: editorial event → narrative arc → historical fact → match flag
-2. **calcConfidence** — base 0.1 + eventos editoriais (+0.8-0.9) + arcos (+0.6-0.9) + fatos (+peso/500) + estágio (+0.2-0.5) + popular eliminado (+0.3) + pênaltis (+0.15) + zebra (+0.15). Cap 1.0
-3. **buildEvidence** — lista legível de razões
+1. **classifyStoryType** â€” por ordem: editorial event â†’ narrative arc â†’ historical fact â†’ match flag
+2. **calcConfidence** â€” base 0.1 + eventos editoriais (+0.8-0.9) + arcos (+0.6-0.9) + fatos (+peso/500) + estÃ¡gio (+0.2-0.5) + popular eliminado (+0.3) + pÃªnaltis (+0.15) + zebra (+0.15). Cap 1.0
+3. **buildEvidence** â€” lista legÃ­vel de razÃµes
 4. **Ordena** por confidence decrescente
 5. **Atribui priority**: 1 (hero), 2 (secondary), 3 (emerging)
 
-**Hero:** maior confidence. Se há final, é sempre hero. Se há editorialEvent weight ≥ 90, garante top 3.
+**Hero:** maior confidence. Se hÃ¡ final, Ã© sempre hero. Se hÃ¡ editorialEvent weight â‰¥ 90, garante top 3.
 
 ---
 
-## 11. Major Architectural Decisions
+## 13. Major Architectural Decisions
 
-### Decisão 1: ATTENTION_SCORE rejeitado
+### DecisÃ£o 1: ATTENTION_SCORE rejeitado
 
-**Problema:** Croácia-Brasil (subvalorizado) parecia um problema de falta de atenção/popularidade.
+**Problema:** CroÃ¡cia-Brasil (subvalorizado) parecia um problema de falta de atenÃ§Ã£o/popularidade.
 
-**Solução proposta:** ATTENTION_SCORE (medir "quanto as pessoas clicariam").
+**SoluÃ§Ã£o proposta:** ATTENTION_SCORE (medir "quanto as pessoas clicariam").
 
-**Decisão final:** Rejeitado. O problema não era falta de atenção — era falta de uma categoria editorial explícita (`traditional_power_eliminated`). ATTENTION_SCORE nos aproximaria de um portal de cliques. Editorial Events nos mantêm alinhados com a visão de produto editorial.
+**DecisÃ£o final:** Rejeitado. O problema nÃ£o era falta de atenÃ§Ã£o â€” era falta de uma categoria editorial explÃ­cita (`traditional_power_eliminated`). ATTENTION_SCORE nos aproximaria de um portal de cliques. Editorial Events nos mantÃªm alinhados com a visÃ£o de produto editorial.
 
-### Decisão 2: Editorial Events adotados
+### DecisÃ£o 2: Editorial Events adotados
 
-Categorias explícitas sobrepõem scores contínuos. `traditional_power_eliminated` é mais auditável que um score de atenção.
+Categorias explÃ­citas sobrepÃµem scores contÃ­nuos. `traditional_power_eliminated` Ã© mais auditÃ¡vel que um score de atenÃ§Ã£o.
 
-### Decisão 3: StoryBrief como entidade central
+### DecisÃ£o 3: StoryBrief como entidade central
 
-Originalmente StoryBrief era uma "view". Durante o desenvolvimento descobriu-se que o USUÁRIO consome StoryBrief (não EditorialStory). A arquitetura foi reorganizada para que StoryBrief seja a entidade principal e StoryPackage seja derivado.
+Originalmente StoryBrief era uma "view". Durante o desenvolvimento descobriu-se que o USUÃRIO consome StoryBrief (nÃ£o EditorialStory). A arquitetura foi reorganizada para que StoryBrief seja a entidade principal e StoryPackage seja derivado.
 
-### Decisão 4: QuickRead como centro do produto
+### DecisÃ£o 4: QuickRead como centro do produto
 
-O Editorial Story Engine era o centro original. Na prática, QuickRead se tornou o produto — 15 segundos de consumo. O motor editorial é o que acontece nos bastidores.
+O Editorial Story Engine era o centro original. Na prÃ¡tica, QuickRead se tornou o produto â€” 15 segundos de consumo. O motor editorial Ã© o que acontece nos bastidores.
 
-### Decisão 5: NextChapter como mecanismo de retenção
+### DecisÃ£o 5: NextChapter como mecanismo de retenÃ§Ã£o
 
-NextChapter responde "por que voltar amanhã?" através de perguntas abertas, não notificações. O hábito vem de história inacabada, não de push.
+NextChapter responde "por que voltar amanhÃ£?" atravÃ©s de perguntas abertas, nÃ£o notificaÃ§Ãµes. O hÃ¡bito vem de histÃ³ria inacabada, nÃ£o de push.
 
-### Decisão 6: Hero reduzido para HeroMini
+### DecisÃ£o 6: Hero reduzido para HeroMini
 
-Product Audit mostrou 70% de redundância com QuickRead. HeroMini manteve tag + headline + why it matters. Confidence e storyType técnico foram removidos do componente.
+Product Audit mostrou 70% de redundÃ¢ncia com QuickRead. HeroMini manteve tag + headline + why it matters. Confidence e storyType tÃ©cnico foram removidos do componente.
 
-### Decisão 7: Standings condicional
+### DecisÃ£o 7: Standings condicional
 
-Standings só aparece na fase de grupos. No mata-mata, a tabela de grupos não é mais relevante.
+Standings sÃ³ aparece na fase de grupos. No mata-mata, a tabela de grupos nÃ£o Ã© mais relevante.
 
-### Decisão 8: DeepSeek como LLM padrão
+### DecisÃ£o 8: DeepSeek como LLM padrÃ£o
 
-DeepSeek (deepseek-chat) substituiu OpenAI como provedor padrão por custo inferior. OpenAI mantido como fallback/configurável via LLM_PROVIDER env var.
+DeepSeek (deepseek-chat) substituiu OpenAI como provedor padrÃ£o por custo inferior. OpenAI mantido como fallback/configurÃ¡vel via LLM_PROVIDER env var.
 
 ---
 
-## 12. Things Explicitly Rejected
+## 14. Things Explicitly Rejected
 
-| Ideia | Motivo da rejeição |
+| Ideia | Motivo da rejeiÃ§Ã£o |
 |---|---|
-| **ATTENTION_SCORE** | Score contínuo menos auditável que categoria editorial. Viés de popularidade indesejado. |
-| **Gamificação** | Streaks, badges, rankings — zero relação com o valor do produto. |
-| **Narrative Heat Score** | Complexidade desnecessária. Confidence já faz o trabalho. |
-| **Estatísticas avançadas (xG)** | Não agregam valor narrativo. O produto é editorial, não estatístico. |
-| **Comentários de usuários** | Exige moderação. Desvia do foco editorial. |
-| **Login / Personalização** | Barreira de entrada. Produto deve funcionar sem cadastro. |
-| **Modo claro** | Baixo valor adicional. Dark mode é suficiente. |
-| **Recomendação personalizada** | Complexidade alta para produto sem audiência. |
-| **Análise de sentimento / NLP** | Exige redação, não algoritmo. |
+| **ATTENTION_SCORE** | Score contÃ­nuo menos auditÃ¡vel que categoria editorial. ViÃ©s de popularidade indesejado. |
+| **GamificaÃ§Ã£o** | Streaks, badges, rankings â€” zero relaÃ§Ã£o com o valor do produto. |
+| **Narrative Heat Score** | Complexidade desnecessÃ¡ria. Confidence jÃ¡ faz o trabalho. |
+| **EstatÃ­sticas avanÃ§adas (xG)** | NÃ£o agregam valor narrativo. O produto Ã© editorial, nÃ£o estatÃ­stico. |
+| **ComentÃ¡rios de usuÃ¡rios** | Exige moderaÃ§Ã£o. Desvia do foco editorial. |
+| **Login / PersonalizaÃ§Ã£o** | Barreira de entrada. Produto deve funcionar sem cadastro. |
+| **Modo claro** | Baixo valor adicional. Dark mode Ã© suficiente. |
+| **RecomendaÃ§Ã£o personalizada** | Complexidade alta para produto sem audiÃªncia. |
+| **AnÃ¡lise de sentimento / NLP** | Exige redaÃ§Ã£o, nÃ£o algoritmo. |
 | **App nativo (iOS/Android)** | PWA resolve. |
-| **Newsletter (pré-validação)** | Exige email service e audiência. Adiar. |
-| **Push notifications** | Exige permissão do usuário. Adiar. |
-| **Áudio (pré-validação)** | Custo de TTS sem saber se alguém ouve. Adiar. |
-| **Player Facts (pré-validação)** | Especificado mas não implementado. Adiar até validação. |
-| **Complexidade prematura** | Qualquer feature que não responda "o usuário volta amanhã?" |
+| **Newsletter (prÃ©-validaÃ§Ã£o)** | Exige email service e audiÃªncia. Adiar. |
+| **Push notifications** | Exige permissÃ£o do usuÃ¡rio. Adiar. |
+| **Ãudio (prÃ©-validaÃ§Ã£o)** | Custo de TTS sem saber se alguÃ©m ouve. Adiar. |
+| **Player Facts (prÃ©-validaÃ§Ã£o)** | Especificado mas nÃ£o implementado. Adiar atÃ© validaÃ§Ã£o. |
+| **Complexidade prematura** | Qualquer feature que nÃ£o responda "o usuÃ¡rio volta amanhÃ£?" |
 
 ---
 
-## 13. Product Audits
+## 15. Product Audits
 
 ### Product Audit (Sprint 5.0)
 
-**Conclusão principal:** Homepage tinha 7 componentes, mas 3 deles faziam o trabalho pesado (ContinuityBar, QuickRead, Matches). Hero redundante com QuickRead (70% sobreposição). NextChapter enterrado na posição 3.
+**ConclusÃ£o principal:** Homepage tinha 7 componentes, mas 3 deles faziam o trabalho pesado (ContinuityBar, QuickRead, Matches). Hero redundante com QuickRead (70% sobreposiÃ§Ã£o). NextChapter enterrado na posiÃ§Ã£o 3.
 
-**Resultado:** Hero → HeroMini, NextChapter subiu para posição 3 (após QuickRead), Standings condicional.
+**Resultado:** Hero â†’ HeroMini, NextChapter subiu para posiÃ§Ã£o 3 (apÃ³s QuickRead), Standings condicional.
 
 ### Homepage Simplification (Sprint 5.1)
 
-**Mudanças:** 7 componentes → 4-5 essenciais. QuickRead expandido absorveu tag do Hero. NextChapter + NarrativeTracker fundidos parcialmente. Standings escondido no mata-mata.
+**MudanÃ§as:** 7 componentes â†’ 4-5 essenciais. QuickRead expandido absorveu tag do Hero. NextChapter + NarrativeTracker fundidos parcialmente. Standings escondido no mata-mata.
 
 ### Founder Review (Sprint U1)
 
-**Conclusão:** O produto nunca esteve "pronto". A cada sprint sem teste, acumulam-se suposições não validadas. A decisão é PARAR DE CONSTRUIR E TESTAR.
+**ConclusÃ£o:** O produto nunca esteve "pronto". A cada sprint sem teste, acumulam-se suposiÃ§Ãµes nÃ£o validadas. A decisÃ£o Ã© PARAR DE CONSTRUIR E TESTAR.
 
 ---
 
-## 14. Validation Plan
+## 16. Validation Plan
 
 ### Objetivo
 
-Validar se existe demanda pelo formato "resumo narrativo diário de 15 segundos".
+Validar se existe demanda pelo formato "resumo narrativo diÃ¡rio de 15 segundos".
 
 ### Amostra
 
-10 usuários. 3 perfis:
-- 5 casuais (acompanham só a Copa)
-- 3 fanáticos (acompanham futebol sempre)
-- 2 não-fãs (não acompanham)
+10 usuÃ¡rios. 3 perfis:
+- 5 casuais (acompanham sÃ³ a Copa)
+- 3 fanÃ¡ticos (acompanham futebol sempre)
+- 2 nÃ£o-fÃ£s (nÃ£o acompanham)
 
-### Métricas (target)
+### MÃ©tricas (target)
 
-| Métrica | Target |
+| MÃ©trica | Target |
 |---|---|
-| Entendeu a história principal em 15s | ≥ 8/10 |
-| Entendeu o que acontece amanhã em 30s | ≥ 7/10 |
-| Disse que voltaria amanhã | ≥ 6/10 |
-| Entendeu "Capítulo X de Y" | ≥ 6/10 |
-| Usaria durante a Copa | ≥ 7/10 |
+| Entendeu a histÃ³ria principal em 15s | â‰¥ 8/10 |
+| Entendeu o que acontece amanhÃ£ em 30s | â‰¥ 7/10 |
+| Disse que voltaria amanhÃ£ | â‰¥ 6/10 |
+| Entendeu "CapÃ­tulo X de Y" | â‰¥ 6/10 |
+| Usaria durante a Copa | â‰¥ 7/10 |
 
 **Aprovado se 4/5 baterem target.**
 
-### Critérios de decisão
+### CritÃ©rios de decisÃ£o
 
-| Resultado | Condição | Ação |
+| Resultado | CondiÃ§Ã£o | AÃ§Ã£o |
 |---|---|---|
-| ✅ Continuar | 4/5 métricas aprovadas | Montar operação + 100 usuários |
-| 🟡 Ajustar | 3/5 + problema claro | Corrigir em 1 semana, re-testar |
-| 🔄 Pivotar | Produto compreendido mas sem necessidade | Mudar formato ou público |
-| 🔴 Encerrar | < 5/10 entenderam propósito | Arquivar, aprender |
+| âœ… Continuar | 4/5 mÃ©tricas aprovadas | Montar operaÃ§Ã£o + 100 usuÃ¡rios |
+| ðŸŸ¡ Ajustar | 3/5 + problema claro | Corrigir em 1 semana, re-testar |
+| ðŸ”„ Pivotar | Produto compreendido mas sem necessidade | Mudar formato ou pÃºblico |
+| ðŸ”´ Encerrar | < 5/10 entenderam propÃ³sito | Arquivar, aprender |
 
 ### Documentos de teste
 
-- `spec-u1-execution.html` — plano completo de recrutamento, sessão, perguntas, planilha
+- `spec-u1-execution.html` â€” plano completo de recrutamento, sessÃ£o, perguntas, planilha
 - Roteiro de 15 minutos, perguntas abertas vs fechadas vs proibidas
 
 ---
 
-## 15. Infrastructure
+## 17. Infrastructure
 
-### Arquitetura operacional planejada (para produção)
+### Arquitetura operacional planejada (para produÃ§Ã£o)
 
 ```
 Cron */5 * * * *
-  ↓
-fetch-data.sh → API-Football → /tmp/*.json
-  ↓
+  â†“
+fetch-data.sh â†’ API-Football â†’ /tmp/*.json
+  â†“
 scripts/build-data.mjs
-  ↓
-  ├── toMatch() → enrichMatches() → buildMemory()
-  ├── selectStories() → buildBrief()
-  └── latest.json (salvo em public/data/)
-  ↓
-Next.js ISR → Homepage
+  â†“
+  â”œâ”€â”€ toMatch() â†’ enrichMatches() â†’ buildMemory()
+  â”œâ”€â”€ selectStories() â†’ buildBrief()
+  â””â”€â”€ latest.json (salvo em public/data/)
+  â†“
+Next.js ISR â†’ Homepage
 ```
 
 ### Stack
 
 | Componente | Tecnologia | Custo |
 |---|---|---|
-| Frontend | Next.js 13 (App Router) | Grátis (Vercel Hobby) ou $20/mês (Pro) |
-| Estilos | Tailwind CSS v3 | Grátis |
-| LLM | DeepSeek (deepseek-chat) | ~$1-2/mês para uso diário |
-| Dados | API-Footwall v3 | $99/ano (contratar APÓS validação) |
-| Deploy | Vercel | Grátis (até 100GB bandwidth) |
-| Dataset | JSON em disco (data/) | Grátis |
+| Frontend | Next.js 13 (App Router) | GrÃ¡tis (Vercel Hobby) ou $20/mÃªs (Pro) |
+| Estilos | Tailwind CSS v3 | GrÃ¡tis |
+| LLM | DeepSeek (deepseek-chat) | ~$1-2/mÃªs para uso diÃ¡rio |
+| Dados | API-Footwall v3 | $99/ano (contratar APÃ“S validaÃ§Ã£o) |
+| Deploy | Vercel | GrÃ¡tis (atÃ© 100GB bandwidth) |
+| Dataset | JSON em disco (data/) | GrÃ¡tis |
 
-> **⚠️ Estratégia de API durante validação:**  
-> `football-data.org` oferece API gratuita com dados de futebol (incluindo partidas e classificações) sem custo. Durante a validação U1, dados mockados são suficientes. Se for necessário testar com dados reais ANTES de contratar API-Football, usar football-data.org como ponte.  
-> **API-Football ($99/ano) só deve ser contratada APÓS evidência de que usuários reais usam o produto.**
+> **âš ï¸ EstratÃ©gia de API durante validaÃ§Ã£o:**  
+> `football-data.org` oferece API gratuita com dados de futebol (incluindo partidas e classificaÃ§Ãµes) sem custo. Durante a validaÃ§Ã£o U1, dados mockados sÃ£o suficientes. Se for necessÃ¡rio testar com dados reais ANTES de contratar API-Football, usar football-data.org como ponte.  
+> **API-Football ($99/ano) sÃ³ deve ser contratada APÃ“S evidÃªncia de que usuÃ¡rios reais usam o produto.**
 
-### Dependências da VPS (alternativa ao Vercel)
+### DependÃªncias da VPS (alternativa ao Vercel)
 
 - Node.js 18+
 - curl
 - cron
 - Nginx
 - ~2GB RAM, 10GB disco
-- Custo: ~$10-15/mês
+- Custo: ~$10-15/mÃªs
 
 ---
 
-## 16. Future Work (ONLY AFTER VALIDATION)
+## 18. Future Work
 
-**Regra: NADA abaixo deve ser iniciado antes da validação com 10 usuários.**
+**Regra: NADA abaixo deve ser iniciado antes da validaÃ§Ã£o com 10 usuÃ¡rios.**
 
-### Prioridade 1 (após validação positiva)
+### Prioridade 1 (apÃ³s validaÃ§Ã£o positiva)
 
 - API-Football key + cron + dados reais
-- Deploy contínuo na Vercel
-- Escalar para 100 usuários
-- Medir retenção real (DAU/WAU)
+- Deploy contÃ­nuo na Vercel
+- Escalar para 100 usuÃ¡rios
+- Medir retenÃ§Ã£o real (DAU/WAU)
 
-### Prioridade 2 (após validar retenção)
+### Prioridade 2 (apÃ³s validar retenÃ§Ã£o)
 
-- `data/rivalries.json` (20 rivalidades) — habilita `classic_rivalry`, `revenge_match`
-- `data/historical-events.json` (15 eventos históricos) — habilita `historic_event_referenced`
+- `data/rivalries.json` (20 rivalidades) â€” habilita `classic_rivalry`, `revenge_match`
+- `data/historical-events.json` (15 eventos histÃ³ricos) â€” habilita `historic_event_referenced`
 - Novos Historical Facts: `repeat_final_arc`, `revenge_arc`, `dynasty_attempt`, `host_nation_dream`
 
-### Prioridade 3 (após validar crescimento)
+### Prioridade 3 (apÃ³s validar crescimento)
 
-- Player Facts (last_dance, legacy_complete, injury) — dataset de 5-10 jogadores lendários
-- Áudio diário (OpenAI TTS, ~$1.20/mês)
+- Player Facts (last_dance, legacy_complete, injury) â€” dataset de 5-10 jogadores lendÃ¡rios
+- Ãudio diÃ¡rio (OpenAI TTS, ~$1.20/mÃªs)
 - Social cards / OG images (@vercel/og)
 - Newsletter (setup de email)
 - Push (service worker)
 
 ---
 
-## 17. Current Biggest Risks
+## 19. Current Biggest Risks
 
-| Risco | Probabilidade | Impacto | Mitigação |
+| Risco | Probabilidade | Impacto | MitigaÃ§Ã£o |
 |---|---|---|---|
-| Usuários não entendem o conceito | Média | Crítico | Teste com 10 usuários antes de qualquer feature |
-| Usuários não retornam | Média | Crítico | NextChapter + ContinuityBar + QuickRead em 15s |
-| "Capítulo 4 de 6" é confuso | Alta | Médio | Testar no U1. Se falhar, substituir por texto mais simples |
-| Resumo diário não cria hábito | Média | Crítico | A própria hipótese central do produto |
-| API-Footwall fica instável na Copa | Média | Alto | Cache + fallback manual |
-| DeepSeek falha ou fica lento | Baixa | Médio | Fallback para templates.ts (sem LLM) |
-| Timing da Copa | Alta | Crítico | Produto precisa estar operacional ANTES do primeiro jogo |
+| UsuÃ¡rios nÃ£o entendem o conceito | MÃ©dia | CrÃ­tico | Teste com 10 usuÃ¡rios antes de qualquer feature |
+| UsuÃ¡rios nÃ£o retornam | MÃ©dia | CrÃ­tico | NextChapter + ContinuityBar + QuickRead em 15s |
+| "CapÃ­tulo 4 de 6" Ã© confuso | Alta | MÃ©dio | Testar no U1. Se falhar, substituir por texto mais simples |
+| Resumo diÃ¡rio nÃ£o cria hÃ¡bito | MÃ©dia | CrÃ­tico | A prÃ³pria hipÃ³tese central do produto |
+| API-Footwall fica instÃ¡vel na Copa | MÃ©dia | Alto | Cache + fallback manual |
+| DeepSeek falha ou fica lento | Baixa | MÃ©dio | Fallback para templates.ts (sem LLM) |
+| Timing da Copa | Alta | CrÃ­tico | Produto precisa estar operacional ANTES do primeiro jogo |
 
 ---
 
-## 18. Current Open Questions
+## 20. Current Open Questions
 
-Perguntas que NENHUM modelo de linguagem pode responder. Só usuários reais.
+Perguntas que NENHUM modelo de linguagem pode responder. SÃ³ usuÃ¡rios reais.
 
-| Pergunta | Por que é importante | Será respondida por |
+| Pergunta | Por que Ã© importante | SerÃ¡ respondida por |
 |---|---|---|
-| Usuários entendem "Capítulo X de Y"? | Se o NarrativeTracker for confuso, deve ser substituído por texto mais simples | Pergunta 4 do roteiro U1 |
-| NextChapter realmente aumenta retenção? | Se ninguém perceber ou se importar com "o que acontece amanhã", o mecanismo central de retenção falhou | Pergunta 5 do roteiro U1 ("voltaria amanhã?") |
-| QuickRead sozinho já entrega valor? | Se o usuário entende o dia só com o QuickRead e ignora o resto, outros componentes podem ser desnecessários | Fase 1 do roteiro (primeiros 15s) |
-| Casuais entendem o produto mais rápido que fanáticos? | Se o perfil casual não entender em 15s, o produto não atinge o público-alvo | Comparação entre perfis na planilha |
-| Usuários voltam amanhã sem incentivo externo? | Retenção espontânea é a métrica mais importante do produto | Pergunta 5 ("voltaria amanhã?" — sem prompt, sem incentivo) |
-| Usuários compartilham com amigos? | Se ninguém compartilhar, não há crescimento orgânico | Observação durante o teste (compartilharam o link?) |
-| HeroMini adiciona valor ou é redundante? | Se ninguém notar o HeroMini, ele pode ser removido | Fase 3 do roteiro ("o que você ignorou?") |
+| UsuÃ¡rios entendem "CapÃ­tulo X de Y"? | Se o NarrativeTracker for confuso, deve ser substituÃ­do por texto mais simples | Pergunta 4 do roteiro U1 |
+| NextChapter realmente aumenta retenÃ§Ã£o? | Se ninguÃ©m perceber ou se importar com "o que acontece amanhÃ£", o mecanismo central de retenÃ§Ã£o falhou | Pergunta 5 do roteiro U1 ("voltaria amanhÃ£?") |
+| QuickRead sozinho jÃ¡ entrega valor? | Se o usuÃ¡rio entende o dia sÃ³ com o QuickRead e ignora o resto, outros componentes podem ser desnecessÃ¡rios | Fase 1 do roteiro (primeiros 15s) |
+| Casuais entendem o produto mais rÃ¡pido que fanÃ¡ticos? | Se o perfil casual nÃ£o entender em 15s, o produto nÃ£o atinge o pÃºblico-alvo | ComparaÃ§Ã£o entre perfis na planilha |
+| UsuÃ¡rios voltam amanhÃ£ sem incentivo externo? | RetenÃ§Ã£o espontÃ¢nea Ã© a mÃ©trica mais importante do produto | Pergunta 5 ("voltaria amanhÃ£?" â€” sem prompt, sem incentivo) |
+| UsuÃ¡rios compartilham com amigos? | Se ninguÃ©m compartilhar, nÃ£o hÃ¡ crescimento orgÃ¢nico | ObservaÃ§Ã£o durante o teste (compartilharam o link?) |
+| HeroMini adiciona valor ou Ã© redundante? | Se ninguÃ©m notar o HeroMini, ele pode ser removido | Fase 3 do roteiro ("o que vocÃª ignorou?") |
 
-**Todas essas perguntas serão respondidas após 10 entrevistas de 15 minutos cada. Nenhuma requer código novo.**
-
----
-
-## 19. Founder Learnings
-
-- **Construir é mais confortável que validar.** A cada sprint sem teste, acumulam-se suposições não validadas. O custo de pivotar cresce com o tempo investido.
-- **O próximo aprendizado vem de usuários, não de código.** Após 15 sprints, o motor editorial está maduro. A próxima descoberta não será uma nova flag ou um novo dataset — será o comportamento de pessoas reais.
-- **O produto é editorial, não estatístico.** O valor não está em ter mais dados — está em escolher quais dados importam e contar a história certa.
-- **Histórias geram mais valor que dados brutos.** "Argentina quebra jejum de 36 anos" vale mais que um placar. O Why It Matters é o produto.
-- **QuickRead é o produto.** Editorial Story Engine, Historical Facts, Narrative Arcs — tudo isso é motor invisível. O usuário vê 3 bullets e 15 segundos. Se isso não funcionar, nada do resto importa.
-- **NextChapter é o mecanismo de retenção.** Notificações não criam hábito. Histórias inacabadas criam. O produto deve terminar cada dia com uma pergunta, não uma resposta.
-- **Remover é mais difícil que adicionar.** AProduct Audit mostrou que Hero era 70% redundante com QuickRead. Foram necessárias 15 sprints para perceber que o componente mais importante (QuickRead) deveria ser o centro — e não o Hero.
+**Todas essas perguntas serÃ£o respondidas apÃ³s 10 entrevistas de 15 minutos cada. Nenhuma requer cÃ³digo novo.**
 
 ---
 
-## 20. IMPORTANT RULES
+## 21. Founder Learnings
 
-Estas regras são PERMANENTES. Não devem ser quebradas sem discussão explícita.
-
-1. **Não adicionar funcionalidades antes da validação com 10 usuários.** Nenhuma. Player Facts, Áudio, Newsletter, Rivalries — tudo espera.
-2. **Não criar novos componentes sem evidência de usuários.** Se um usuário não pediu explicitamente, não construa.
-3. **Priorizar simplicidade sobre potência.** Se houver dúvida entre uma solução simples e uma poderosa, escolher a simples.
-4. **QuickRead é o principal componente do produto.** Nada deve canibalizar ou enterrar o QuickRead. A homepage deve ser organizada em torno dele.
-5. **NextChapter é o principal mecanismo de retenção.** A pergunta aberta (openQuestion) é mais importante que qualquer notificação externa.
-6. **O produto é editorial, não estatístico.** xG, posse de bola, chances criadas, escalações detalhadas — não pertencem ao Copa Pulse.
-7. **O objetivo é acompanhar a Copa através de histórias.** Cada decisão deve ser filtrada por "isso ajuda o usuário a entender a Copa em 3 minutos?"
-8. **Se houver dúvida entre construir ou testar, testar.** Um protótipo com 10 usuários vale mais que 3 sprints de features.
-9. **Remover é melhor que adicionar.** Se um componente não entrega valor único, deve ser removido ou fundido.
-10. **Este documento deve ser lido por qualquer novo agente antes de propor mudanças.** Qualquer proposta que contradiga estas regras precisa de justificativa explícita.
-11. **Não iniciar novas sprints arquiteturais antes da conclusão da validação U1.** O motor editorial está completo. O que falta não é código — é saber se alguém quer o produto. Qualquer proposta de nova feature, novo dataset ou novo componente antes do fim dos testes com 10 usuários deve ser automaticamente rejeitada, a menos que responda diretamente a um problema identificado nos testes.
+- **Construir Ã© mais confortÃ¡vel que validar.** A cada sprint sem teste, acumulam-se suposiÃ§Ãµes nÃ£o validadas. O custo de pivotar cresce com o tempo investido.
+- **O prÃ³ximo aprendizado vem de usuÃ¡rios, nÃ£o de cÃ³digo.** ApÃ³s 15 sprints, o motor editorial estÃ¡ maduro. A prÃ³xima descoberta nÃ£o serÃ¡ uma nova flag ou um novo dataset â€” serÃ¡ o comportamento de pessoas reais.
+- **O produto Ã© editorial, nÃ£o estatÃ­stico.** O valor nÃ£o estÃ¡ em ter mais dados â€” estÃ¡ em escolher quais dados importam e contar a histÃ³ria certa.
+- **HistÃ³rias geram mais valor que dados brutos.** "Argentina quebra jejum de 36 anos" vale mais que um placar. O Why It Matters Ã© o produto.
+- **QuickRead Ã© o produto.** Editorial Story Engine, Historical Facts, Narrative Arcs â€” tudo isso Ã© motor invisÃ­vel. O usuÃ¡rio vÃª 3 bullets e 15 segundos. Se isso nÃ£o funcionar, nada do resto importa.
+- **NextChapter Ã© o mecanismo de retenÃ§Ã£o.** NotificaÃ§Ãµes nÃ£o criam hÃ¡bito. HistÃ³rias inacabadas criam. O produto deve terminar cada dia com uma pergunta, nÃ£o uma resposta.
+- **Remover Ã© mais difÃ­cil que adicionar.** AProduct Audit mostrou que Hero era 70% redundante com QuickRead. Foram necessÃ¡rias 15 sprints para perceber que o componente mais importante (QuickRead) deveria ser o centro â€” e nÃ£o o Hero.
 
 ---
 
-## 21. Arquivos de referência
+## 22. IMPORTANT RULES
 
-| Arquivo | Conteúdo |
+Estas regras sÃ£o PERMANENTES. NÃ£o devem ser quebradas sem discussÃ£o explÃ­cita.
+
+1. **NÃ£o adicionar funcionalidades antes da validaÃ§Ã£o com 10 usuÃ¡rios.** Nenhuma. Player Facts, Ãudio, Newsletter, Rivalries â€” tudo espera.
+2. **NÃ£o criar novos componentes sem evidÃªncia de usuÃ¡rios.** Se um usuÃ¡rio nÃ£o pediu explicitamente, nÃ£o construa.
+3. **Priorizar simplicidade sobre potÃªncia.** Se houver dÃºvida entre uma soluÃ§Ã£o simples e uma poderosa, escolher a simples.
+4. **QuickRead Ã© o principal componente do produto.** Nada deve canibalizar ou enterrar o QuickRead. A homepage deve ser organizada em torno dele.
+5. **NextChapter Ã© o principal mecanismo de retenÃ§Ã£o.** A pergunta aberta (openQuestion) Ã© mais importante que qualquer notificaÃ§Ã£o externa.
+6. **O produto Ã© editorial, nÃ£o estatÃ­stico.** xG, posse de bola, chances criadas, escalaÃ§Ãµes detalhadas â€” nÃ£o pertencem ao Copa Pulse.
+7. **O objetivo Ã© acompanhar a Copa atravÃ©s de histÃ³rias.** Cada decisÃ£o deve ser filtrada por "isso ajuda o usuÃ¡rio a entender a Copa em 3 minutos?"
+8. **Se houver dÃºvida entre construir ou testar, testar.** Um protÃ³tipo com 10 usuÃ¡rios vale mais que 3 sprints de features.
+9. **Remover Ã© melhor que adicionar.** Se um componente nÃ£o entrega valor Ãºnico, deve ser removido ou fundido.
+10. **Este documento deve ser lido por qualquer novo agente antes de propor mudanÃ§as.** Qualquer proposta que contradiga estas regras precisa de justificativa explÃ­cita.
+11. **NÃ£o iniciar novas sprints arquiteturais antes da conclusÃ£o da validaÃ§Ã£o U1.** O motor editorial estÃ¡ completo. O que falta nÃ£o Ã© cÃ³digo â€” Ã© saber se alguÃ©m quer o produto. Qualquer proposta de nova feature, novo dataset ou novo componente antes do fim dos testes com 10 usuÃ¡rios deve ser automaticamente rejeitada, a menos que responda diretamente a um problema identificado nos testes.
+
+---
+
+## 23. Arquivos
+
+| Arquivo | ConteÃºdo |
 |---|---|
-| `spec-context-dump.html` | Estado completo do sistema (25+ módulos, 4 camadas) |
-| `spec-product-audit.html` | Product Audit completo (redundâncias, simplificações) |
-| `spec-u1-execution.html` | Plano de teste com 10 usuários (roteiro, perguntas, planilha, critérios) |
-| `spec-founder-review.html` | Founder Review (riscos, decisões, veredito) |
-| `AGENTS.md` | Guia rápido para agentes OpenCode (comandos, estrutura, trivia) |
-| `data/teams.json` | Perfil de 39 seleções |
-| `data/world-cup-history.json` | 22 edições da Copa (1930-2022) |
+| `spec-context-dump.html` | Estado completo do sistema (25+ mÃ³dulos, 4 camadas) |
+| `spec-product-audit.html` | Product Audit completo (redundÃ¢ncias, simplificaÃ§Ãµes) |
+| `spec-u1-execution.html` | Plano de teste com 10 usuÃ¡rios (roteiro, perguntas, planilha, critÃ©rios) |
+| `spec-founder-review.html` | Founder Review (riscos, decisÃµes, veredito) |
+| `AGENTS.md` | Guia rÃ¡pido para agentes OpenCode (comandos, estrutura, trivia) |
+| `data/teams.json` | Perfil de 39 seleÃ§Ãµes |
+| `data/world-cup-history.json` | 22 ediÃ§Ãµes da Copa (1930-2022) |
 | `pulse/.env.local` | Chaves de API (DeepSeek, API-Football, OpenAI) |
 
 ---
 
-## 22. INIT RECOVERY
+## 24. INIT RECOVERY
 
-Procedimento para um novo agente retomar o projeto imediatamente após `/init`.
+Procedimento para um novo agente retomar o projeto imediatamente apÃ³s `/init`.
 
-### Checklist obrigatório
+### Checklist obrigatÃ³rio
 
-1. **Ler PROJECT_MEMORY.md completo** (este documento) — contexto completo do produto, arquitetura e decisões.
-2. **Ler Current Product Status** (seção 4) — entender que o produto NUNCA foi testado com usuários reais.
-3. **Ler Current Open Questions** (seção 18) — entender quais perguntas ainda não foram respondidas.
-4. **Ler IMPORTANT RULES** (seção 20) — regras permanentes que não devem ser quebradas.
-5. **Verificar se a validação U1 já foi executada.** Se sim, ler os resultados e agir conforme os critérios de decisão. Se não, a prioridade absoluta é executar a validação U1 (ver spec-u1-execution.html).
-6. **Não propor novas funcionalidades** até que a validação U1 seja concluída.
-7. **Não propor novos datasets, módulos ou componentes** até que haja evidência de que usuários reais querem o produto.
+1. **Ler PROJECT_MEMORY.md completo** (este documento) â€” contexto completo do produto, arquitetura e decisÃµes.
+2. **Ler Current Product Status** (seÃ§Ã£o 4) â€” entender que o produto NUNCA foi testado com usuÃ¡rios reais.
+3. **Ler Current Open Questions** (seÃ§Ã£o 18) â€” entender quais perguntas ainda nÃ£o foram respondidas.
+4. **Ler IMPORTANT RULES** (seÃ§Ã£o 20) â€” regras permanentes que nÃ£o devem ser quebradas.
+5. **Verificar se a validaÃ§Ã£o U1 jÃ¡ foi executada.** Se sim, ler os resultados e agir conforme os critÃ©rios de decisÃ£o. Se nÃ£o, a prioridade absoluta Ã© executar a validaÃ§Ã£o U1 (ver spec-u1-execution.html).
+6. **NÃ£o propor novas funcionalidades** atÃ© que a validaÃ§Ã£o U1 seja concluÃ­da.
+7. **NÃ£o propor novos datasets, mÃ³dulos ou componentes** atÃ© que haja evidÃªncia de que usuÃ¡rios reais querem o produto.
 
-### Pergunta única antes de qualquer ação
+### Pergunta Ãºnica antes de qualquer aÃ§Ã£o
 
-> "Isso ajuda a responder uma das perguntas abertas da seção 18?"
+> "Isso ajuda a responder uma das perguntas abertas da seÃ§Ã£o 18?"
 
-Se a resposta for NÃO, a ação deve ser adiada.
+Se a resposta for NÃƒO, a aÃ§Ã£o deve ser adiada.
 
 ---
 
-## 23. Memory Changelog
+## 25. Memory Changelog
 
-| Versão | Data | Mudanças |
+| VersÃ£o | Data | MudanÃ§as |
 |---|---|---|
-| v1.0 | Jun 2026 | Documento inicial criado. 19 seções cobrindo visão, arquitetura, decisões, validação. |
-| v1.1 | Jun 2026 | Adicionadas Current Open Questions (seção 18), INIT RECOVERY, Changelog, Regra #11, ajuste de status, nota sobre football-data.org. |
+| v1.0 | Jun 2026 | Documento inicial criado. 19 secoes. |
+| v1.1 | Jun 2026 | Adicionadas Current Open Questions, INIT RECOVERY, Regra #11, ajuste de status, nota sobre football-data.org. |
+| v1.2 | Jul 2026 | Sincronizacao completa. Secao Current Design Philosophy adicionada. URL publica registrada (pulse-indol-sigma.vercel.app). Deploy na Vercel. U1 Polish, Editorial Polish e Final Polish registrados. Homepage atualizada com descricoes precisas. Fraunces e filosofia tipografica documentados. 10 fatos historicos. 81.8kB JS. 24 secoes. |
