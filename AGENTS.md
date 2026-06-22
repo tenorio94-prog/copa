@@ -1,5 +1,15 @@
 # Copa Pulse — AGENTS.md
 
+**Always read `docs/PROJECT_MEMORY.md` first** for full context. This file is a quick-start reference.
+
+---
+
+## First thing to know
+
+This product has **never been tested with real users**. The codebase is complete enough for U1 validation. Do NOT propose new features, datasets, components, or architectural changes before U1 is done. Read `docs/PROJECT_MEMORY.md` section 14 (Validation Plan) and section 18 (Open Questions) before any action.
+
+---
+
 ## Project structure
 
 ```
@@ -9,99 +19,102 @@ copa/
 │   ├── components/                 # React components
 │   ├── lib/                        # business logic
 │   │   ├── llm/                    # LLM providers (DeepSeek, OpenAI)
-│   │   ├── types.ts                # all shared interfaces
-│   │   ├── context-builder.ts      # match enrichment pipeline
-│   │   ├── editorial-story-engine.ts # story selection
-│   │   ├── historical-context-builder.ts
-│   │   ├── narrative-accumulation.ts
-│   │   ├── narrative-tracker.ts
-│   │   ├── next-chapter.ts
-│   │   ├── story-brief.ts
-│   │   ├── tournament-memory.ts
-│   │   ├── mock-data.ts            # data fetching + orchestration
-│   │   └── ...                     # transformers, templates, knowledge base
+│   │   ├── editorial-story-engine.ts  # central story selection
+│   │   ├── mock-data.ts               # data orchestration hub
+│   │   └── types.ts                   # all shared interfaces
+│   ├── data/                       # historical datasets (JSON)
 │   ├── scripts/                    # validation CLI scripts
-│   └── .env.local                  # API keys (not committed)
-├── spec-*.html                     # product design docs
-└── world-cup-pulse-plan.html       # original product plan
+│   └── .env.local                  # API keys (gitignored)
+├── docs/                           # permanent project memory
+│   └── PROJECT_MEMORY.md           # SOURCE OF TRUTH (23 sections)
+├── spec-*.html                     # product design docs (read-only reference)
+└── AGENTS.md                       # this file
 ```
 
-## Commands
+## Commands (run from `pulse/`)
 
-All commands run from `pulse/`.
+| Command | Purpose | Notes |
+|---|---|---|
+| `npm run dev` | Start dev server | Hot reload |
+| `npm run build` | Build + typecheck | **EPERM bug**: if it fails, delete `.next/` and retry |
+| `npm run lint` | ESLint | |
+| `node scripts/validate.mjs` | Test editorial pipeline | Uses mock data |
+| `node scripts/test-deepseek.mjs` | Test DeepSeek LLM | Needs env var on Windows |
+| `$env:DEEPSEEK_API_KEY='...'; node scripts/score-facts.mjs` | Test with real LLM | Env must be set inline |
 
-| Command | Purpose |
-|---|---|
-| `npm run dev` | Start dev server with hot reload |
-| `npm run build` | Production build (runs typecheck) |
-| `npm run lint` | ESLint |
-| `node scripts/validate.mjs` | Test editorial pipeline with historical data |
-| `node scripts/test-deepseek.mjs` | Test DeepSeek LLM integration |
+## Build cache quirk (Windows)
+
+Next.js `.next/` cache frequently causes `EPERM: operation not permitted` on Windows. Fix:
+```powershell
+Remove-Item -Path ".next" -Recurse -Force; npx next build
+```
+
+## LLM configuration
+
+Two interchangeable providers in `lib/llm/`:
+- **DeepSeek** (default) — `LLM_PROVIDER=deepseek`, key in `DEEPSEEK_API_KEY`
+- **OpenAI** — `LLM_PROVIDER=openai`, key in `OPENAI_API_KEY`
+
+Without any key, `templates.ts` acts as fallback with static text.
+
+## Homepage order (mobile)
+
+```
+ContinuityBar → QuickRead → NextChapter → HeroMini → NarrativeTracker → Matches → Standings
+```
+
+Desktop sidebar: `Matches → NarrativeTracker → Standings (groups only) → Footer`
+
+Standings only render during group stage.
+
+## Key types (lib/types.ts)
+
+- `EditorialStory` — engine output (headline, confidence 0-1, evidence[], priority 1-3)
+- `StoryBrief` — 15s consumption unit (3 bullets + continuity)
+- `NextChapter` — retention hook (openQuestion + nextEvent)
+- `ActiveNarrative` — tracked arc (currentChapter, status)
 
 ## Data flow (editorial pipeline)
 
 ```
-API-Football (or mock data)
-  ↓
-context-builder.ts → EnrichedMatch[]
-  ↓
-editorial-story-engine.ts → EditorialStory[] (ranked by confidence)
-  ↓
-story-brief.ts → StoryBrief (3 bullets + continuity)
-  ↓
-next-chapter.ts → NextChapter (retention hook)
-  ↓
-narrative-tracker.ts → ActiveNarrative[] (tracked arcs)
-  ↓
-components → homepage
+API-Football (or mock data) → context-builder → tournament-memory
+  → editorial-story-engine → story-brief → next-chapter → narrative-tracker
+  → components → homepage
 ```
 
-## Key types (lib/types.ts)
+## Historical datasets (pulse/data/)
 
-- `EditorialStory` — output of story engine (headline, confidence, evidence, storyType)
-- `StoryBrief` — 15s consumption unit (3 bullets, continuity bar)
-- `NextChapter` — retention hook (openQuestion, nextEvent)
-- `ActiveNarrative` — tracked arc visibility (currentChapter, status)
-- `EnrichedMatch` — match enriched with flags, arcs, facts
+- `teams.json` — 39 teams with titles, finals, best result, continent
+- `world-cup-history.json` — all 22 World Cup editions (1930-2022)
 
-## LLM providers
+## Historical facts implemented (10)
 
-Two interchangeable providers in `lib/llm/`:
-- **DeepSeek** (default) — set `LLM_PROVIDER=deepseek`, key in `DEEPSEEK_API_KEY`
-- **OpenAI** — set `LLM_PROVIDER=openai`, key in `OPENAI_API_KEY`
+Detected by `historical-context-builder.ts`. Each boosts confidence in `editorial-story-engine.ts`:
+`first_african_semifinalist`, `giant_killing`, `years_since_last_title`, `defending_champion_eliminated`, `streak_broken`, `first_title_ever`, `title_drought_ended`, `repeat_final`, `back_to_back_final`, `best_result_surpassed`.
 
-All content generation goes through `generateBulletinContent()` in `lib/llm/index.ts`. Templates in `templates.ts` serve as fallback when no LLM key is configured.
+## Narrative arcs implemented (4)
 
-## Editorial scoring principle
-
-The `EditorialStoryEngine` uses `confidence` (0-1) as the single metric. There is no weighted score formula. Higher confidence = better story. Confidence is boosted by: editorial events, narrative arcs, historical facts, stage of tournament, penalty drama, upsets.
-
-## Homepage component order (as implemented)
-
-```
-ContinuityBar → QuickRead → NextChapter → NarrativeTracker → Hero → Matches → Standings
-```
-
-Desktop sidebar: `Matches → NarrativeTracker → Standings → Footer`
+Detected by `narrative-accumulation.ts`: `redemption_journey`, `cinderella_progression`, `giant_slayer`, `multi_upset_run`.
 
 ## Environment (pulse/.env.local)
 
 ```env
 LLM_PROVIDER=deepseek
-DEEPSEEK_API_KEY=sk-...
+DEEPSEEK_API_KEY=sk-...          # configured, working
 DEEPSEEK_MODEL=deepseek-chat
-OPENAI_API_KEY=
+OPENAI_API_KEY=                  # optional fallback
 OPENAI_MODEL=gpt-4o-mini
-API_FOOTBALL_KEY=
+API_FOOTBALL_KEY=                # NOT CONFIGURED — $99/yr, only after validation
 API_FOOTBALL_LEAGUE_ID=1
 ```
 
 ## Trivia
 
-- Tailwind CSS v3 (not v4). Config is `tailwind.config.js` (CommonJS), not `.ts`.
-- PostCSS config is `postcss.config.js` (CommonJS).
-- Node.js 18.14.0 is the runtime. Next.js 13. `next.config.ts` → renamed to `next.config.mjs`.
-- The `.env.local` file is read by Next.js automatically. Standalone Node scripts do NOT read it — use `$env:VAR=value node script.mjs` on Windows.
-- `lib/mock-data.ts` is the data orchestration hub. It tries API-Football, falls back to hardcoded data.
-- All spec documents (`spec-*.html`) are visual reference docs. The app itself is in `pulse/`.
+- **Tailwind CSS v3** (not v4). Config is `tailwind.config.js` (CommonJS).
+- **PostCSS** is `postcss.config.js` (CommonJS).
+- **Node.js 18.14.0**, Next.js 13. `next.config.ts` → renamed to `next.config.mjs`.
+- `.env.local` is read by Next.js automatically. **Standalone scripts do NOT read it** — pass vars inline on Windows: `$env:VAR=value node script.mjs`
+- `lib/mock-data.ts` is the orchestration hub. Tries API-Football, falls back to hardcoded fallback data.
+- **`spec-*.html` files** are product design docs (read-only). The app is in `pulse/`.
 - `restore-optimization.ps1`, `Bacalhau à Martelo.pdf`, `Capa_Bacalhau_a_Martelo.docx` are unrelated to the project.
+- **API-Football key is NOT configured.** For U1 validation, mock data is sufficient. If real data needed before paying, use `football-data.org` (free).
