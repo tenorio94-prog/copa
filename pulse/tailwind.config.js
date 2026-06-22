@@ -18,6 +18,7 @@ const config = {
       },
       fontFamily: {
         sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        editorial: ["Fraunces", "Georgia", "serif"],
       },
     },
   },

@@ -2,11 +2,13 @@ export function NavBar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-[#222226] bg-[#0a0a0b]/85 backdrop-blur-xl">
       <div className="mx-auto flex h-full max-w-[1200px] items-center justify-between px-4">
-        <div className="flex items-center gap-2">
-          <span className="rounded-md bg-[#6366f1] px-2 py-0.5 text-[11px] font-bold tracking-wide text-white">
+        <div className="flex items-center gap-2.5">
+          <span className="font-editorial flex h-7 w-7 items-center justify-center rounded-md bg-[#6366f1] text-[11px] font-bold tracking-tight text-white">
             CP
           </span>
-          <span className="text-sm font-semibold">Copa Pulse</span>
+          <span className="font-editorial text-sm font-semibold tracking-tight text-[#f4f4f5]">
+            Copa Pulse
+          </span>
         </div>
         <nav className="hidden items-center gap-6 text-sm text-[#a1a1aa] md:flex">
         </nav>
