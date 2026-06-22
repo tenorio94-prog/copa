@@ -146,6 +146,17 @@ A Copa do Mundo Ã© o maior evento esportivo do planeta, mas a experiÃªncia d
 - Design editorial com Fraunces + Inter
 - Polimentos UX/UI aplicados (confidence removida, links mortos removidos, ContinuityBar reforÃ§ada, iPhone otimizado)
 
+### Current Validation Status
+
+| Campo | Valor |
+|---|---|
+| **Versão** | U1 validation candidate (`4a75b33`) |
+| **URL pública** | https://pulse-indol-sigma.vercel.app |
+| **Data do deploy** | 2026-06-22 |
+| **Status** | READY FOR U1 |
+| **Usuários testados** | 0/10 |
+| **Próximo marco** | Executar U1 (ver `spec-u1-execution.html`) |
+
 ---
 
 ## 7. Current Architecture
@@ -757,3 +768,4 @@ Se a resposta for NÃƒO, a aÃ§Ã£o deve ser adiada.
 | v1.0 | Jun 2026 | Documento inicial criado. 19 secoes. |
 | v1.1 | Jun 2026 | Adicionadas Current Open Questions, INIT RECOVERY, Regra #11, ajuste de status, nota sobre football-data.org. |
 | v1.2 | Jul 2026 | Sincronizacao completa. Secao Current Design Philosophy adicionada. URL publica registrada (pulse-indol-sigma.vercel.app). Deploy na Vercel. U1 Polish, Editorial Polish e Final Polish registrados. Homepage atualizada com descricoes precisas. Fraunces e filosofia tipografica documentados. 10 fatos historicos. 81.8kB JS. 24 secoes. |
+| v1.3 | Jun 2026 | Release freeze para U1. Secao Current Validation Status adicionada (status: READY FOR U1, 0/10 usuarios). AGENTS.md corrigido (numeros de secao, tabela de comandos completa). Commit 4a75b33 pushed para main. |
