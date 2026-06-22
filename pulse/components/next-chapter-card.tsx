@@ -12,11 +12,6 @@ export function NextChapterCard({ chapter }: NextChapterCardProps) {
           <span className="text-[10px] font-semibold uppercase tracking-[1.2px] text-[#818cf8]">
             📖 Próximo capítulo
           </span>
-          {chapter.confidence > 0 && (
-            <span className="text-[9px] text-[#71717a] bg-[#6366f1]/10 px-2 py-0.5 rounded">
-              {Math.round(chapter.confidence * 100)}%
-            </span>
-          )}
         </div>
 
         <h3 className="text-[16px] font-bold leading-snug tracking-tight mb-2">

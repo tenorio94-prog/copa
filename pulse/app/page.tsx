@@ -65,7 +65,7 @@ export default async function Home() {
               {isGroupStage && (
                 <section>
                   <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
-                    📊 Tabela • Grupo D
+                    📊 Tabela • Grupo C
                   </h2>
                   <div className="rounded-xl border border-[#222226] bg-[#121214] p-3">
                     <div className="flex flex-col gap-1">
@@ -106,7 +106,7 @@ export default async function Home() {
             {isGroupStage && (
               <section className="mb-6">
                 <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
-                  📊 Tabela • Grupo D
+                  📊 Tabela • Grupo C
                 </h2>
                 <div className="rounded-xl border border-[#222226] bg-[#121214] p-3">
                   <div className="flex flex-col gap-1">

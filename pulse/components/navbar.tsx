@@ -9,12 +9,6 @@ export function NavBar() {
           <span className="text-sm font-semibold">Copa Pulse</span>
         </div>
         <nav className="hidden items-center gap-6 text-sm text-[#a1a1aa] md:flex">
-          <a href="#" className="transition-colors hover:text-[#f4f4f5]">
-            Sobre
-          </a>
-          <a href="#" className="transition-colors hover:text-[#f4f4f5]">
-            Compartilhar
-          </a>
         </nav>
         <button className="flex items-center justify-center text-[#a1a1aa] md:hidden">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">

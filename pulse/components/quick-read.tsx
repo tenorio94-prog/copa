@@ -33,7 +33,9 @@ export function QuickRead({ brief }: QuickReadProps) {
           ))}
         </div>
         <div className="mt-3 flex items-center gap-3 text-[10px] text-[#71717a] border-t border-[#222226] pt-3">
-          <span className="flex items-center gap-1">🎧 {brief.audioAvailable ? "Disponível" : "Indisponível"}</span>
+          {brief.audioAvailable && (
+            <span className="flex items-center gap-1">🎧 Disponível</span>
+          )}
           {brief.shareText && (
             <button
               onClick={() => navigator.clipboard.writeText(brief.shareText || "")}
