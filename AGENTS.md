@@ -6,7 +6,7 @@
 
 ## First thing to know
 
-This product has **never been tested with real users**. The codebase is complete enough for U1 validation. Do NOT propose new features, datasets, components, or architectural changes before U1 is done. Read `docs/PROJECT_MEMORY.md` section 14 (Validation Plan) and section 18 (Open Questions) before any action.
+This product has **never been tested with real users**. The codebase is complete enough for U1 validation. Do NOT propose new features, datasets, components, or architectural changes before U1 is done. Read `docs/PROJECT_MEMORY.md` before any action — especially section 16 (Validation Plan), section 20 (Open Questions), and section 22 (IMPORTANT RULES).
 
 ---
 
@@ -26,7 +26,7 @@ copa/
 │   ├── scripts/                    # validation CLI scripts
 │   └── .env.local                  # API keys (gitignored)
 ├── docs/                           # permanent project memory
-│   └── PROJECT_MEMORY.md           # SOURCE OF TRUTH (23 sections)
+│   └── PROJECT_MEMORY.md           # SOURCE OF TRUTH (25 sections)
 ├── spec-*.html                     # product design docs (read-only reference)
 └── AGENTS.md                       # this file
 ```
@@ -36,11 +36,13 @@ copa/
 | Command | Purpose | Notes |
 |---|---|---|
 | `npm run dev` | Start dev server | Hot reload |
-| `npm run build` | Build + typecheck | **EPERM bug**: if it fails, delete `.next/` and retry |
-| `npm run lint` | ESLint | |
-| `node scripts/validate.mjs` | Test editorial pipeline | Uses mock data |
+| `npm run build` | Build + typecheck | Only typecheck path (no separate script). **EPERM bug**: if it fails, delete `.next/` and retry |
+| `npm run lint` | ESLint (flat config `eslint.config.mjs`) | Runs `eslint` directly, not `next lint` |
+| `node scripts/validate.mjs` | Test editorial pipeline | Mock data by default; optional date arg → API-Football |
+| `node scripts/test-2022.mjs` | Comprehensive 2022 WC test | 10+ historical games; tests LLM if `OPENAI_API_KEY` set |
 | `node scripts/test-deepseek.mjs` | Test DeepSeek LLM | Needs env var on Windows |
 | `$env:DEEPSEEK_API_KEY='...'; node scripts/score-facts.mjs` | Test with real LLM | Env must be set inline |
+| `node scripts/test-arcs.mjs` | Test narrative arcs | Sprint 1.7; needs `DEEPSEEK_API_KEY` |
 
 ## Build cache quirk (Windows)
 
@@ -112,7 +114,8 @@ API_FOOTBALL_LEAGUE_ID=1
 
 - **Tailwind CSS v3** (not v4). Config is `tailwind.config.js` (CommonJS).
 - **PostCSS** is `postcss.config.js` (CommonJS).
-- **Node.js 18.14.0**, Next.js 13. `next.config.ts` → renamed to `next.config.mjs`.
+- **Node.js 18.14.0**, Next.js 13.5, React 18. Config is `next.config.mjs`.
+- **Import alias**: `@/*` maps to `pulse/` root (e.g. `@/lib/mock-data` → `pulse/lib/mock-data.ts`). Defined in `tsconfig.json`.
 - `.env.local` is read by Next.js automatically. **Standalone scripts do NOT read it** — pass vars inline on Windows: `$env:VAR=value node script.mjs`
 - `lib/mock-data.ts` is the orchestration hub. Tries API-Football, falls back to hardcoded fallback data.
 - **`spec-*.html` files** are product design docs (read-only). The app is in `pulse/`.
