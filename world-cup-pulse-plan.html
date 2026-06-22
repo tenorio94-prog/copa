@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copa Pulse — Product Plan Final</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --bg: #0a0a0b; --surface: #121214; --surface-2: #1a1a1e; --border: #222226; --text: #f4f4f5; --text-2: #a1a1aa; --text-3: #71717a; --accent: #6366f1; --accent-2: #818cf8; --green: #22c55e; --amber: #f59e0b; --red: #ef4444; --rose: #f43f5e; --blue: #3b82f6; --radius: 12px; --radius-lg: 20px; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+::selection { background: var(--accent); color: #fff; }
+.bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(99,102,241,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,.03) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; z-index: 0; }
+.bg-glow { position: fixed; top: -300px; right: -200px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(99,102,241,.08) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(10,10,11,.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+nav .logo { font-weight: 700; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+nav .logo span { background: var(--accent); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; letter-spacing: .3px; }
+nav a { color: var(--text-2); text-decoration: none; font-size: 13px; transition: color .2s; }
+nav a:hover { color: var(--text); }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+section:last-child { border-bottom: none; }
+.section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 12px; }
+.section-title { font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -1px; margin-bottom: 24px; }
+.section-desc { color: var(--text-2); max-width: 600px; margin-bottom: 24px; font-size: 14px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+.card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.card p { font-size: 13px; color: var(--text-3); line-height: 1.6; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.tag { display: inline-flex; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border: 1px solid; padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
+.tag.blue { color: var(--blue); border-color: rgba(59,130,246,.3); }
+
+/* Hero */
+.hero { padding: 120px 0 60px; text-align: center; }
+.hero .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(99,102,241,.1); border: 1px solid rgba(99,102,241,.2); padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 500; color: var(--accent-2); margin-bottom: 20px; }
+.hero h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 12px; }
+.hero h1 .gradient { background: linear-gradient(135deg, var(--accent), #a78bfa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: clamp(15px, 2vw, 18px); color: var(--text-2); max-width: 600px; margin: 0 auto 28px; line-height: 1.6; }
+
+/* Scoring */
+.score-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 700px; margin: 0 auto; }
+.score-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; text-align: center; }
+.score-item .value { font-size: 22px; font-weight: 700; color: var(--green); }
+.score-item .label { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
+
+/* Wireframe */
+.wireframe { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); max-width: 420px; margin: 0 auto; overflow: hidden; font-size: 12px; }
+.wf-statusbar { background: #0d0d0f; padding: 10px 16px; display: flex; justify-content: space-between; font-size: 11px; color: var(--text-3); border-bottom: 1px solid var(--border); }
+.wf-content { padding: 16px; }
+.wf-hero { background: linear-gradient(135deg, rgba(99,102,241,.12), rgba(168,85,247,.08)); border: 1px solid rgba(99,102,241,.15); border-radius: var(--radius); padding: 14px; margin-bottom: 16px; text-align: center; }
+.wf-hero .hheadline { font-size: 15px; font-weight: 700; line-height: 1.3; }
+.wf-hero .hsummary { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+.wf-section { margin-bottom: 16px; }
+.wf-section:last-child { margin-bottom: 0; }
+.wf-section .wftitle { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-3); margin-bottom: 8px; }
+.wf-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 6px; }
+.wf-card:last-child { margin-bottom: 0; }
+.wf-card .wfc-title { font-weight: 600; font-size: 12px; }
+.wf-card .wfc-meta { font-size: 10px; color: var(--text-3); margin-top: 2px; }
+.wf-card .wfc-why { font-size: 10px; color: var(--accent-2); margin-top: 3px; font-style: italic; }
+.wf-row { display: flex; gap: 6px; }
+.wf-row .wf-card { flex: 1; }
+.wf-score { display: inline-block; font-size: 9px; background: rgba(99,102,241,.1); color: var(--accent-2); padding: 1px 5px; border-radius: 3px; font-weight: 600; margin-left: 4px; }
+.wf-audio { display: flex; align-items: center; gap: 8px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; }
+.wf-audio .play { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.wf-audio .info { flex: 1; }
+.wf-audio .info .title { font-size: 12px; font-weight: 600; }
+.wf-audio .info .meta { font-size: 10px; color: var(--text-3); }
+.recording { color: var(--rose); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+/* Comparison */
+.v2-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+.v2-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+.v2-box h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.v2-box ol { padding-left: 18px; }
+.v2-box ol li { font-size: 13px; padding: 5px 0; color: var(--text-2); }
+.v2-box ol li b { color: var(--text); }
+
+/* Why Matters */
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+.why-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+.why-card .match { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+.why-card .score { font-size: 13px; color: var(--text-3); margin-bottom: 8px; }
+.why-card .why-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 4px; }
+.why-card .why-text { font-size: 12px; color: var(--text-2); line-height: 1.5; padding: 8px 10px; background: rgba(99,102,241,.05); border-radius: 6px; border-left: 2px solid var(--accent); }
+.why-card .importance { display: inline-block; margin-top: 6px; font-size: 10px; background: rgba(34,197,55,.1); color: var(--green); padding: 2px 6px; border-radius: 4px; }
+
+/* Editorial */
+.editorial-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+.editorial-rules { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+.editorial-rules h3 { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+.editorial-rules .rule { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.editorial-rules .rule:last-child { border-bottom: none; }
+.editorial-rules .rule .points { font-weight: 700; color: var(--accent); }
+.editorial-flow { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+.editorial-flow .ef-step { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.editorial-flow .ef-step:last-child { border-bottom: none; }
+.editorial-flow .ef-step .num { width: 24px; height: 24px; border-radius: 50%; background: rgba(99,102,241,.1); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+
+/* Correction */
+.correction-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 12px; padding-left: 28px; position: relative; }
+.correction-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent); border-radius: 0 4px 4px 0; }
+.correction-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.correction-card p { font-size: 13px; color: var(--text-3); }
+
+/* Sprint */
+.sprint-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+.sprint-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+.sprint-card .snum { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); }
+.sprint-card h3 { font-size: 15px; font-weight: 600; margin: 4px 0 12px; }
+.sprint-card ul { list-style: none; }
+.sprint-card ul li { font-size: 13px; padding: 4px 0; display: flex; align-items: center; gap: 6px; }
+.sprint-card ul li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+/* Distribution */
+.distrib-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px; }
+.distrib-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+.distrib-card .dlabel { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); margin-bottom: 4px; }
+.distrib-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.distrib-card p { font-size: 12px; color: var(--text-3); line-height: 1.6; }
+
+/* Decision */
+.decision { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+.decision-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; }
+.decision-card .d-title { font-size: 14px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.decision-card .d-title .rec { font-size: 10px; background: var(--accent); color: #fff; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+.decision-card .alt { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.decision-card .alt-item { background: var(--surface-2); border-radius: var(--radius); padding: 10px 14px; font-size: 12px; line-height: 1.5; }
+.decision-card .alt-item .name { font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.decision-card .alt-item .pros { color: var(--green); }
+.decision-card .alt-item .cons { color: var(--red); }
+.decision-card .why { font-size: 12px; color: var(--text-2); padding: 10px 14px; background: rgba(99,102,241,.05); border-radius: var(--radius); border-left: 3px solid var(--accent); }
+
+/* Data flow */
+.dataflow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 24px; justify-content: center; }
+.dataflow .df-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 16px; text-align: center; font-size: 12px; font-weight: 500; }
+.dataflow .df-box .sub { font-size: 10px; color: var(--text-3); font-weight: 400; }
+.dataflow .df-arrow { color: var(--text-3); font-size: 16px; }
+
+/* Roadmap */
+.roadmap { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+.roadmap-item { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 20px; }
+.roadmap-item .period { font-size: 11px; font-weight: 600; background: rgba(99,102,241,.1); color: var(--accent); padding: 3px 8px; border-radius: 5px; white-space: nowrap; margin-top: 2px; min-width: 70px; }
+.roadmap-item .content h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.roadmap-item .content p { font-size: 12px; color: var(--text-3); }
+
+/* Risks */
+.risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.risk-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; border-left: 3px solid; }
+.risk-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.risk-card p { font-size: 12px; color: var(--text-3); line-height: 1.6; }
+
+@media (max-width: 900px) {
+  .score-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .v2-compare, .why-grid, .editorial-grid, .sprint-grid, .distrib-grid, .decision-card .alt, .risk-grid { grid-template-columns: 1fr; }
+  .dataflow { flex-direction: column; }
+  .dataflow .df-arrow { transform: rotate(90deg); }
+  .roadmap-item { flex-direction: column; gap: 6px; }
+  section { padding: 60px 0; }
+}
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+section { animation: fadeUp .6s ease both; }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<nav>
+  <div class="logo"><span>CP</span> Copa Pulse</div>
+  <a href="#homepage">Homepage →</a>
+</nav>
+
+<main class="container">
+
+<!-- Hero -->
+<section class="hero" style="border: none;">
+  <div class="badge">⚡ Product Plan vFinal <span class="tag blue">convergido</span></div>
+  <h1>O que importa.<br><span class="gradient">Em 3 minutos.</span></h1>
+  <p>
+    Não é mais "placar + tabela + boletim".<br>
+    É <strong>"o que aconteceu, por que importa e o que vem depois"</strong>.
+  </p>
+  <div class="score-grid">
+    <div class="score-item"><div class="value">8.5</div><div class="label">Produto</div></div>
+    <div class="score-item"><div class="value">9</div><div class="label">Chance de lançar</div></div>
+    <div class="score-item"><div class="value">7.5</div><div class="label">Alguém usar</div></div>
+    <div class="score-item"><div class="value">9</div><div class="label">Você terminar</div></div>
+  </div>
+</section>
+
+<!-- HOMEPAGE WIREFRAME -->
+<section id="homepage">
+  <div class="section-label">● O Produto Final</div>
+  <h2 class="section-title">Homepage do Copa Pulse</h2>
+  <p class="section-desc">
+    A ordem que importa: contexto primeiro, dados depois. O usuário abre e entende a Copa em 30 segundos.
+  </p>
+
+  <div class="wireframe">
+    <div class="wf-statusbar"><span>9:41</span><span>📶 5G</span></div>
+    <div class="wf-content">
+
+      <!-- Section 1: Hero -->
+      <div class="wf-hero">
+        <div class="hheadline">🔥 Brasil vence e elimina a Espanha</div>
+        <div class="hsummary">Richarlison decide na prorrogação. Brasil enfrenta França nas quartas.</div>
+        <div style="margin-top: 8px; display: flex; gap: 8px; justify-content: center; font-size: 9px;">
+          <span style="background: rgba(34,197,55,.1); color: var(--green); padding: 2px 6px; border-radius: 3px;">importance_score: 95</span>
+          <span style="background: rgba(255,255,255,.05); color: var(--text-3); padding: 2px 6px; border-radius: 3px;">🏆 Mata-mata</span>
+        </div>
+      </div>
+
+      <!-- Section 2: Audio (placeholder) -->
+      <div class="wf-audio" style="opacity: .5;">
+        <div class="play">▶</div>
+        <div class="info">
+          <div class="title">Resumo do dia em 60 segundos</div>
+          <div class="meta"><span class="recording">●</span> Sprint 4</div>
+        </div>
+      </div>
+
+      <!-- Section 3: O que aconteceu hoje -->
+      <div class="wf-section">
+        <div class="wftitle">📰 O QUE ACONTECEU HOJE</div>
+        <div class="wf-card">
+          <div class="wfc-title">Brasil elimina Espanha com virada histórica</div>
+          <div class="wfc-meta">Mata-mata • 3 a 2 na prorrogação</div>
+          <div class="wfc-why">💡 Por que importa: Brasil pega a França nas quartas. Eliminatória mais difícil até aqui.</div>
+        </div>
+        <div class="wf-card">
+          <div class="wfc-title">Argentina tropeça contra o México</div>
+          <div class="wfc-meta">Fase de grupos • 0 a 0</div>
+          <div class="wfc-why">💡 Por que importa: Grupo D fica embolado. Argentina pode depender de outros resultados.</div>
+        </div>
+        <div class="wf-card">
+          <div class="wfc-title">Alemanha goleia e assume liderança</div>
+          <div class="wfc-meta">Fase de grupos • 4 a 0</div>
+          <div class="wfc-why">💡 Por que importa: Alemanha garante primeiro lugar e evita o Brasil no mata-mata.</div>
+        </div>
+      </div>
+
+      <!-- Section 4: Jogos -->
+      <div class="wf-section">
+        <div class="wftitle">⚽ JOGOS DE HOJE</div>
+        <div class="wf-row">
+          <div class="wf-card" style="text-align: center;">
+            <div style="font-weight: 600; font-size: 14px;">🇫🇷 0 - 0 🇵🇹</div>
+            <div style="font-size: 10px; color: var(--text-3);">67' • AO VIVO</div>
+          </div>
+          <div class="wf-card" style="text-align: center; opacity: .6;">
+            <div style="font-weight: 600; font-size: 14px;">🇳🇱 - 🇺🇾</div>
+            <div style="font-size: 10px; color: var(--text-3);">16:00</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Tabela compacta -->
+      <div class="wf-section">
+        <div class="wftitle">📊 TABELA • GRUPO D</div>
+        <div style="font-size: 10px; display: grid; gap: 3px;">
+          <div style="display: flex; justify-content: space-between; background: var(--surface-2); padding: 4px 8px; border-radius: 4px;">
+            <span>1. 🇦🇷 Argentina</span><span>4 pts +2</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; background: var(--surface-2); padding: 4px 8px; border-radius: 4px;">
+            <span>2. 🇲🇽 México</span><span>2 pts 0</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Comparison: V1 vs VFinal order -->
+  <div class="v2-compare">
+    <div class="v2-box" style="border-color: rgba(239,68,68,.2);">
+      <h3>❌ Versão 1 — Centrada em dados</h3>
+      <ol>
+        <li>Hero</li>
+        <li>⚽ Jogos</li>
+        <li>📊 Tabela</li>
+        <li style="color: var(--text-3);">📰 Boletim (lá embaixo)</li>
+      </ol>
+      <p style="font-size: 12px; color: var(--text-3); margin-top: 8px;">"Aqui estão os números. Descubra você o que importa."</p>
+    </div>
+    <div class="v2-box" style="border-color: rgba(34,197,55,.3);">
+      <h3>✅ Versão Final — Centrada em contexto</h3>
+      <ol>
+        <li>🔥 Hero + manchete</li>
+        <li>🎙️ Resumo em áudio (Sprint 4)</li>
+        <li>📰 <b>O que aconteceu hoje</b> + <b>por que importa</b></li>
+        <li>⚽ Jogos (ao vivo, próximos)</li>
+        <li>📊 Tabela compacta</li>
+      </ol>
+      <p style="font-size: 12px; color: var(--text-3); margin-top: 8px;">"Aqui está o que importa. E os dados pra confirmar."</p>
+    </div>
+  </div>
+</section>
+
+<!-- Why It Matters -->
+<section>
+  <div class="section-label">● O Diferencial Real</div>
+  <h2 class="section-title">"Why It Matters"</h2>
+  <p class="section-desc">
+    O placar todo mundo mostra. O que ninguém faz é responder <strong>"por que isso importa?"</strong>
+    em uma linha. Esse é o verdadeiro valor do Copa Pulse.
+  </p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="match">🇧🇷 Brasil 2 × 0 🇯🇵 Japão</div>
+      <div class="score">Mata-mata • Quartas de final</div>
+      <div class="why-label">💡 Por que isso importa</div>
+      <div class="why-text">Com a vitória, o Brasil garante classificação e <strong>provavelmente evita a França nas oitavas</strong>, que está em segundo lugar no grupo vizinho.</div>
+      <span class="importance">importance_score: 85</span>
+    </div>
+    <div class="why-card">
+      <div class="match">🇦🇷 Argentina 1 × 1 🇳🇱 Holanda</div>
+      <div class="score">Fase de grupos • Grupo D</div>
+      <div class="why-label">💡 Por que isso importa</div>
+      <div class="why-text">O empate deixa o grupo <strong>completamente aberto</strong> e aumenta as chances da Holanda terminar em primeiro, o que mudaria todo o chaveamento.</div>
+      <span class="importance">importance_score: 72</span>
+    </div>
+  </div>
+  <div style="margin-top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px;">
+    <p style="font-size: 13px; color: var(--text-2); line-height: 1.7;">
+      <strong style="color: var(--text);">Como funciona:</strong> A IA recebe o resultado + o context do torneio (fase, classificação, histórico)
+      e gera uma frase de "por que isso importa" para cada partida com importance_score &gt; 40.
+      <br><br>
+      O usuário não precisa saber a tabela inteira. Ele precisa saber que <strong>o empate da Argentina é bom pra Holanda</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- Score Editorial -->
+<section>
+  <div class="section-label">● O Motor</div>
+  <h2 class="section-title">importance_score</h2>
+  <p class="section-desc">A camada editorial que a IA não pode ter. Dados crus entram. Partidas filtradas por relevância saem.</p>
+  <div class="editorial-grid">
+    <div class="editorial-rules">
+      <h3>📊 Pesos</h3>
+      <div class="rule"><span>Mata-mata</span><span class="points">+40</span></div>
+      <div class="rule"><span>Decisão de classificação</span><span class="points">+25</span></div>
+      <div class="rule"><span>Seleção popular (Brasil, Argentina)</span><span class="points">+20</span></div>
+      <div class="rule"><span>Zebra (time pequeno vence favorito)</span><span class="points">+20</span></div>
+      <div class="rule"><span>Muitos gols (≥5)</span><span class="points">+15</span></div>
+      <div class="rule"><span>Virada no placar</span><span class="points">+15</span></div>
+      <div class="rule"><span>Gol nos acréscimos</span><span class="points">+10</span></div>
+      <div class="rule"><span>Jogador famoso em campo</span><span class="points">+10</span></div>
+    </div>
+    <div class="editorial-flow">
+      <h3>⏳ Fluxo</h3>
+      <div class="ef-step"><span class="num">1</span><div><strong>Calcula</strong> importance_score pra cada partida do dia</div></div>
+      <div class="ef-step"><span class="num">2</span><div><strong>Filtra:</strong> só partidas com score &gt; 0 entram no prompt</div></div>
+      <div class="ef-step"><span class="num">3</span><div><strong>Ordena</strong> por score (decrescente) no prompt</div></div>
+      <div class="ef-step"><span class="num">4</span><div><strong>Gera</strong> "Why It Matters" para cada partida com score &gt; 40</div></div>
+      <div class="ef-step"><span class="num">5</span><div><strong>Hero headline</strong> usa o jogo de maior score do dia</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PM Corrections -->
+<section>
+  <div class="section-label">● O Caminho Até Aqui</div>
+  <h2 class="section-title">Onde o investidor exagerou</h2>
+  <p class="section-desc">Três correções do Product Manager que transformaram um plano "executável" em um plano que "alguém realmente usaria".</p>
+  <div class="correction-card">
+    <h3>1. Plataforma de torneios de futebol (não NBA/F1)</h3>
+    <p>"Schema específico pra Copa" era ir longe demais. O ponto ideal: eventos → times → partidas → classificações → artigos. Genérico pra Champions, Libertadores, Copa América. Específico demais pra NBA e F1.</p>
+  </div>
+  <div class="correction-card">
+    <h3>2. Áudio volta pro roadmap (não pro lixo)</h3>
+    <p>Placar todo mundo tem. Boletim escrito todo mundo tem. Áudio diário poucos têm. Não no MVP. Mas cortar da visão é perder o maior diferencial do produto.</p>
+  </div>
+  <div class="correction-card">
+    <h3>3. Design importa (só não glassmorphism pesado)</h3>
+    <p>O usuário não sabe o nome "typographic scale". Mas sente. A diferença entre Globo Esporte e Apple não é funcional — é percepção. Tipografia, espaçamento, microinterações. Produto bonito é mais compartilhado.</p>
+  </div>
+</section>
+
+<!-- Sprints -->
+<section>
+  <div class="section-label">● Execução</div>
+  <h2 class="section-title">Sprints</h2>
+  <p class="section-desc">Cada sprint entrega valor sozinho. Sprint 1 já é um produto que alguém usaria.</p>
+  <div class="sprint-grid">
+    <div class="sprint-card" style="border-left: 3px solid var(--green);">
+      <div class="snum">Sprint 1 — Core</div>
+      <h3>Contexto primeiro</h3>
+      <ul>
+        <li>Hero + manchete</li>
+        <li>"O que aconteceu hoje" com Why It Matters</li>
+        <li>Jogos ao vivo / próximos</li>
+        <li>Boletim IA de 1 parágrafo</li>
+        <li>Tabela compacta</li>
+      </ul>
+    </div>
+    <div class="sprint-card" style="border-left: 3px solid var(--blue);">
+      <div class="snum">Sprint 2 — Qualidade</div>
+      <h3>Edição + distribuição</h3>
+      <ul>
+        <li>importance_score implantado</li>
+        <li>Geração automática de manchete</li>
+        <li>Open Graph dinâmico</li>
+        <li>SEO + sitemap</li>
+      </ul>
+    </div>
+    <div class="sprint-card" style="border-left: 3px solid var(--amber);">
+      <div class="snum">Sprint 3 — Crescimento</div>
+      <h3>Compartilhamento</h3>
+      <ul>
+        <li>Cards compartilháveis</li>
+        <li>Botões de share nativos</li>
+        <li>PWA</li>
+        <li>Captura de email</li>
+      </ul>
+    </div>
+    <div class="sprint-card" style="border-left: 3px solid var(--accent);">
+      <div class="snum">Sprint 4 — Diferenciação</div>
+      <h3>Áudio + plataforma</h3>
+      <ul>
+        <li>Resumo em áudio (60s)</li>
+        <li>Newsletter automática</li>
+        <li>Plataforma de torneios de futebol</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Distribution -->
+<section>
+  <div class="section-label">● O Maior Risco</div>
+  <h2 class="section-title">Aquisição: 100 Usuários, $0</h2>
+  <p class="section-desc">O plano original passou 10 seções em arquitetura. Distribuição era uma nota de rodapé. Hoje é o centro.</p>
+  <div class="distrib-grid">
+    <div class="distrib-card">
+      <div class="dlabel">Canal 1</div>
+      <h3>Comunidades</h3>
+      <p>r/futebol, r/WorldCup, grupos de WhatsApp. Conteúdo útil + link. Nunca spam — "viram o que aconteceu com a Argentina?"</p>
+    </div>
+    <div class="distrib-card">
+      <div class="dlabel">Canal 2</div>
+      <h3>SEO desde o Dia 1</h3>
+      <p>Structured data. URLs limpas. Cada partida é uma página indexável: copapulse.com/brasil-vs-argentina.</p>
+    </div>
+    <div class="distrib-card">
+      <div class="dlabel">Canal 3</div>
+      <h3>OG Images Premium</h3>
+      <p>Cada link compartilhado no WhatsApp parece premium. O próprio usuário vira canal de aquisição sem esforço.</p>
+    </div>
+  </div>
+  <div style="margin-top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px;">
+    <p style="font-size: 13px; color: var(--text-2); line-height: 1.7;">
+      <strong style="color: var(--text);">A pergunta que define o projeto:</strong> O produto está pronto.
+      Como conseguir os <strong style="color: var(--accent);">primeiros 100 usuários</strong> sem gastar dinheiro?
+      <br><br>
+      Responder isso é mais importante do que qualquer decisão de banco, framework ou IA.
+    </p>
+  </div>
+</section>
+
+<!-- Architecture -->
+<section>
+  <div class="section-label">● Stack</div>
+  <h2 class="section-title">Arquitetura</h2>
+  <p class="section-desc">Decisões finais. Nada de NBA no banco. Nada de áudio no MVP. Nada de glassmorphism pesado.</p>
+  <div class="decision">
+    <div class="decision-card">
+      <div class="d-title"><span>📱 Frontend</span><span class="rec">Next.js + Tailwind</span></div>
+      <div class="alt">
+        <div class="alt-item"><div class="name">Remix</div><div class="pros">+ Simplicidade</div><div class="cons">− Ecossistema menor</div></div>
+        <div class="alt-item"><div class="name">SvelteKit</div><div class="pros">+ Performance</div><div class="cons">− Menos bibliotecas prontas</div></div>
+      </div>
+      <div class="why">Ecossistema vence. shadcn/ui + Tailwind = entrega rápida com design intencional.</div>
+    </div>
+    <div class="decision-card">
+      <div class="d-title"><span>🗄️ Backend</span><span class="rec">Supabase + Postgres</span></div>
+      <div class="alt">
+        <div class="alt-item"><div class="name">Firebase</div><div class="pros">+ Maduro</div><div class="cons">− Não-relacional, caro em escala</div></div>
+        <div class="alt-item"><div class="name">Custom Node</div><div class="pros">+ Controle total</div><div class="cons">− Dias de setup, DevOps</div></div>
+      </div>
+      <div class="why">Postgres é natural para dados esportivos. Schema: events → teams → matches → standings → articles. Nada de config_json.</div>
+    </div>
+    <div class="decision-card">
+      <div class="d-title"><span>🤖 IA</span><span class="rec">OpenAI GPT-4o-mini</span></div>
+      <div class="alt">
+        <div class="alt-item"><div class="name">Gemini</div><div class="pros">+ Grátis</div><div class="cons">− Structured Outputs manual</div></div>
+        <div class="alt-item"><div class="name">Claude</div><div class="pros">+ Qualidade</div><div class="cons">− Caro, parsing manual</div></div>
+      </div>
+      <div class="why">Structured Outputs elimina parsing errors. Prompt alimentado por importance_score. Orçamento real: ~$100.</div>
+    </div>
+    <div class="decision-card">
+      <div class="d-title"><span>🎙️ Áudio</span><span class="rec">OpenAI TTS (Sprint 4)</span></div>
+      <div class="alt">
+        <div class="alt-item"><div class="name">ElevenLabs</div><div class="pros">+ Qualidade quase humana</div><div class="cons">− 20x mais caro</div></div>
+        <div class="alt-item"><div class="name">Edge TTS</div><div class="pros">+ Grátis</div><div class="cons">− Qualidade inferior</div></div>
+      </div>
+      <div class="why" style="border-left-color: var(--amber); background: rgba(245,158,11,.05);">Não no MVP. Mas mantido no roadmap. É o que diferencia de ESPN e Globo Esporte.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Pipeline -->
+<section>
+  <div class="section-label">● Pipeline</div>
+  <h2 class="section-title">Fluxo de Dados</h2>
+  <div class="dataflow">
+    <div class="df-box">API-Football<span class="sub">fetch 5min</span></div>
+    <span class="df-arrow">→</span>
+    <div class="df-box">importance_score<span class="sub">edge function</span></div>
+    <span class="df-arrow">→</span>
+    <div class="df-box">Supabase<span class="sub">armazenamento</span></div>
+    <span class="df-arrow">→</span>
+    <div class="df-box">OpenAI<span class="sub">06:00 • 1 chamada/dia</span></div>
+    <span class="df-arrow">→</span>
+    <div class="df-box">Next.js ISR<span class="sub">página revalidada</span></div>
+  </div>
+</section>
+
+<!-- Roadmap -->
+<section>
+  <div class="section-label">● Cronograma</div>
+  <h2 class="section-title">Roadmap</h2>
+  <div class="roadmap">
+    <div class="roadmap-item">
+      <span class="period">S1</span>
+      <div class="content"><h4>Core (dias 1-10)</h4><p>Homepage no ar com hero, "o que aconteceu hoje", jogos, tabela, boletim IA. Design intencional.</p></div>
+    </div>
+    <div class="roadmap-item">
+      <span class="period">S2</span>
+      <div class="content"><h4>Qualidade (dias 11-18)</h4><p>importance_score, Why It Matters, manchete automática, OG dinâmico, SEO.</p></div>
+    </div>
+    <div class="roadmap-item">
+      <span class="period">S3</span>
+      <div class="content"><h4>Crescimento (dias 19-25)</h4><p>Cards compartilháveis, PWA, distribuição em comunidades, captura de email.</p></div>
+    </div>
+    <div class="roadmap-item">
+      <span class="period">S4</span>
+      <div class="content"><h4>Diferenciação (dias 26-30+)</h4><p>Áudio diário (60s), newsletter, preparar plataforma de torneios de futebol.</p></div>
+    </div>
+    <div class="roadmap-item">
+      <span class="period">Pós</span>
+      <div class="content"><h4>Plataforma de torneios</h4><p>Champions, Libertadores, Copa América. Schema refatorado. White-label B2B se houver demanda.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Risks -->
+<section style="border: none;">
+  <div class="section-label">● Riscos</div>
+  <h2 class="section-title">O Que Pode Dar Errado</h2>
+  <div class="risk-grid">
+    <div class="risk-card" style="border-left-color: var(--red);">
+      <h3>📉 Ninguém visita</h3>
+      <p>Maior risco. Mitigação: distribuição é prioridade desde o Sprint 1. Produto com Why It Matters embutido gera compartilhamento orgânico.</p>
+    </div>
+    <div class="risk-card" style="border-left-color: var(--amber);">
+      <h3>📝 IA genérica mesmo com filtro</h3>
+      <p>1 parágrafo no MVP. Se a qualidade não justificar, não expande. Why It Matters ajuda a IA a ter contexto.</p>
+    </div>
+    <div class="risk-card" style="border-left-color: var(--accent);">
+      <h3>🔧 API-Football instável na Copa</h3>
+      <p>Cache + fallback manual. Dados críticos no frontend. Aceitar latência de 1-2 minutos.</p>
+    </div>
+    <div class="risk-card" style="border-left-color: var(--rose);">
+      <h3>🏁 Produto sazonal</h3>
+      <p>Copa acaba, tráfego morre. Aceitar o ciclo. Validar plataforma de futebol. Se não der certo, portfólio e aprendizado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="padding: 32px 0; text-align: center; border-top: 1px solid var(--border);">
+  <p style="font-size: 12px; color: var(--text-3);">
+    Copa Pulse — Product Plan • Versão Final<br>
+    "Me diga o que importa." Não "me mostre a tabela."
+  </p>
+</footer>
+
+</main>
+
+<script>
+const observer = new IntersectionObserver(e => e.forEach(i => { if (i.isIntersecting) { i.target.style.opacity = '1'; i.target.style.transform = 'translateY(0)'; } }), { threshold: .1 });
+document.querySelectorAll('.correction-card, .sprint-card, .distrib-card, .decision-card, .roadmap-item, .risk-card, .why-card').forEach(el => {
+  el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; el.style.transition = 'opacity .6s ease, transform .6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

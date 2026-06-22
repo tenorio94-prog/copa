@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — Product Audit</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:960px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:36px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:4px}
+.sec-title{font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px}
+.doc-hero{padding:48px 0 24px;text-align:center}
+.doc-hero h1{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:13px;color:var(--text-2);max-width:500px;margin:6px auto 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:8px}
+.card h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.card p{font-size:11px;color:var(--text-2);line-height:1.5}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+table{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0}
+th,td{padding:4px 8px;text-align:left;border-bottom:1px solid var(--border)}
+th{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3)}
+td{color:var(--text-2)}
+td:first-child{color:var(--text);font-weight:500}
+.verdict{padding:14px 16px;border-radius:8px;margin:8px 0;border:1px solid}
+.verdict h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.verdict p{font-size:11px;color:var(--text-2);line-height:1.5}
+.tag{display:inline-block;font-size:9px;padding:2px 6px;border-radius:3px}
+.tag.green{background:rgba(34,197,55,.1);color:var(--green)}
+.tag.amber{background:rgba(245,158,11,.1);color:var(--amber)}
+.tag.red{background:rgba(239,68,68,.1);color:var(--red)}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Copa Pulse — <span>Product Audit</span></h1>
+  <p>Não é sobre construir mais. É sobre saber se o que já construímos está bom.</p>
+</section>
+
+<!-- Pergunta 1 -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">15 segundos: O mínimo precisa funcionar</h2>
+
+  <div class="card" style="border-left:3px solid var(--green);">
+    <h4>✅ O que aconteceu? — SIM</h4>
+    <p>QuickRead: headline + 3 bullets. "Marrocos 1x0 Portugal. França 2x1 Inglaterra. Amanhã Argentina x Croácia." O usuário entende o dia em 5 segundos. Não precisa de mais nada.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--green);">
+    <h4>✅ O que importa? — SIM</h4>
+    <p>QuickRead já prioriza. O bullet 1 é sempre a história mais importante. ContinuityBar mostra "Quartas • 2 jogos". O usuário entende o contexto do torneio.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--amber);">
+    <h4>🟡 O que acontece depois? — PARCIALMENTE</h4>
+    <p>O QuickRead tem "Amanhã: Argentina x Croácia" no bullet 3. Mas o NextChapter (que mostra a pergunta aberta) está abaixo do QuickRead, não acima. Se o usuário só vê o QuickRead, ele perde a pergunta que o faria voltar amanhã.</p>
+  </div>
+
+  <div class="verdict" style="border-color:rgba(34,197,55,.2);background:rgba(34,197,55,.03);">
+    <h4 style="color:var(--green);">Veredito: Funciona em 15s.</h4>
+    <p>O QuickRead sozinho entrega "o que aconteceu" e "o que importa". "O que acontece depois" está presente mas subordinado (bullet 3, não destaque).</p>
+  </div>
+</section>
+
+<!-- Pergunta 2 -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">30 segundos: Profundidade precisa funcionar</h2>
+
+  <div class="card" style="border-left:3px solid var(--green);">
+    <h4>✅ Qual é a principal história? — SIM</h4>
+    <p>QuickRead bullet 1 + Hero Story. Duas camadas de confirmação. O usuário entende que Marrocos é a história principal.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--green);">
+    <h4>✅ Quais narrativas estão andamento? — SIM</h4>
+    <p>NarrativeTracker mostra. "Marrocos: Campanha histórica — Cap 4/6". O usuário vê que está acompanhando uma história em andamento.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--red);">
+    <h4>❌ Por que voltar amanhã? — NÃO GARANTIDO</h4>
+    <p>NextChapter está na posição 3 (abaixo do QuickRead). Se o usuário leu o QuickRead e já entendeu o dia, ele pode sair sem ver o NextChapter. O componente mais importante para retenção está enterrado na terceira posição. Esse é o maior problema de UX da homepage hoje.</p>
+  </div>
+
+  <div class="verdict" style="border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.03);">
+    <h4 style="color:var(--amber);">Veredito: Quase funciona.</h4>
+    <p>O conteúdo está todo lá. O problema não é de inteligência editorial — é de hierarquia visual. O NextChapter deveria estar no topo, não no meio. O QuickRead rouba a cena e o NextChapter fica invisível.</p>
+  </div>
+</section>
+
+<!-- Pergunta 3 -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Análise Componente a Componente</h2>
+
+  <table>
+    <tr><th>Componente</th><th>Valor único</th><th>Remove?</th><th>Motivo</th></tr>
+    <tr><td><strong>ContinuityBar</strong></td><td>"Dia X • Fase Y • Z jogos" — orientação temporal</td><td><span class="tag green">Não</span></td><td>Cria sensação de progressão. 1 linha no topo. Custo zero.</td></tr>
+    <tr><td><strong>QuickRead</strong></td><td>Headline + 3 bullets em 15s</td><td><span class="tag green">Não</span></td><td>É o MVP do produto. Nada substitui.</td></tr>
+    <tr><td><strong>NextChapter</strong></td><td>"Será que Marrocos chega à final?" — retenção</td><td><span class="tag green">Não</span></td><td>É o componente que cria a necessidade de voltar. Mas está mal posicionado.</td></tr>
+    <tr><td><strong>NarrativeTracker</strong></td><td>"Capítulo 4 de 6" — progressão narrativa</td><td><span class="tag amber">Talvez</span></td><td>Informativo, mas não essencial. NextChapter já comunica "a história continua". NarrativeTracker detalha "em que capítulo". Posso unificar?</td></tr>
+    <tr><td><strong>Hero Story</strong></td><td>A mesmíssima história do QuickRead, com mais texto</td><td><span class="tag amber">Pode reduzir</span></td><td><strong>Quase redundante com QuickRead.</strong> QuickRead já entrega a história principal. Hero adiciona profundidade — mas o usuário médio não precisa de profundidade em 30 segundos. Ver Pergunta 4.</td></tr>
+    <tr><td><strong>Matches</strong></td><td>Jogos ao vivo + próximos</td><td><span class="tag green">Não</span></td><td>Informação prática. O que está rolando agora.</td></tr>
+    <tr><td><strong>Standings</strong></td><td>Classificação dos grupos</td><td><span class="tag amber">Talvez</span></td><td>Útil na fase de grupos. Perde valor no mata-mata (quando só restam 4 times, tabela não faz sentido). Poderia ser automático: esconder após quartas.</td></tr>
+  </table>
+</section>
+
+<!-- Pergunta 4 -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Redundâncias</h2>
+
+  <div class="card" style="border-left:3px solid var(--red);">
+    <h4>⚠️ Hero Story é quase redundante com QuickRead</h4>
+    <p>QuickRead já entrega headline + bullets + why it matters. Hero Story entrega headline + summary + tag + storyType + confidence. A sobreposição é enorme. O Hero existe porque veio ANTES do QuickRead na linha do tempo do produto — foi construído primeiro e nunca removido. <strong>Sugestão: reduzir Hero a uma versão compacta (apenas tag + 1 linha de why it matters) ou remover e fundir no QuickRead.</strong></p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--amber);">
+    <h4>🟡 NarrativeTracker e NextChapter podem ser fundidos</h4>
+    <p>NarrativeTracker mostra "histórias ativas". NextChapter mostra "o que vem amanhã". São complementares, mas poderiam ser um único componente: "Histórias ativas + Próximo capítulo". O NarrativeTracker por si só não cria retenção — ele informa. O NextChapter cria retenção — ele provoca.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--green);">
+    <h4>✅ Matches e Standings não são redundantes</h4>
+    <p>Matches é sobre AGORA. Standings é sobre ACUMULADO. Um não substitui o outro. Mas Standings perde valor no mata-mata.</p>
+  </div>
+</section>
+
+<!-- Pergunta 5 -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Remover 20% da Homepage</h2>
+
+  <div class="verdict" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+    <h4 style="color:var(--red);">Removeria: Hero Story (formato atual)</h4>
+    <p><strong>Motivo:</strong> 70% de sobreposição com QuickRead. QuickRead já entrega headline + why it matters. Hero adiciona tag + storyType + confidence — que podem ser incorporados ao QuickRead. Libera espaço vertical precioso no mobile.</p>
+    <p style="margin-top:4px;"><strong>Impacto:</strong> Reduz densidade visual. QuickRead ganha mais destaque. NextChapter sobe no scroll. Homepage fica mais enxuta.</p>
+    <p><strong>Alternativa:</strong> Não remover Hero, mas reduzir a uma linha compacta abaixo do QuickRead: [🔥 Redenção] "Argentina encerra jejum de 36 anos" — sem o card inteiro.</p>
+  </div>
+</section>
+
+<!-- Pergunta 6 -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Remover 40% da Homepage</h2>
+
+  <div class="verdict" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+    <h4 style="color:var(--red);">Permaneceria:</h4>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+      <div style="background:var(--surface-2);padding:8px 10px;border-radius:6px;">
+        <strong>1. ContinuityBar</strong> — 1 linha, custo zero, orientação máxima
+      </div>
+      <div style="background:var(--surface-2);padding:8px 10px;border-radius:6px;">
+        <strong>2. QuickRead (expandido)</strong> — absorve a tag e o storyType do Hero. Vira o componente ÚNICO de conteúdo editorial.
+      </div>
+      <div style="background:var(--surface-2);padding:8px 10px;border-radius:6px;">
+        <strong>3. NextChapter + NarrativeTracker fundidos</strong> — "Histórias ativas: Marrocos Cap 4/6 • Amanhã: França. Argentina Cap 5/6 • Busca o título."
+      </div>
+      <div style="background:var(--surface-2);padding:8px 10px;border-radius:6px;">
+        <strong>4. Matches</strong> — jogos ao vivo. Essencial.
+      </div>
+    </div>
+    <p style="margin-top:8px;"><strong>Removido:</strong> Hero (formatão), Standings (sazonal), NarrativeTracker standalone (fundido). A homepage passaria de 7 componentes para 4.</p>
+  </div>
+</section>
+
+<!-- Pergunta 7 -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Qual é o verdadeiro produto hoje?</h2>
+
+  <div class="grid-2">
+    <div class="card" style="opacity:.5;">
+      <h4>A) Site de resultados</h4>
+      <p>Não. Temos placares, mas não competimos com Sofascore.</p>
+    </div>
+    <div class="card" style="opacity:.5;">
+      <h4>C) Motor de narrativas</h4>
+      <p>É o que acontece nos bastidores. Mas o usuário não vê o motor — vê o resultado.</p>
+    </div>
+    <div class="card" style="border-color:var(--accent);border-width:2px;">
+      <h4 style="color:var(--accent);">B) Resumo diário da Copa ✓</h4>
+      <p>O produto entrega um resumo do dia em 15 segundos. É isso que o QuickRead faz. O usuário abre, lê, entende, sai. Não é um motor de narrativas (muito complexo). Não é um hub de acompanhamento (muito simples). É um resumo diário premium.</p>
+    </div>
+    <div class="card" style="opacity:.5;">
+      <h4>D) Hub de acompanhamento</h4>
+      <p>Falta personalização, push, newsletter. Seria demorado.</p>
+    </div>
+  </div>
+
+  <div class="verdict" style="border-color:rgba(34,197,55,.2);background:rgba(34,197,55,.03);">
+    <h4 style="color:var(--green);">Veredito: B — Resumo diário da Copa.</h4>
+    <p>E isso está bom. Um resumo diário premium e editorial é um produto valioso. Não precisa ser mais do que isso.</p>
+  </div>
+</section>
+
+<!-- Pergunta 8 -->
+<section>
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">O que impede o lançamento?</h2>
+
+  <div class="verdict" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+    <h4 style="color:var(--red);">🔴 Crítico — Impede o lançamento</h4>
+    <ul style="padding-left:14px;font-size:11px;color:var(--text-2);line-height:1.6;">
+      <li><strong>Dados mockados:</strong> sem API-Football key configurada, o sistema usa fallback manual. O produto não funciona com dados reais sem uma chave paga.</li>
+      <li><strong>Homepage não carrega sem rebuild:</strong> estática. Para Copa real, precisa de ISR com revalidação a cada 60s.</li>
+    </ul>
+  </div>
+
+  <div class="verdict" style="border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.03);">
+    <h4 style="color:var(--amber);">🟡 Importante — Lança com ressalvas</h4>
+    <ul style="padding-left:14px;font-size:11px;color:var(--text-2);line-height:1.6;">
+      <li><strong>Ordem da homepage:</strong> NextChapter está enterrado. QuickRead é ótimo mas canibaliza o Hero. A hierarquia visual precisa de revisão.</li>
+      <li><strong>Sem áudio:</strong> especificado mas não implementado. Diferencial prometido mas não entregue.</li>
+      <li><strong>Sem SEO:</strong> meta tags básicas existem, mas structured data e sitemap estão ausentes.</li>
+    </ul>
+  </div>
+
+  <div class="verdict" style="border-color:rgba(34,197,55,.2);background:rgba(34,197,55,.03);">
+    <h4 style="color:var(--green);">🟢 Desejável — Melhora mas não bloqueia</h4>
+    <ul style="padding-left:14px;font-size:11px;color:var(--text-2);line-height:1.6;">
+      <li>Áudio diário</li>
+      <li>Social cards / OG images compartilháveis</li>
+      <li>Player Facts (Messi, CR7, Neymar, Mbappé)</li>
+      <li>Newsletter</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Pergunta 9 -->
+<section>
+  <div class="sec-label">● 9</div>
+  <h2 class="sec-title">Maior Surpresa Positiva</h2>
+
+  <div class="card" style="border-left:3px solid var(--green);">
+    <h4>⭐ QuickRead</h4>
+    <p>Quando o projeto começou, o editorial story engine era o centro. O QuickRead era uma "view". Na prática, o QuickRead se tornou o PRODUTO. O editorial story engine é o motor invisível que ninguém vê — e isso é bom. O QuickRead entrega valor em 15 segundos. O resto é detalhe. Se o QuickRead tivesse sido projetado primeiro, metade dos outros componentes não teriam sido criados. Isso é uma surpresa positiva porque mostra que a arquitetura evoluiu corretamente: construímos um motor complexo, mas o resultado final é simples.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--amber);">
+    <h4>⭐ StoryBrief como entidade central</h4>
+    <p>StoryBrief foi uma descoberta tardia (Sprint 3.2). Até então, EditorialStory era a entidade principal. Descobrir que o usuário consome StoryBrief (não EditorialStory) reorganizou todo o produto. Essa descoberta foi mais valiosa que qualquer módulo editorial.</p>
+  </div>
+</section>
+
+<!-- Pergunta 10 -->
+<section style="border:none;">
+  <div class="sec-label">● 10</div>
+  <h2 class="sec-title">Conclusão Final</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;">
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="padding:12px;border-radius:8px;opacity:.5;text-align:center;">
+        <div style="font-size:14px;font-weight:600;">1. Continuar construindo</div>
+        <div style="font-size:11px;color:var(--text-2);">Risco de adicionar complexidade antes de validar o valor atual.</div>
+      </div>
+      <div style="padding:12px;border-radius:8px;opacity:.5;text-align:center;">
+        <div style="font-size:14px;font-weight:600;">3. Colocar usuários reais imediatamente</div>
+        <div style="font-size:11px;color:var(--text-2);">A homepage não está pronta. NextChapter enterrado. Hero redundante. Dados mockados.</div>
+      </div>
+      <div style="padding:16px;border-radius:8px;text-align:center;border:2px solid var(--accent);background:rgba(99,102,241,.05);">
+        <div style="font-size:18px;font-weight:700;color:var(--accent);">2. Fazer Product Audit + Simplificar</div>
+        <div style="font-size:12px;color:var(--text-2);margin-top:4px;">
+          <strong>Esta é a escolha certa.</strong><br><br>
+          O produto tem 7 componentes na homepage, mas 3 deles fazem o trabalho pesado (ContinuityBar, QuickRead, Matches).<br><br>
+          <strong>O que fazer:</strong><br>
+          • Reduzir Hero a uma linha (incorporar tag e storyType no QuickRead)<br>
+          • Mover NextChapter para imediatamente abaixo do QuickRead<br>
+          • Fundir NarrativeTracker com NextChapter (mesmo card, seções diferentes)<br>
+          • Esconder Standings automaticamente no mata-mata<br>
+          • 7 componentes → 4 (ContinuityBar, QuickRead+Fusion, NextChapter+Fusion, Matches)<br><br>
+          <strong style="color:var(--text);">Depois disso, colocar usuários reais. 2 semanas de trabalho. Produto mais enxuto e mais pronto para validação.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:20px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Product Audit • 7 componentes → 4 • Simplificar antes de expandir.</p>
+</footer>
+
+</main>
+</body>
+</html>

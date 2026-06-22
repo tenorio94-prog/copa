@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — StoryBrief-First Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:960px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:48px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:6px}
+.sec-title{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.5px;margin-bottom:12px}
+.doc-hero{padding:64px 0 32px;text-align:center}
+.doc-hero h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:14px;color:var(--text-2);max-width:520px;margin:8px auto 0;line-height:1.6}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:12px}
+.card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.card p,.card li{font-size:12px;color:var(--text-2);line-height:1.6}
+.card ul{padding-left:16px}
+.card ul li{padding:3px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+.arch{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.arch .box{background:var(--surface-2);padding:10px 14px;border-radius:8px;text-align:center;font-size:10px;border:1px solid var(--border)}
+.arch .box.core{border-color:var(--accent);background:rgba(99,102,241,.08);font-weight:600;font-size:11px}
+.arch .box .sub{font-size:8px;color:var(--text-3);font-weight:400}
+.arch .arrow{color:var(--text-3);font-size:12px}
+
+.layer-table{width:100%;border-collapse:collapse;font-size:11px;margin:12px 0}
+.layer-table th{padding:5px 8px;text-align:left;border-bottom:2px solid var(--border);color:var(--text-3);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.layer-table td{padding:5px 8px;border-bottom:1px solid var(--border);color:var(--text-2)}
+.layer-table td:first-child{color:var(--text);font-weight:500}
+
+.phone-mock{max-width:360px;margin:16px auto;background:#0d0d0f;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.phone-mock .notch{padding:8px 14px;font-size:10px;color:var(--text-3);border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.phone-mock .body{padding:12px}
+.phone-mock .progress{display:flex;gap:4px;margin-bottom:10px;font-size:9px;color:var(--text-3)}
+.phone-mock .progress span{background:var(--surface-2);padding:2px 6px;border-radius:4px}
+.phone-mock .quick{border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;background:var(--surface)}
+.phone-mock .quick .h{font-size:14px;font-weight:700;line-height:1.2;margin-bottom:6px}
+.phone-mock .quick .b{font-size:11px;color:var(--text-2);padding:3px 0;border-bottom:1px solid var(--border);display:flex;gap:6px}
+.phone-mock .quick .b:last-child{border-bottom:none}
+.phone-mock .quick .b .emoji{width:16px}
+.phone-mock .hero-mini{font-size:11px;font-weight:600;padding:8px 10px;background:rgba(99,102,241,.08);border-radius:6px;margin-bottom:8px}
+.phone-mock .meta{display:flex;gap:8px;font-size:9px;color:var(--text-3);padding:6px 0;border-top:1px solid var(--border);margin-top:6px}
+
+.principle{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 14px;margin:4px 0;font-size:12px;color:var(--text-2);line-height:1.6}
+.principle strong{color:var(--text)}
+
+.verdict{padding:14px 16px;border-radius:8px;margin:8px 0;border:1px solid}
+.verdict h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.verdict p{font-size:11px;color:var(--text-2);line-height:1.5}
+
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>StoryBrief-<span>First</span> Architecture</h1>
+  <p>O usuário não consome EditorialStory. O usuário consome uma versão extremamente comprimida. A arquitetura precisa refletir isso.</p>
+</section>
+
+<!-- TAREFA 1 — Análise crítica da arquitetura atual -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Análise da Arquitetura Atual</h2>
+
+  <table class="layer-table">
+    <tr><th>Camada</th><th>Valor que gera</th><th>Consumidor</th><th>Serve StoryBrief?</th><th>Simplificável?</th></tr>
+    <tr><td>Context Builder</td><td>Enriquece dados crus com flags e impacto</td><td>Historical Facts, Narrative Arcs, EditorialStory</td><td>✅ Indiretamente (dados de entrada)</td><td>❌ Já é simples</td></tr>
+    <tr><td>Historical Facts</td><td>Adiciona peso histórico</td><td>EditorialStory, StoryScore</td><td>🟡 Evidência para o Brief</td><td>✅ Podem ser menos específicos</td></tr>
+    <tr><td>Narrative Arcs</td><td>Conecta múltiplos jogos</td><td>EditorialStory, StoryScore</td><td>🟡 Background para o Brief</td><td>✅ Já são simples</td></tr>
+    <tr><td>Editorial Events</td><td>Sinaliza "isso é notícia"</td><td>EditorialStory, Confidence</td><td>✅ Afeta prioridade</td><td>✅ Já são simples</td></tr>
+    <tr><td>Editorial Story Engine</td><td>Seleciona a história principal</td><td>StoryPackage, Homepage</td><td>✅ <strong>Fonte do Brief</strong></td><td>❌ Já está simplificado</td></tr>
+    <tr><td style="color:var(--rose);">StoryPackage</td><td>Distribui em 7 formatos</td><td>Newsletter, Social, Push</td><td>❌ <strong>Não serve — canais que não temos</strong></td><td>✅ <strong>Pode ser composto a partir do Brief</strong></td></tr>
+  </table>
+
+  <div style="margin-top:12px;padding:14px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:8px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong style="color:var(--red);">Descoberta:</strong> StoryPackage não serve o usuário — serve canais que o MVP não tem (newsletter, social, push). StoryBrief serve o usuário DIRETAMENTE. A arquitetura deve priorizar Brief, não Package.
+    </p>
+  </div>
+
+  <div style="margin-top:12px;">
+    <div class="arch">
+      <span class="box">Context Builder</span>
+      <span class="arrow">→</span>
+      <span class="box">Editorial Engine</span>
+      <span class="arrow">→</span>
+      <span class="box core">StoryBrief</span>
+      <span class="arrow">→</span>
+      <span class="box">Homepage<br><span class="sub">Quick Read</span></span>
+    </div>
+    <p style="text-align:center;font-size:10px;color:var(--text-3);margin-top:4px;">StoryPackage vira uma view opcional do Brief — não o contrário.</p>
+  </div>
+</section>
+
+<!-- TAREFA 2 — StoryBrief -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Entidade StoryBrief</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <pre style="font-size:11px;color:var(--text-2);line-height:1.7;font-family:monospace;">
+<span style="color:var(--accent);">interface StoryBrief</span> {
+  <span style="color:var(--text-3);">// Identificação</span>
+  id: string
+  date: string
+
+  <span style="color:var(--text-3);">// Quick summary — 10-14 palavras. O que importa HOJE.</span>
+  headline: string
+
+  <span style="color:var(--text-3);">// 3 bullets. Cada um: 8-15 palavras.</span>
+  <span style="color:var(--text-3);">// Bullet 1: Hero Story com why it matters</span>
+  <span style="color:var(--text-3);">// Bullet 2: Secondary Story (ou jogo ao vivo)</span>
+  <span style="color:var(--text-3);">// Bullet 3: Emerging / Amanhã / O que esperar</span>
+  bullets: [string, string, string]
+
+  <span style="color:var(--text-3);">// Contexto do torneio — gerado automaticamente</span>
+  continuity: {
+    day: number           <span style="color:var(--text-3);">// Dia 23 da Copa</span>
+    phase: string         <span style="color:var(--text-3);">// Fase de grupos / Mata-mata</span>
+    phaseProgress: string <span style="color:var(--text-3);">// "3ª rodada" ou "Quartas"</span>
+    matchCount: number    <span style="color:var(--text-3);">// jogos hoje</span>
+    yesterday: string     <span style="color:var(--text-3);">// "Marrocos eliminou Portugal"</span>
+    today: string         <span style="color:var(--text-3);">// "Argentina x Croácia"</span>
+  }
+
+  <span style="color:var(--text-3);">// Metadados editoriais</span>
+  storyType: EditorialStoryType
+  tag: string
+  confidence: number
+  readingTime: number     <span style="color:var(--text-3);">// ≤ 20s sempre</span>
+
+  <span style="color:var(--text-3);">// Derivados — podem ser nulos se não existirem</span>
+  shareText: string | null
+  audioAvailable: boolean
+}
+    </pre>
+  </div>
+
+  <div style="margin-top:12px;">
+    <div class="principle"><strong>Por que StoryBrief é uma entidade (não uma view):</strong> Porque ela define o contrato de consumo do produto inteiro. A homepage, o push, a newsletter, o audio — todos partem do Brief. Se o Brief está errado, o produto inteiro está errado. É a primeira coisa que o sistema produz depois do EditorialStoryEngine. É a última coisa que o usuário consome antes de decidir se abre ou não o site.</div>
+  </div>
+</section>
+
+<!-- TAREFA 3 — Quick Read -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Quick Read</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <h4 style="font-size:12px;font-weight:600;margin-bottom:8px;">📋 Especificação</h4>
+    <pre style="font-size:11px;color:var(--text-2);line-height:1.6;font-family:monospace;">
+<span style="color:var(--accent);">interface QuickRead</span> {
+  <span style="color:var(--text-3);">// 1 headline + 3 bullets. Sempre.</span>
+  headline: string
+  bullets: [string, string, string]
+
+  <span style="color:var(--text-3);">// Barra de continuidade</span>
+  continuityLine: string  <span style="color:var(--text-3);">// "Dia 23 • Quartas • 2 jogos hoje"</span>
+
+  <span style="color:var(--text-3);">// Link para mais</span>
+  detailAvailable: boolean
+  audioAvailable: boolean
+}
+    </pre>
+    <p style="font-size:11px;color:var(--text-2);margin-top:6px;"><strong>Regra dos 3 bullets:</strong></p>
+    <ul style="font-size:11px;color:var(--text-2);line-height:1.7;padding-left:16px;">
+      <li><strong>Bullet 1:</strong> Hero Story — headline + why it matters + time vencedor</li>
+      <li><strong>Bullet 2:</strong> Secondary Story OU jogo ao vivo mais importante. Se não houver, contexto extra do Hero.</li>
+      <li><strong>Bullet 3:</strong> Amanhã OU jogo ao vivo OU emerging. Sempre o futuro próximo.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- TAREFA 4 — Homepage redesenhada -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Homepage Redesenhada</h2>
+
+  <div class="phone-mock">
+    <div class="notch"><span>9:41</span><span>🔋</span></div>
+    <div class="body">
+
+      <!-- Continuity bar -->
+      <div class="progress">
+        <span>📅 Dia 23</span>
+        <span>🏆 Quartas</span>
+        <span>⚽ 2 jogos hoje</span>
+      </div>
+
+      <!-- Quick Read — 15s -->
+      <div class="quick">
+        <div class="h">Marrocos faz história como primeira seleção africana na semifinal</div>
+        <div class="b"><span class="emoji">🌍</span> Marrocos 1×0 Portugal — primeiro africano na semi em 92 anos de Copa</div>
+        <div class="b"><span class="emoji">🇫🇷</span> França 2×1 Inglaterra — atual campeã segue viva. Ingleses perdem pênalti no fim</div>
+        <div class="b"><span class="emoji">⚽</span> Amanhã: Argentina × Croácia na semifinal — Messi contra Modric</div>
+      </div>
+
+      <!-- Hero Story — +5s para quem quer mais -->
+      <div class="hero-mini">🔥 Marrocos não tomou um gol sequer no mata-mata. Defesa que virou muralha.</div>
+
+      <!-- Matches -->
+      <div style="display:flex;gap:6px;margin-bottom:8px;">
+        <div style="flex:1;background:var(--surface-2);border-radius:6px;padding:8px;text-align:center;font-size:11px;border:1px solid var(--border);">🇫🇷 0-0 🇵🇹<br><span style="font-size:8px;color:var(--red);">AO VIVO</span></div>
+        <div style="flex:1;background:var(--surface-2);border-radius:6px;padding:8px;text-align:center;font-size:11px;border:1px solid var(--border);opacity:.6;">🇳🇱 vs 🇺🇾<br><span style="font-size:8px;color:var(--text-3);">16:00</span></div>
+      </div>
+
+      <!-- Share -->
+      <div class="meta">
+        <span>📋 Compartilhar</span>
+        <span>🎧 90s</span>
+        <span>📊 Tabela</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+    <div class="card" style="border-left:3px solid var(--green);padding:12px;">
+      <h4 style="font-size:11px;">15 segundos</h4>
+      <p style="font-size:10px;">Quick Read + continuity bar. O usuário entende o dia. Sai.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber);padding:12px;">
+      <h4 style="font-size:11px;">30 segundos</h4>
+      <p style="font-size:10px;">Quick Read + Hero Story + Jogos ao vivo. O usuário entende o dia e vê o que está acontecendo agora.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);padding:12px;">
+      <h4 style="font-size:11px;">2 minutos</h4>
+      <p style="font-size:10px;">Quick Read + Hero + Jogos + Tabela + Áudio. O usuário entende o dia, vê jogos, consulta tabela, ouve resumo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 5 — Continuity Bar -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Continuity Bar</h2>
+
+  <div class="card">
+    <h4>📋 Especificação</h4>
+    <pre style="font-size:11px;color:var(--text-2);line-height:1.5;font-family:monospace;">
+interface ContinuityBar {
+  day: number
+  phase: "groups" | "round_16" | "quarters" | "semis" | "final"
+  phaseLabel: string
+  matchCount: number
+  yesterday: string | null
+  today: string | null
+  teamsAlive: number
+}
+
+<span style="color:var(--text-3);">// Geração automática a partir do tournamentMemory</span>
+<span style="color:var(--text-3);">// phase: quantas rodadas já foram</span>
+<span style="color:var(--text-3);">// yesterday: o time vencedor do jogo mais importante de ontem</span>
+<span style="color:var(--text-3);">// today: o próximo jogo mais importante de hoje</span>
+    </pre>
+  </div>
+
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+    <span style="background:var(--surface-2);border:1px solid var(--border);padding:6px 12px;border-radius:100px;font-size:11px;">📅 Dia 23 da Copa</span>
+    <span style="background:var(--surface-2);border:1px solid var(--border);padding:6px 12px;border-radius:100px;font-size:11px;">🏆 Quartas de final</span>
+    <span style="background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);padding:6px 12px;border-radius:100px;font-size:11px;">⚽ 2 jogos hoje</span>
+    <span style="background:var(--surface-2);border:1px solid var(--border);padding:6px 12px;border-radius:100px;font-size:11px;">🔥 Ontem: Marrocos eliminou Portugal</span>
+    <span style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);padding:6px 12px;border-radius:100px;font-size:11px;">👉 Hoje: Argentina × Croácia</span>
+  </div>
+
+  <p style="font-size:11px;color:var(--text-3);margin-top:8px;">A Continuity Bar é a âncora visual do hábito. O usuário vê "Dia 23" e pensa "já são 23 dias que estou acompanhando". A progressão é o gatilho psicológico de continuidade.</p>
+</section>
+
+<!-- TAREFA 6 — StoryPackage vive ou morre? -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">StoryPackage: Manter ou Remover?</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;">
+    <div style="display:flex;gap:20px;flex-wrap:wrap;">
+      <div style="flex:1;min-width:200px;">
+        <h4 style="font-size:13px;font-weight:600;margin-bottom:6px;">❌ Opção B: Remover</h4>
+        <p style="font-size:11px;color:var(--text-2);line-height:1.5;">StoryBrief substitui StoryPackage. O sistema gera apenas o Brief. Quem quiser distribuir para newsletter/social/push faz isso a partir do Brief, não de um Package dedicado.</p>
+      </div>
+      <div style="flex:1;min-width:200px;background:rgba(99,102,241,.05);border-radius:8px;padding:12px;border:1px solid rgba(99,102,241,.2);">
+        <h4 style="font-size:13px;font-weight:600;margin-bottom:6px;color:var(--accent);">✅ Opção C: StoryPackage vira agregador</h4>
+        <p style="font-size:11px;color:var(--text-2);line-height:1.5;">StoryBrief é a entidade principal. StoryPackage é uma <strong>view</strong> que agrega Brief + formatos derivados (share text, audio flag, etc.). Package existe como estrutura de dados, não como camada editorial.</p>
+        <p style="font-size:10px;color:var(--text-3);margin-top:4px;">Relação: StoryBrief ⊂ StoryPackage — Brief é obrigatório, Package é opcional.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;padding:12px;background:rgba(34,197,55,.05);border:1px solid rgba(34,197,55,.15);border-radius:8px;">
+      <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+        <strong style="color:var(--green);">Decisão:</strong> Opção C. StoryPackage vira agregador. O sistema produz um StoryBrief obrigatoriamente. Se houver necessidade de formatos adicionais, o Package é composto a partir do Brief. Zero lógica editorial nova. Apenas formatação de saída.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 7 — Métrica -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Density Score</h2>
+
+  <div class="card">
+    <h4>📊 Como medir valor entregue por segundo</h4>
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong>Density = evidence_count / reading_time</strong><br><br>
+      <strong>evidence_count:</strong> Número de fatos no StoryBrief (headline + 3 bullets = 4 unidades de informação)<br>
+      <strong>reading_time:</strong> Tempo estimado de leitura em segundos<br><br>
+      <strong>Exemplo Quick Read:</strong> 4 evidências / 15 segundos = 0.27 fatos/segundo<br>
+      <strong>Exemplo Audio:</strong> 5 evidências / 90 segundos = 0.06 fatos/segundo<br>
+      <strong>Exemplo Newsletter:</strong> 6 evidências / 120 segundos = 0.05 fatos/segundo<br><br>
+      <strong>Meta:</strong> Density ≥ 0.2 (Quick Read). Tudo abaixo disso é formato de nicho.
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 8 — Comparação -->
+<section>
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">Comparação de Formatos</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <h4 style="font-size:11px;font-weight:600;margin-bottom:4px;">📋 EditorialStory</h4>
+      <p style="font-size:10px;color:var(--text-3);">Consumo: 0s (ninguém consome isso diretamente)</p>
+      <p style="font-size:10px;color:var(--text-2);margin-top:4px;">headline + confidence + evidence + narrativeHook + whyItMatters + storyType + tag + priority + matchId</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;border-color:var(--accent);">
+      <h4 style="font-size:11px;font-weight:600;margin-bottom:4px;">📋 StoryBrief</h4>
+      <p style="font-size:10px;color:var(--text-3);">Consumo: 15s — 0.27 fatos/s ✅</p>
+      <p style="font-size:10px;color:var(--text-2);margin-top:4px;">headline + 3 bullets + continuity + tag + shareText</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <h4 style="font-size:11px;font-weight:600;margin-bottom:4px;">📋 Quick Read</h4>
+      <p style="font-size:10px;color:var(--text-3);">Consumo: 15s — 0.27 fatos/s ✅</p>
+      <p style="font-size:10px;color:var(--text-2);margin-top:4px;">É a VIEW do StoryBrief na homepage. Mesmo conteúdo, formato visual.</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;">
+      <h4 style="font-size:11px;font-weight:600;margin-bottom:4px;">📋 Homepage (completa)</h4>
+      <p style="font-size:10px;color:var(--text-3);">Consumo: 30s — 0.13 fatos/s 🟡</p>
+      <p style="font-size:10px;color:var(--text-2);margin-top:4px;">Brief + Hero + Matches + Standings. O Brief é a parte mais densa.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;padding:14px;background:rgba(34,197,55,.05);border:1px solid rgba(34,197,55,.15);border-radius:8px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong style="color:var(--green);">StoryBrief ganha.</strong> Maior density score. Menor tempo de consumo. Mesma qualidade editorial. É o formato que o usuário realmente consome.
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 9 — Eliminar complexidade -->
+<section>
+  <div class="sec-label">● 9</div>
+  <h2 class="sec-title">O que manter, adiar, remover</h2>
+
+  <div class="verdict" style="border-color:rgba(34,197,55,.2);background:rgba(34,197,55,.03);">
+    <h4 style="color:var(--green);">✅ AGORA — essencial para o hábito</h4>
+    <p><strong>Quick Read</strong> (homepage) • <strong>Continuity Bar</strong> (âncora de progresso) • <strong>Share Text</strong> (1 linha de template, viralidade gratuita) • <strong>StoryBrief</strong> (entidade central)</p>
+  </div>
+
+  <div class="verdict" style="border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.03);">
+    <h4 style="color:var(--amber);">⏰ PRÓXIMO — após validar hábito</h4>
+    <p><strong>Audio</strong> (custo $1.20/mês, vale testar) • <strong>Daily Recap</strong> (composto automático) • <strong>StoryPackage</strong> como agregador (estrutura de dados)</p>
+  </div>
+
+  <div class="verdict" style="border-color:rgba(99,102,241,.2);background:rgba(99,102,241,.03);">
+    <h4 style="color:var(--accent);">📅 DEPOIS — quando houver audiência</h4>
+    <p><strong>Newsletter</strong> (email) • <strong>Push</strong> (permissão) • <strong>Social Cards / OG Images</strong> (viralidade) • <strong>Wrapped</strong> (pós-Copa)</p>
+  </div>
+
+  <div class="verdict" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+    <h4 style="color:var(--red);">❌ NUNCA (para o MVP)</h4>
+    <p><strong>Hashtags automáticas</strong> • <strong>Modo claro</strong> • <strong>Comentários</strong> • <strong>Personalização</strong> • <strong>Recomendação</strong> • <strong>Análise tática</strong> • <strong>xG / estatísticas avançadas</strong></p>
+  </div>
+</section>
+
+<!-- TAREFA 10 — Roadmap -->
+<section style="border:none;">
+  <div class="sec-label">● 10</div>
+  <h2 class="sec-title">Plano de Implementação</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;">
+    <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;">🎯 A próxima sprint mais valiosa</h4>
+
+    <p style="font-size:12px;color:var(--text-2);line-height:1.7;margin-bottom:16px;">
+      <strong>Não é mais IA.</strong><br>
+      <strong>Não é mais scoring.</strong><br>
+      <strong>Não é mais contexto.</strong><br><br>
+      A próxima sprint mais valiosa é <strong>implementar a arquitetura StoryBrief-First.</strong>
+    </p>
+
+    <div style="background:var(--surface-2);border-radius:8px;padding:16px;">
+      <h4 style="font-size:12px;font-weight:600;margin-bottom:6px;">📋 O que precisa ser feito</h4>
+      <ol style="padding-left:16px;font-size:11px;color:var(--text-2);line-height:1.8;">
+        <li>Criar <strong>entidade StoryBrief</strong> em types.ts (~15 linhas)</li>
+        <li>Criar <strong>função buildBrief(stories, memory)</strong> que gera o Brief a partir do EditorialStoryEngine (~30 linhas)</li>
+        <li>Criar <strong>componente QuickRead</strong> que renderiza o Brief na homepage (~20 linhas)</li>
+        <li>Criar <strong>componente ContinuityBar</strong> com dia/fase/jogos/ontem/hoje (~20 linhas)</li>
+        <li><strong>Reordenar a homepage</strong>: Quick Read → Hero → Matches → Standings (~10 linhas)</li>
+        <li>Manter StoryBrief como <strong>entidade central</strong> — tudo o resto deriva dele</li>
+      </ol>
+      <p style="font-size:10px;color:var(--text-3);margin-top:6px;">Total: ~95 linhas de código novo. Zero novas dependências. Zero novas camadas.</p>
+    </div>
+
+    <div style="margin-top:16px;padding:14px;background:rgba(99,102,241,.05);border-radius:8px;border-left:3px solid var(--accent);">
+      <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+        <strong style="color:var(--accent);">Impacto esperado:</strong> Usuário abre o site, vê o Quick Read em 15 segundos, entende o dia. Se quiser mais, o Hero Story está a 1 scroll. A Continuity Bar mostra "Dia 23". O gatilho de continuidade faz ele voltar amanhã. O hábito começa a se formar a partir do momento em que o usuário percebe que <strong>entender a Copa leva 15 segundos por dia</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:24px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — StoryBrief-First Architecture • 15 segundos. 3 bullets. O resto é incremento.</p>
+</footer>
+
+</main>
+</body>
+</html>

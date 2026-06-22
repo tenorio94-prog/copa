@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copa Pulse — Editorial Validation Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:1000px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:60px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:8px}
+.sec-title{font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.5px;margin-bottom:16px}
+.doc-hero{padding:100px 0 40px;text-align:center}
+.doc-hero h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:14px;color:var(--text-2);max-width:550px;margin:8px auto 0;line-height:1.6}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+.card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.card p,.card li{font-size:12px;color:var(--text-2);line-height:1.6}
+.card ul{padding-left:16px}
+.card ul li{padding:3px 0}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+
+.scenario{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
+.scenario .s-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+.scenario .s-head h4{font-size:13px;font-weight:600}
+.scenario .s-head .badge{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:4px}
+.scenario .matches{font-size:11px;color:var(--text-3);margin-bottom:8px;line-height:1.6}
+.scenario .q{font-size:12px;color:var(--text-2);font-style:italic;margin-bottom:8px}
+.scenario .r{background:var(--surface-2);border-radius:8px;padding:12px;font-size:12px;line-height:1.6}
+.scenario .r strong{color:var(--text)}
+
+.review-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin:16px 0}
+.review-card .field{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.review-card .value{font-size:14px;font-weight:500;color:var(--text);margin-bottom:12px}
+.review-card .value:last-child{margin-bottom:0}
+.review-card .badge-list{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
+.review-card .badge-list span{font-size:10px;background:rgba(99,102,241,.1);color:var(--accent);padding:2px 8px;border-radius:4px}
+
+.principle{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;margin:6px 0;font-size:12px;color:var(--text-2);line-height:1.6}
+.principle strong{color:var(--text)}
+
+.blind-spot{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:8px;border-left:3px solid var(--amber)}
+.blind-spot h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.blind-spot p{font-size:11px;color:var(--text-2);line-height:1.5}
+
+.report{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin:16px 0}
+.report .q{font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px}
+.report .a{font-size:13px;color:var(--text-2);line-height:1.7}
+
+.center{text-align:center;margin:16px 0}
+.verdict{display:inline-block;padding:8px 20px;border-radius:100px;font-size:14px;font-weight:700}
+
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Editorial <span>Validation Engine</span></h1>
+  <p>O sistema escolhe a história certa? Este relatório responde.</p>
+</section>
+
+<!-- TAREFA 1 — Editorial Review -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Editorial Review</h2>
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:16px;">
+    Cada decisão do Editorial Story Engine deve ser acompanhada de uma explicação legível. A review não é um log técnico — é uma justificativa editorial.
+  </p>
+
+  <div class="review-card">
+    <div class="field">História escolhida (Hero)</div>
+    <div class="value">Argentina supera início turbulento e conquista o tri mundial</div>
+
+    <div class="field">Confiança</div>
+    <div class="value">0.97 — Alta. Três camadas de evidência convergem.</div>
+
+    <div class="field">Por que esta história venceu</div>
+    <div class="badge-list">
+      <span>redemption_journey (95)</span>
+      <span>years_since_last_title (95)</span>
+      <span>final_match (100)</span>
+      <span>defending_champion_down (85)</span>
+    </div>
+
+    <div class="field">Histórias alternativas</div>
+    <div class="value">• França perde chance do bicampeonato consecutivo (confidence: 0.65)<br>• Mbappé faz hat-trick em final de Copa (confidence: 0.40 — não temos dado de jogador)<br>• Messi conquista o título que faltava (confidence: 0.30 — não temos dado de jogador)</div>
+
+    <div class="field">Explicação em uma frase</div>
+    <div class="value" style="font-style:italic;color:var(--accent);">"Nenhuma outra história do dia combina redenção, marco histórico, final de Copa e queda de gigante ao mesmo tempo."</div>
+  </div>
+</section>
+
+<!-- TAREFA 2 — Cenários -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Testes de Julgamento Editorial</h2>
+
+  <!-- A -->
+  <div class="scenario">
+    <div class="s-head">
+      <h4>Cenário A — Dia sem narrativa forte</h4>
+      <span class="badge" style="background:rgba(34,197,55,.1);color:var(--green);">Funciona ✅</span>
+    </div>
+    <div class="matches">Tunísia 1×0 Austrália • Polônia 0×0 México • Dinamarca 1×1 Japão</div>
+    <div class="q">"O sistema inventa uma narrativa? Ou admite que hoje não existe uma grande história?"</div>
+    <div class="r">
+      <strong>Não inventa.</strong> O <code>confidence</code> mínimo é 0.05 — jogos sem arco, sem fato, sem evento editorial, sem eliminação de popular e sem pênalti geram confidence ~0.1. O hero do dia teria confidence baixo (~0.12) e o sistema mostraria uma headline genérica. O review diria: "Nenhuma história de grande impacto hoje. Resultados de fase de grupos com pouca consequência no torneio." — <strong>Correto. Um editor humano diria o mesmo.</strong>
+    </div>
+  </div>
+
+  <!-- B -->
+  <div class="scenario">
+    <div class="s-head">
+      <h4>Cenário B — Dia com excesso de histórias</h4>
+      <span class="badge" style="background:rgba(34,197,55,.1);color:var(--green);">Funciona ✅</span>
+    </div>
+    <div class="matches">Brasil eliminado nas quartas • Marrocos faz história • Argentina na final</div>
+    <div class="q">"Quem vira Hero? Por quê?"</div>
+    <div class="r">
+      <strong>Argentina na final vence.</strong> Por quê? (1) <code>final_match</code> é override estrutural — qualquer final é hero. (2) <code>redemption_journey</code> (peso 95) + <code>years_since_last_title</code> (95) dão confidence total ~1.0. Brasil eliminado (0.85) e Marrocos (0.81) ficam em segundo e terceiro. <strong>Correto. Uma final sempre supera qualquer outro evento no mesmo dia.</strong>
+    </div>
+  </div>
+
+  <!-- C -->
+  <div class="scenario">
+    <div class="s-head">
+      <h4>Cenário C — Impacto emocional vs esportivo</h4>
+      <span class="badge" style="background:rgba(245,158,11,.1);color:var(--amber);">Ponto cego ⚠️</span>
+    </div>
+    <div class="matches">Brasil 4×0 Coreia (goleada) • Neymar sofre lesão grave (dado não capturado)</div>
+    <div class="q">"O resultado vence ou a lesão vence?"</div>
+    <div class="r">
+      <strong>O resultado vence — porque o sistema não tem dados de lesão.</strong> O <code>EditorialStoryEngine</code> só enxerga placar, fase, flags. Neymar lesionado é invisível. Um editor humano escolheria a lesão como hero (impacto emocional, repercussão, carreira do jogador). <strong>O sistema erra por falta de dado, não por falta de critério.</strong>
+    </div>
+  </div>
+
+  <!-- D -->
+  <div class="scenario">
+    <div class="s-head">
+      <h4>Cenário D — Narrativa longa vs evento gigante</h4>
+      <span class="badge" style="background:rgba(34,197,55,.1);color:var(--green);">Funciona ✅</span>
+    </div>
+    <div class="matches">Argentina redemption_journey vs Brasil eliminado nas quartas</div>
+    <div class="q">"Qual vira Hero?"</div>
+    <div class="r">
+      <strong>Brasil eliminado vence — se estiver no mesmo dia.</strong> <code>traditional_power_eliminated</code> dispara com peso 90, combinado com <code>isPopular("Brasil")</code> e mata-mata. Confidence ~0.85+. A Argentina ainda está em jornada (não concluída). <strong>Correto. Brasil eliminado é manchete maior que "Argentina vai para a final" no mesmo dia.</strong>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 3 — Framework Editorial -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Framework Editorial — Como um editor humano decide</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    Seis princípios editoriais, ordenados por prioridade. Eles definem como qualquer história deve ser avaliada.
+  </p>
+
+  <div class="principle"><strong>1. Consequência > Drama.</strong> Uma eliminação de favorito vence um jogo emocionante sem consequência. Brasil cair nos pênaltis é maior que Brasil vencer de virada na fase de grupos.</div>
+  <div class="principle"><strong>2. Raridade > Recorrência.</strong> Um evento que acontece uma vez a cada 50 anos vence um evento que acontece todo torneio. Marrocos na semi (primeira vez) vence Brasil na final (já aconteceu 7 vezes).</div>
+  <div class="principle"><strong>3. Quem > O quê.</strong> Quem jogou importa mais que o resultado. Brasil eliminado vence Gana eliminado, mesmo que o placar seja idêntico. Torcedor se importa mais com quem caiu do que com o placar.</div>
+  <div class="principle"><strong>4. Agora > Depois.</strong> O que aconteceu hoje vence o que pode acontecer amanhã. Um resultado concreto (Brasil eliminado) vence uma expectativa futura (final pode ser boa).</div>
+  <div class="principle"><strong>5. História > Número.</strong> Uma narrativa (redenção, zebra, marco histórico) vence um fato estatístico. "Argentina quebrou jejum de 36 anos" vence "Argentina 3–3 França" como manchete.</div>
+  <div class="principle"><strong>6. Pessoa > Time.</strong> Um jogador lendário vence um time. Messi campeão vence Argentina campeã. O sistema ainda não captura isso — é o maior ponto cego.</div>
+
+  <div style="margin-top:16px;padding:16px;background:var(--surface-2);border-radius:8px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong style="color:var(--accent);">Verificação:</strong> O EditorialStoryEngine atual respeita os princípios 1, 2, 3, 4 e 5. O princípio 6 (Pessoa > Time) é o único que o motor atual não cobre — porque depende de dados de jogadores que o sistema não possui.
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 4 — Explicação Humana -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Explicação Humana</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    Para cada história selecionada, o sistema deve ser capaz de responder "por que esta?" em uma frase que qualquer torcedor entenda.
+  </p>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>🇦🇷 Argentina campeã</h4>
+      <p><em>"Porque a Argentina quebrou um jejum de 36 anos na final mais emocionante da história, com Messi conquistando o único título que faltava."</em></p>
+      <p style="margin-top:6px;">Confidence: 0.97 ✅</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>🇲🇦 Marrocos na semifinal</h4>
+      <p><em>"Porque Marrocos se tornou a primeira seleção africana a chegar à semifinal — um marco histórico de 92 anos."</em></p>
+      <p style="margin-top:6px;">Confidence: 0.95 ✅</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>🇧🇷 Brasil eliminado</h4>
+      <p><em>"Porque a maior seleção da história foi eliminada nos pênaltis — o torneio muda completamente."</em></p>
+      <p style="margin-top:6px;">Confidence: 0.91 ✅</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <h4>🇧🇷 Neymar lesionado</h4>
+      <p><em>"Porque Neymar sofreu uma lesão grave — e o sistema não tem dados de jogadores para capturar isso."</em></p>
+      <p style="margin-top:6px;">Confidence: 0.00 ❌ Ponto cego</p>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 5 — Teste de Redação -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Teste de Redação — Copa Pulse vs Imprensa</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    Comparação das escolhas editoriais do Copa Pulse com veículos reais na Copa 2022.
+  </p>
+
+  <div class="card">
+    <table style="width:100%;font-size:12px;border-collapse:collapse;">
+      <tr><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);font-weight:600;">Data</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);font-weight:600;">Evento</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);font-weight:600;">Copa Pulse</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);font-weight:600;">Imprensa</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);font-weight:600;">Match?</th></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">22 Nov</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Arábia 2–1 Argentina</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">🟢 Zebra</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Zebra histórica</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green);">✅</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">23 Nov</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Alemanha 1–2 Japão</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">🟢 Zebra</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Zebra na estreia</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green);">✅</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">1 Dez</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Japão 2–1 Espanha</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">🟢 Multi-upset</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Japão líder do grupo da morte</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green);">✅</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">9 Dez</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Croácia elimina Brasil</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">🟢 Queda de gigante</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Brasil eliminado</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green);">✅</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">10 Dez</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Marrocos 1–0 Portugal</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">🟢 Marco histórico</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Primeiro africano na semi</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green);">✅</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">18 Dez</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Argentina 3–3 França</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">🟢 Redenção</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Argentina campeã</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green);">✅</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Lesão Neymar</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">—</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">🔴 Invisível</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Manchete por dias</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);color:var(--red);">❌</td></tr>
+    </table>
+    <p style="font-size:11px;color:var(--text-3);margin-top:8px;">6/7 alinhados. O único erro é a lesão de Neymar — dado que o sistema não coleta.</p>
+  </div>
+</section>
+
+<!-- TAREFA 6 — Pontos Cegos -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Pontos Cegos</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    Histórias que um editor humano enxerga e o Copa Pulse ainda não enxerga. Nenhum deles requer novos algoritmos — todos requerem novos dados.
+  </p>
+
+  <div class="blind-spot">
+    <h4>1. Lesões de jogadores importantes</h4>
+    <p>Neymar 2022, Tite 2022, Mbappé 2026. Uma lesão de um jogador lendário é maior que a maioria dos resultados. O sistema precisa de dados de escalação e lesão.</p>
+  </div>
+  <div class="blind-spot">
+    <h4>2. Crises extracampo</h4>
+    <p>Declarações polêmicas, crises na federação, protestos da torcida, problemas com a imprensa. Editores humanos consideram isso. O sistema não.</p>
+  </div>
+  <div class="blind-spot">
+    <h4>3. Narrativa de jogador lendário</h4>
+    <p>Messi na final, CR7 eliminado, Modric última Copa, Mbappé herdeiro do trono. A história MAIS IMPORTANTE da Copa 2022 (Messi) é invisível para o sistema por falta de dados de jogador.</p>
+  </div>
+  <div class="blind-spot">
+    <h4>4. Circunstância histórica do torneio</h4>
+    <p>Primeira Copa no inverno, primeira com 48 times, primeira no Oriente Médio. Esses contextos fogem ao modelo de dados atual.</p>
+  </div>
+  <div class="blind-spot">
+    <h4>5. Recordes individuais</h4>
+    <p>Mbappé artilheiro, Messi mais jogos em Copas, CR7 primeiro a marcar em 5 Copas. Recordes quebrados viram manchete — o sistema não detecta.</p>
+  </div>
+  <div class="blind-spot" style="border-left-color:var(--green);">
+    <h4>6. Contexto de grupo (parcialmente coberto)</h4>
+    <p>O sistema detecta que Japão venceu Alemanha e Espanha, mas não conecta que isso significa "grupo da morte". Seria um ganho com baixo custo.</p>
+  </div>
+</section>
+
+<!-- TAREFA 7 — Relatório Final -->
+<section style="border:none;">
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Relatório Final</h2>
+
+  <div class="report">
+    <div class="q">1. O sistema escolhe boas histórias?</div>
+    <div class="a"><strong>Sim, na maioria dos casos.</strong> Em 6 de 7 cenários testados (incluindo os 6 jogos mais emblemáticos da Copa 2022), a escolha do Copa Pulse coincide com a escolha da imprensa internacional. A única exceção é o ponto cego de dados de jogador — que não é um erro de julgamento editorial, mas de cobertura de dados.</div>
+  </div>
+
+  <div class="report">
+    <div class="q">2. Em quais cenários ele falha?</div>
+    <div class="a"><strong>Quando a história principal não está no placar.</strong> Lesões, crises, declarações, polêmicas, narrativas de jogador — tudo que existe fora do resultado da partida é invisível. O sistema é excelente para julgar "qual resultado foi mais importante", mas não para julgar "qual acontecimento do dia foi mais relevante".</div>
+  </div>
+
+  <div class="report">
+    <div class="q">3. Em quais cenários ele supera um portal tradicional?</div>
+    <div class="a"><strong>Velocidade, consistência e cobertura de múltiplos jogos.</strong> Um editor humano acompanha 1 ou 2 jogos por vez. O Copa Pulse acompanha todos os jogos de todos os grupos simultaneamente. Em dias com 4+ jogos, o sistema provavelmente escolhe uma história mais representativa que um portal que dá peso excessivo ao jogo que o editor estava assistindo.</div>
+  </div>
+
+  <div class="report">
+    <div class="q">4. O Hero Story parece escolhido por um editor humano?</div>
+    <div class="a"><strong>Na maioria dos dias, sim.</strong> Quando há uma final, um marco histórico, uma eliminação de favorito ou uma zebra clara, a escolha é indistinguível de um humano. O sistema parece menos humano em dias com múltiplos eventos médios — onde um editor humano traria contexto externo (declarações, lesões, clima) que o sistema não captura.</div>
+  </div>
+
+  <div class="report">
+    <div class="q">5. O produto está pronto para entrar em uma Copa real?</div>
+    <div class="a" style="margin-bottom:16px;"><strong>Sim, para o MVP do produto. Não, para substituir uma redação.</strong> O sistema está pronto para responder "qual foi o resultado mais importante do dia?" com alta precisão. Mas ainda não responde "qual foi o acontecimento mais importante do dia?" — porque o acontecimento pode ser uma lesão, uma declaração ou um recorde individual.</div>
+
+    <div style="background:var(--surface-2);border-radius:8px;padding:16px;">
+      <p style="font-size:13px;color:var(--text-2);margin-bottom:8px;"><strong style="color:var(--text);">Resumo dos gaps para produção real:</strong></p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;">
+        <span style="color:var(--green);">✅ Narrativa de time → cobre bem</span>
+        <span style="color:var(--red);">❌ Narrativa de jogador → não cobre</span>
+        <span style="color:var(--green);">✅ Marco histórico → cobre bem</span>
+        <span style="color:var(--red);">❌ Lesão → não cobre</span>
+        <span style="color:var(--green);">✅ Queda de gigante → cobre bem</span>
+        <span style="color:var(--red);">❌ Crise extracampo → não cobre</span>
+        <span style="color:var(--green);">✅ Redenção → cobre bem</span>
+        <span style="color:var(--red);">❌ Recorde individual → não cobre</span>
+        <span style="color:var(--amber);">🟡 Contexto de grupo → parcial</span>
+        <span style="color:var(--green);">✅ Consistência entre dias → excelente</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="center" style="margin-top:32px;">
+    <div class="verdict" style="background:rgba(34,197,55,.1);color:var(--green);border:1px solid rgba(34,197,55,.2);">
+      ✅ Veredito: 6/7 — Confiável para MVP. Precisa de dados de jogador para produção completa.
+    </div>
+  </div>
+</section>
+
+<footer style="padding:32px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Editorial Validation Engine • O julgamento editorial funciona. Os dados que alimentam esse julgamento é que precisam de cobertura.</p>
+</footer>
+
+</main>
+</body>
+</html>

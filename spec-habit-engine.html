@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — Habit Loop Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:920px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:48px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:6px}
+.sec-title{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.5px;margin-bottom:12px}
+.doc-hero{padding:64px 0 32px;text-align:center}
+.doc-hero h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:14px;color:var(--text-2);max-width:500px;margin:8px auto 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:12px}
+.card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.card p,.card li{font-size:12px;color:var(--text-2);line-height:1.6}
+.card ul{padding-left:16px}
+.card ul li{padding:3px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+.gatilho{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:6px}
+.gatilho .num{width:24px;height:24px;border-radius:50%;background:rgba(99,102,241,.1);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.gatilho .content{flex:1}
+.gatilho .content h4{font-size:12px;font-weight:600;margin-bottom:2px}
+.gatilho .content p{font-size:11px;color:var(--text-2);line-height:1.5}
+.gatilho .score{font-size:10px;font-weight:600;white-space:nowrap;padding:2px 8px;border-radius:4px}
+
+.next-mock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;max-width:480px;margin:16px auto}
+.next-mock .label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);margin-bottom:6px}
+.next-mock .title{font-size:15px;font-weight:700;line-height:1.2;margin-bottom:4px}
+.next-mock .desc{font-size:12px;color:var(--text-2);line-height:1.5;margin-bottom:8px}
+.next-mock .meta{font-size:10px;color:var(--text-3);display:flex;gap:12px}
+
+.principle{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 14px;margin:4px 0;font-size:12px;color:var(--text-2);line-height:1.6}
+.principle strong{color:var(--text)}
+
+.verdict{padding:14px 16px;border-radius:8px;margin:8px 0;border:1px solid}
+.verdict h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.verdict p{font-size:11px;color:var(--text-2);line-height:1.5}
+
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Habit Loop <span>Engine</span></h1>
+  <p>Não é push. Não é newsletter. O hábito vem da história. Cada dia é um capítulo que termina com "continua amanhã".</p>
+</section>
+
+<!-- TAREFA 1 — Gatilhos -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Por que voltar amanhã?</h2>
+
+  <div class="gatilho">
+    <span class="num">1</span>
+    <div class="content">
+      <h4>Continuidade narrativa</h4>
+      <p>A história não acabou. Marrocos eliminou Portugal. Amanhã enfrenta a França. O usuário precisa saber o desfecho.</p>
+    </div>
+    <span class="score" style="background:rgba(34,197,55,.1);color:var(--green);">Força: alta</span>
+  </div>
+
+  <div class="gatilho">
+    <span class="num">2</span>
+    <div class="content">
+      <h4>Progressão do torneio</h4>
+      <p>A Copa avança. Fase de grupos → oitavas → quartas → semi → final. Cada dia elimina times. O "tabuleiro" muda. O usuário quer ver o novo cenário.</p>
+    </div>
+    <span class="score" style="background:rgba(34,197,55,.1);color:var(--green);">Força: alta</span>
+  </div>
+
+  <div class="gatilho">
+    <span class="num">3</span>
+    <div class="content">
+      <h4>Medo de perder contexto</h4>
+      <p>"Se eu não abrir hoje, vou ficar por fora amanhã." O Quick Read torna o custo de se atualizar muito baixo (15s). O custo de ficar por fora é alto socialmente. A assimetria favorece o hábito.</p>
+    </div>
+    <span class="score" style="background:rgba(34,197,55,.1);color:var(--green);">Força: alta</span>
+  </div>
+
+  <div class="gatilho">
+    <span class="num">4</span>
+    <div class="content">
+      <h4>Curiosidade sobre desfecho</h4>
+      <p>"Será que Marrocos consegue?" Não é uma notícia. É uma pergunta. O produto deve terminar o dia com uma pergunta, não com uma resposta.</p>
+    </div>
+    <span class="score" style="background:rgba(245,158,11,.1);color:var(--amber);">Força: média</span>
+  </div>
+
+  <div class="gatilho">
+    <span class="num">5</span>
+    <div class="content">
+      <h4>Acompanhar uma zebra</h4>
+      <p>O usuário se apega a narrativas de underdog. "Quero ver até onde Marrocos vai." Funciona — mas depende de existir uma zebra ativa.</p>
+    </div>
+    <span class="score" style="background:rgba(245,158,11,.1);color:var(--amber);">Força: média</span>
+  </div>
+
+  <div class="gatilho">
+    <span class="num">6</span>
+    <div class="content">
+      <h4>Acompanhar uma seleção</h4>
+      <p>"Brasil joga hoje." Funciona apenas nos dias de jogo do time do usuário. Não sustenta hábito diário.</p>
+    </div>
+    <span class="score" style="background:rgba(113,113,122,.1);color:var(--text-3);">Força: baixa</span>
+  </div>
+
+  <div class="principle"><strong>Conclusão:</strong> O melhor gatilho não é notificação. É <strong>história inacabada</strong>. O produto deve terminar cada dia com uma pergunta que só será respondida amanhã. "Marrocos enfrenta a França amanhã. Será que a zebra chega à final?" — isso é mais poderoso que qualquer push.</div>
+</section>
+
+<!-- TAREFA 2 — HabitLoop -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Entidade HabitLoop</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <pre style="font-size:11px;color:var(--text-2);line-height:1.7;font-family:monospace;">
+<span style="color:var(--accent);">interface HabitLoop</span> {
+  <span style="color:var(--text-3);">// O gancho que faz o usuário querer voltar</span>
+  hook: string
+
+  <span style="color:var(--text-3);">// A pergunta que será respondida amanhã (ou em breve)</span>
+  openQuestion: string
+
+  <span style="color:var(--text-3);">// O próximo jogo/evento relevante</span>
+  nextEvent: {
+    matchId: string | null
+    label: string       <span style="color:var(--text-3);">// "Argentina vs Croácia"</span>
+    date: string        <span style="color:var(--text-3);">// 2026-12-13</span>
+    importance: number  <span style="color:var(--text-3);">// 0-100</span>
+  } | null
+
+  <span style="color:var(--text-3);">// A narrativa ativa que o usuário está acompanhando</span>
+  activeNarrative: {
+    type: string        <span style="color:var(--text-3);">// "cinderella", "redemption", "dynasty_fall"</span>
+    team: string
+    daysActive: number
+    nextChapter: string <span style="color:var(--text-3);">// "Marrocos tenta chegar à final"</span>
+    status: "ongoing" | "completed" | "failed"
+  } | null
+
+  <span style="color:var(--text-3);">// Força do hábito (0-1)</span>
+  retentionScore: number
+}
+    </pre>
+  </div>
+
+  <div style="margin-top:12px;">
+    <div class="principle"><strong>Origem dos dados:</strong> EditorialStoryEngine já produz NarrativeArcs. HabitLoop é uma view desses arcs com foco no FUTURO. O arc `cinderella_progression` vira `activeNarrative.type = "cinderella"` com `nextChapter = "Marrocos tenta chegar à final"`. O arc `redemption_journey` vira `activeNarrative.type = "redemption"` com `nextChapter = "Argentina busca completar a redenção"`.</div>
+  </div>
+</section>
+
+<!-- TAREFA 3 — Next Chapter -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Componente Next Chapter</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    O elemento mais importante da homepage para retenção. Mostra que a história NÃO ACABOU. O usuário precisa voltar amanhã para saber o desfecho.
+  </p>
+
+  <div class="next-mock">
+    <div class="label">📖 Próximo capítulo</div>
+    <div class="title">Marrocos tenta continuar sua campanha histórica contra a França</div>
+    <div class="desc">A primeira seleção africana na semifinal enfrenta a atual campeã mundial. Uma barreira europeia contra o sonho de um continente.</div>
+    <div class="meta">
+      <span>🏆 Semifinal</span>
+      <span>📅 Amanhã, 16:00</span>
+      <span>🔥 Sequência: 4 dias</span>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:8px;">
+    <div class="card" style="border-left:3px solid var(--green);">
+      <h4>✅ Quando aparece</h4>
+      <ul style="font-size:11px;">
+        <li>Sempre que há um NarrativeArc ativo (cinderella, redemption, giant_slayer)</li>
+        <li>Sempre que há um jogo importante amanhã (mata-mata, final)</li>
+        <li>Quando o torneio está em andamento (nunca no pós-Copa)</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <h4>❌ Quando não aparece</h4>
+      <ul style="font-size:11px;">
+        <li>Dia sem jogos amanhã (folga na Copa)</li>
+        <li>Nenhum arco narrativo ativo</li>
+        <li>Pós-Copa (torneio encerrado)</li>
+        <li>Fase de grupos sem narrativa relevante</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 4 — Followed Narrative -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Followed Narrative</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    O sistema não precisa de login para "seguir" uma narrativa. As narrativas globais da Copa são poucas e evidentes. O sistema mostra a mais importante.
+  </p>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <pre style="font-size:11px;color:var(--text-2);line-height:1.6;font-family:monospace;">
+<span style="color:var(--accent);">interface FollowedNarrative</span> {
+  type: string
+  team: string
+  startedAt: string     <span style="color:var(--text-3);">// data do primeiro jogo relevante</span>
+  status: "ongoing" | "completed" | "failed"
+
+  <span style="color:var(--text-3);">// História até agora — gerada dos teamJourneys</span>
+  journey: string[]
+
+  <span style="color:var(--text-3);">// O que está em jogo agora</span>
+  currentStake: string
+
+  <span style="color:var(--text-3);">// O que acontece se vencer / perder</span>
+  nextIfWin: string
+  nextIfLoss: string
+
+  editorialWeight: number
+}
+
+<span style="color:var(--text-3);">// Não há "escolha do usuário". O sistema mostra a narrativa ativa de maior weight.</span>
+<span style="color:var(--text-3);">// O usuário não segue — ele é apresentado. O FollowedNarrative é global.</span>
+    </pre>
+  </div>
+
+  <div style="margin-top:12px;padding:14px;background:rgba(34,197,55,.05);border:1px solid rgba(34,197,55,.15);border-radius:8px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong style="color:var(--green);">Princípio: narrativa global, não personalizada.</strong> A Copa tem 2-3 narrativas globais por edição (Marrocos 2022, Messi 2022, França bicampeã). O sistema mostra a maior delas. Não precisa de login, perfil, ou preferências para fazer o usuário se importar.
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 5 — Métrica -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Métrica: Razões para Voltar</h2>
+
+  <div class="card">
+    <h4>📊 Retention Potential Score</h4>
+    <p style="font-size:12px;color:var(--text-2);line-height:1.7;">
+      <strong>Fórmula:</strong> RPS = openQuestions × narrativeDepth × nextEventImportance<br><br>
+      <strong>openQuestions:</strong> Quantas perguntas o dia deixa em aberto (0-3). "Marrocos enfrenta a França amanhã" = 1 pergunta.<br>
+      <strong>narrativeDepth:</strong> Dias consecutivos da mesma narrativa (1-30). Quanto mais dias, mais investimento emocional.<br>
+      <strong>nextEventImportance:</strong> Importância do próximo jogo (0-1). Final = 1.0. Semifinal = 0.8. Fase de grupos = 0.3.<br><br>
+      <strong>Exemplo:</strong> Marrocos 5 dias de narrativa + semifinal amanhã = 1 × 5 × 0.8 = 4.0 (probabilidade alta de retorno)<br>
+      <strong>Exemplo:</strong> Fase de grupos sem zebra + jogo qualquer amanhã = 0 × 2 × 0.3 = 0 (probabilidade baixa)
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 6 — Exercício -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Exercício: Marrocos elimina Portugal</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="card">
+        <h4>📋 StoryBrief do dia</h4>
+        <ul style="font-size:11px;">
+          <li><strong>Headline:</strong> "Marrocos faz história como primeira seleção africana na semifinal"</li>
+          <li><strong>Bullets:</strong> 🌍 Marrocos 1×0 Portugal • 🇫🇷 França 2×1 Inglaterra • ⚽ Amanhã: Argentina × Croácia</li>
+          <li><strong>Tag:</strong> 🌍 Marco histórico</li>
+        </ul>
+      </div>
+      <div class="card" style="margin-top:8px;">
+        <h4>📊 ContinuityBar</h4>
+        <ul style="font-size:11px;">
+          <li>📅 Dia 16 da Copa • 🏆 Quartas de final • ⚽ 2 jogos hoje</li>
+          <li>🔥 Ontem: Marrocos eliminou Portugal</li>
+          <li>👉 Hoje: Argentina vs Croácia</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-color:var(--accent);">
+        <h4>📖 Next Chapter</h4>
+        <p style="font-size:11px;color:var(--text-2);line-height:1.5;">
+          <strong>Marrocos tenta continuar sua campanha histórica contra a França.</strong><br><br>
+          A primeira seleção africana na semifinal enfrenta a atual campeã mundial. A França busca o bicampeonato. Marrocos busca escrever o capítulo mais improvável da história das Copas.<br><br>
+          <span style="color:var(--text-3);">🏆 Semifinal • 📅 Amanhã, 16:00</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px;border-left:3px solid var(--accent);">
+    <h4>🎯 Qual elemento mais aumenta a chance de retorno?</h4>
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong style="color:var(--text);">Next Chapter.</strong> O StoryBrief informa o que aconteceu. A ContinuityBar mostra o progresso. Mas o Next Chapter CRIA a necessidade de voltar: "Marrocos enfrenta a França amanhã. Será que a zebra chega à final?" — Essa pergunta não será respondida hoje. O usuário precisa voltar amanhã.<br><br>
+      O StoryBrief é sobre o PASSADO. O Next Chapter é sobre o FUTURO. O hábito mora no futuro.
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 7 — Ideias ruins -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">O que não fazer</h2>
+
+  <div class="verdict" style="border-color:rgba(34,197,55,.2);background:rgba(34,197,55,.03);">
+    <h4 style="color:var(--green);">✅ ÚTIL — usar com moderação</h4>
+    <p><strong>Push notifications:</strong> Apenas para eventos de weight ≥ 85. Máximo 1/dia. "Marrocos na semi" sim. "Brasil venceu grupos" não.</p>
+  </div>
+
+  <div class="verdict" style="border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.03);">
+    <h4 style="color:var(--amber);">🟡 NEUTRO — não ajuda nem atrapalha</h4>
+    <p><strong>Newsletter:</strong> Bom para retenção a longo prazo, mas exige email. Não é urgente.<br>
+    <strong>Gamificação leve:</strong> "Você está acompanhando há X dias." Pode ajudar, mas não substitui Next Chapter.</p>
+  </div>
+
+  <div class="verdict" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+    <h4 style="color:var(--red);">❌ PREJUDICIAL — não fazer no MVP</h4>
+    <p><strong>Streaks:</strong> "Você perdeu um dia!" — Culpa não cria hábito, cria ansiedade.<br>
+    <strong>Badges / Conquistas:</strong> Parece exercício de startup, não produto editorial.<br>
+    <strong>Ranking de usuários:</strong> Zero relação com o valor do produto.<br>
+    <strong>Comentários:</strong> Exige moderação. Desvia do foco editorial.<br>
+    <strong>Personalização / Login:</strong> Barreira de entrada. O produto deve funcionar SEM cadastro.</p>
+  </div>
+</section>
+
+<!-- TAREFA 8 — Roadmap -->
+<section style="border:none;">
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">Roadmap de Retenção</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;">
+    <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;">🎯 O menor conjunto que aumenta retenção</h4>
+
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="display:flex;gap:12px;align-items:flex-start;background:rgba(34,197,55,.05);border-radius:8px;padding:12px 14px;border-left:3px solid var(--green);">
+        <span style="font-size:16px;">1</span>
+        <div>
+          <strong style="font-size:12px;">Next Chapter na homepage</strong>
+          <p style="font-size:11px;color:var(--text-2);">Componente que mostra o próximo capítulo da história ativa. Abaixo do Hero Story. ~20 linhas. Geração automática a partir do NarrativeArc ativo de maior weight.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:flex-start;background:rgba(245,158,11,.05);border-radius:8px;padding:12px 14px;border-left:3px solid var(--amber);">
+        <span style="font-size:16px;">2</span>
+        <div>
+          <strong style="font-size:12px;">HabitLoop entity + buildHabitLoop()</strong>
+          <p style="font-size:11px;color:var(--text-2);">Entidade que extrai o "gancho de retorno" do EditorialStoryEngine. ~30 linhas. Sem novos dados.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;align-items:flex-start;background:rgba(99,102,241,.05);border-radius:8px;padding:12px 14px;border-left:3px solid var(--accent);">
+        <span style="font-size:16px;">3</span>
+        <div>
+          <strong style="font-size:12px;">Push notifications (restrito)</strong>
+          <p style="font-size:11px;color:var(--text-2);">Service worker + regras de disparo. Apenas eventos weight ≥ 85. ~50 linhas. Exige HTTPS (Vercel).</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;padding:14px;background:rgba(34,197,55,.05);border:1px solid rgba(34,197,55,.15);border-radius:8px;">
+      <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+        <strong style="color:var(--green);">Resumo:</strong> O Next Chapter é a funcionalidade de retenção mais importante. Custa ~20 linhas. Não exige novos dados. Não exige permissão do usuário. E responde diretamente à pergunta "por que eu voltaria amanhã?" — porque a história não acabou.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:24px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Habit Loop Engine • A história não acabou. Continue amanhã.</p>
+</footer>
+
+</main>
+</body>
+</html>

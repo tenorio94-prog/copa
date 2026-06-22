@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — Context Dump</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:1000px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:40px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:4px}
+.sec-title{font-size:clamp(20px,2.5vw,28px);font-weight:700;letter-spacing:-.5px;margin-bottom:12px}
+.doc-hero{padding:60px 0 30px;text-align:center}
+.doc-hero h1{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:13px;color:var(--text-2);max-width:500px;margin:6px auto 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:8px}
+.card h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.card p,.card li{font-size:11px;color:var(--text-2);line-height:1.5}
+.card ul{padding-left:16px}
+.card ul li{padding:2px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+.flow .node{background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;text-align:center;font-size:9px}
+.flow .node.core{border-color:var(--accent);background:rgba(99,102,241,.08)}
+.flow .arrow{color:var(--text-3);font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0}
+table th{padding:4px 8px;text-align:left;border-bottom:2px solid var(--border);color:var(--text-3);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+table td{padding:4px 8px;border-bottom:1px solid var(--border);color:var(--text-2)}
+table td:first-child{color:var(--text);font-weight:500}
+.tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:3px;margin:0 2px}
+.tag.green{background:rgba(34,197,55,.1);color:var(--green)}
+.tag.amber{background:rgba(245,158,11,.1);color:var(--amber)}
+.tag.blue{background:rgba(99,102,241,.1);color:var(--accent)}
+.tag.red{background:rgba(239,68,68,.1);color:var(--red)}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Copa Pulse — <span>Context Dump</span></h1>
+  <p>Estado completo do sistema em Junho 2026. 25+ módulos. 4 camadas. 1 homepage.</p>
+</section>
+
+<!-- 1. ARQUITETURA ATUAL -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Arquitetura Atual</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>🌐 API Layer — <code>api-football.ts</code></h4>
+        <p>Cliente HTTP para API-Football v3. Fetch de fixtures (por data, ao vivo), standings, ligas. Fallback silencioso se <code>API_FOOTBALL_KEY</code> não estiver configurada.</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: env vars • Outputs: ApiFixture[] • Deps: fetch</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>⚙️ Transformers — <code>transformers.ts</code></h4>
+        <p>Converte ApiFixture → Match. Mapeia status, estágio, penalidades. Calcula importanceScore (pesos: fase, popularidade, gols, virada).</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: ApiFixture • Outputs: Match • Deps: api-football.ts</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>📊 Context Builder — <code>context-builder.ts</code></h4>
+        <p>Enriquece Match → EnrichedMatch. Adiciona narrativeFlags (upset, penalty_drama, blowout), storyCandidates, competitionImpact, simpleImpact, historicalContext, teamForm.</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: Match[] • Outputs: EnrichedMatch[] • Deps: types</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>📜 Historical Facts — <code>historical-context-builder.ts</code></h4>
+        <p>Detecta fatos históricos a partir de EnrichedMatch: first_african_semifinalist, giant_killing, years_since_last_title, defending_champion_eliminated, streak_broken. Cada fato tem editorialWeight.</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: EnrichedMatch • Outputs: HistoricalFact[] • Deps: knowledge.ts</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>🏛️ Knowledge Base — <code>knowledge.ts</code></h4>
+        <p>Dataset hardcoded com títulos por seleção, FIFA ranking, melhor resultado histórico, última conquista. Usado por historical-context-builder para detecção de fatos.</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: team name • Outputs: {titles, rank, bestResult, lastTitle} • Deps: nenhuma</p>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>🧠 Tournament Memory — <code>tournament-memory.ts</code></h4>
+        <p>Constrói a memória do torneio: teamJourneys (texto descritivo por time), narrativas detectadas (redemption, champion recovery), teamForm, historicalContexts, narrativeArcs.</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: Match[] • Outputs: TournamentMemory • Deps: narrative-accumulation</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>📈 Narrative Accumulation — <code>narrative-accumulation.ts</code></h4>
+        <p>Detecta padrões narrativos em múltiplos jogos: multi_upset_run (2+ vitórias sobre favoritos), cinderella_progression (vitórias consecutivas em mata-mata), redemption_journey (derrota na estreia → campeão), giant_slayer (2+ favoritos eliminados).</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: Match[] • Outputs: NarrativeArc[] • Deps: types</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>🎯 Editorial Story Engine — <code>editorial-story-engine.ts</code></h4>
+        <p>Módulo central de seleção. Para cada partida: classifica storyType, calcula confidence (0-1), gera evidence[], headline, narrativeHook, whyItMatters. Ordena por confidence. Define priority 1 (hero), 2 (secondary), 3 (emerging).</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: EnrichedMatch[], TournamentMemory • Outputs: EditorialStory[] • Deps: tudo</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>📋 StoryBrief — <code>story-brief.ts</code></h4>
+        <p>Gera o resumo de 15 segundos: headline + 3 bullets + continuity (dia, fase, ontem, hoje). Entidade central de consumo do produto.</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: EditorialStory[], TournamentMemory • Outputs: StoryBrief</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>📖 NextChapter — <code>next-chapter.ts</code></h4>
+        <p>Gera o gancho de retenção: headline + hook + openQuestion + próximo evento. Cada tipo de arco tem uma pergunta aberta específica. Só gera se hasOpenQuestion === true.</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: StoryBrief, NarrativeArc[] • Outputs: NextChapter | null</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>📊 Narrative Tracker — <code>narrative-tracker.ts</code></h4>
+        <p>Transforma NarrativeArc[] em ActiveNarrative[] visível ao usuário. Calcula capítulo atual, status (active/completed/archived), próximo passo. Máximo 3 narrativas.</p>
+        <p style="margin-top:4px;font-size:10px;color:var(--text-3);">Inputs: NarrativeArc[], TournamentMemory • Outputs: ActiveNarrative[]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. PIPELINE -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Pipeline Completo</h2>
+
+  <div class="flow">
+    <span class="node">API-Football</span><span class="arrow">→</span>
+    <span class="node">toMatch()<br><span style="font-size:8px;color:var(--text-3);">ApiFixture → Match</span></span><span class="arrow">→</span>
+    <span class="node core">enrichMatches()<br><span style="font-size:8px;color:var(--text-3);">Match → EnrichedMatch</span></span><span class="arrow">→</span>
+    <span class="node core">buildMemory()<br><span style="font-size:8px;color:var(--text-3);">Match → TournamentMemory</span></span><span class="arrow">→</span>
+    <span class="node">buildHistoricalFacts()<br><span style="font-size:8px;color:var(--text-3);">EnrichedMatch → HistoricalFact[]</span></span><span class="arrow">→</span>
+    <span class="node">detectArcs()<br><span style="font-size:8px;color:var(--text-3);">Match → NarrativeArc[]</span></span><span class="arrow">→</span>
+    <span class="node core">selectStories()<br><span style="font-size:8px;color:var(--text-3);">→ EditorialStory[]</span></span><span class="arrow">→</span>
+    <span class="node">buildBrief()<br><span style="font-size:8px;color:var(--text-3);">→ StoryBrief</span></span><span class="arrow">→</span>
+    <span class="node">buildNextChapter()<br><span style="font-size:8px;color:var(--text-3);">→ NextChapter</span></span><span class="arrow">→</span>
+    <span class="node">buildNarratives()<br><span style="font-size:8px;color:var(--text-3);">→ ActiveNarrative[]</span></span><span class="arrow">→</span>
+    <span class="node core">LLM (opcional)<br><span style="font-size:8px;color:var(--text-3);">enriquece headlines</span></span><span class="arrow">→</span>
+    <span class="node">Homepage<br><span style="font-size:8px;color:var(--text-3);">componentes renderizam</span></span>
+  </div>
+
+  <div class="grid-2" style="margin-top:12px;">
+    <div class="card">
+      <h4>📥 Entrada (API-Football)</h4>
+      <p>Fetch de fixtures por data e ao vivo + standings. Cache de 60s. Se falha ou sem chave, usa fallback hardcoded em mock-data.ts.</p>
+    </div>
+    <div class="card">
+      <h4>📤 Saída (Homepage)</h4>
+      <p>6 componentes renderizados: ContinuityBar, QuickRead, NextChapter (condicional), NarrativeTracker, Hero, Matches, Standings. Layout 1-col mobile / 2-col desktop.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. MODELOS DE DADOS -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Modelos de Dados</h2>
+
+  <table>
+    <tr><th>Interface</th><th>Campos principais</th><th>Onde é usada</th></tr>
+    <tr><td>Match</td><td>id, homeTeam, awayTeam, homeScore, awayScore, penaltyScore?, status, stage, importanceScore</td><td>transformers → context-builder → tournament-memory</td></tr>
+    <tr><td>EnrichedMatch</td><td>winner, loser, score, stage, narrativeFlags[], competitionImpact, storyCandidates[], historicalContext, teamForm</td><td>context-builder → editorial-story-engine</td></tr>
+    <tr><td>HistoricalFact</td><td>id, editorialWeight (0-100), description, appliesTo</td><td>historical-context-builder → TournamentMemory → prompt LLM</td></tr>
+    <tr><td>NarrativeArc</td><td>type, team, editorialWeight, description, summary</td><td>narrative-accumulation → TournamentMemory → next-chapter + narrative-tracker</td></tr>
+    <tr><td>EditorialStory</td><td>headline, storyType, confidence (0-1), evidence[], narrativeHook, whyItMatters, priority (1-3)</td><td>editorial-story-engine → story-brief → homepage</td></tr>
+    <tr><td>StoryBrief</td><td>headline, bullets[3], continuity: {day, phase, matchCount, yesterday, today}, readingTime (15)</td><td>story-brief → QuickRead component</td></tr>
+    <tr><td>NextChapter</td><td>narrativeType, headline, hook, openQuestion, nextEvent, hasOpenQuestion</td><td>next-chapter → NextChapterCard component</td></tr>
+    <tr><td>ActiveNarrative</td><td>title, narrativeType, team, currentChapter, totalChaptersKnown, status, nextChapter, journey[]</td><td>narrative-tracker → NarrativeTracker component</td></tr>
+  </table>
+</section>
+
+<!-- 4. SISTEMA EDITORIAL -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Sistema Editorial</h2>
+
+  <div class="card">
+    <h4>Como uma história é escolhida</h4>
+    <p><code>selectStories()</code> em editorial-story-engine.ts percorre todos os EnrichedMatch finalizados e para cada um:</p>
+    <ol style="padding-left:16px;font-size:11px;color:var(--text-2);line-height:1.6;margin-top:4px;">
+      <li><strong>Classifica storyType</strong> — por ordem de prioridade: editorial event → narrative arc → historical fact → match flag</li>
+      <li><strong>Calcula confidence</strong> (0-1): base 0.1 + eventos editoriais (+0.8-0.9) + arcos narrativos (+0.6-0.9) + fatos históricos (+peso/500) + estágio (+0.2-0.5) + popular eliminado (+0.3) + pênaltis (+0.15) + zebra (+0.15). Cap em 1.0.</li>
+      <li><strong>Gera evidence[]</strong> — lista legível de razões. "Brasil — uma das maiores seleções — foi eliminado." "É a final da Copa." "Decisão dramática nos pênaltis."</li>
+      <li><strong>Ordena</strong> por confidence decrescente</li>
+      <li><strong>Atribui priority:</strong> 1 (hero), 2 (secondary), 3 (emerging)</li>
+    </ol>
+  </div>
+
+  <div class="grid-2" style="margin-top:8px;">
+    <div class="card" style="border-left:3px solid var(--green);">
+      <h4>Hero Story (priority 1)</h4>
+      <p>Maior confidence. Se há final, é sempre hero. Se há editorialEvent com weight ≥ 90, garante top 3. Se há arco narrativo, ganha bônus.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <h4>Secondary (priority 2)</h4>
+      <p>Segundo maior confidence. Pode ser outro jogo importante do dia. Se só há 1 jogo, pode não existir.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>Emerging (priority 3)</h4>
+      <p>Terceiro maior confidence. Geralmente um jogo ao vivo ou o próximo jogo agendado de maior importância.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. HISTORICAL FACTS -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Historical Facts Implementados</h2>
+
+  <table>
+    <tr><th>Fato</th><th>Regra de detecção</th><th>Peso</th><th>Exemplo</th></tr>
+    <tr><td><code>first_african_semifinalist</code></td><td>Time africano vence partida de mata-mata que leva à semifinal</td><td>95</td><td>"Marrocos é a primeira seleção africana a chegar em uma semifinal de Copa"</td></tr>
+    <tr><td><code>giant_killing</code></td><td>Diferença de ranking ≥ 10 entre vencedor e perdedor</td><td>85</td><td>"Arábia Saudita (51ª) venceu Argentina (3ª) — diferença de 48 posições"</td></tr>
+    <tr><td><code>years_since_last_title</code></td><td>Time na final Não vence há 8+ anos. Usa knowledge.ts para saber último título</td><td>95 (≥20 anos) / 70 (8-20 anos)</td><td>"Argentina não vencia a Copa desde 1986 — há 40 anos"</td></tr>
+    <tr><td><code>defending_champion_eliminated</code></td><td>Perdedor tem título recente (≤8 anos)</td><td>85</td><td>"França, atual campeã mundial (2018), foi eliminada"</td></tr>
+    <tr><td><code>streak_broken</code></td><td>Perdedor tem momentum "dominant" ou lost_opener + upset flag</td><td>80</td><td>"Argentina teve sua sequência invicta quebrada neste jogo"</td></tr>
+  </table>
+
+  <p style="font-size:10px;color:var(--text-3);margin-top:4px;">Fonte: knowledge.ts (títulos, ranking FIFA, melhor resultado, último título por seleção). Nenhuma dependência externa.</p>
+</section>
+
+<!-- 6. NARRATIVE ARCS -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Narrative Arcs</h2>
+
+  <table>
+    <tr><th>Arco</th><th>Condição de ativação</th><th>Peso</th><th>Exemplo real</th></tr>
+    <tr><td><code>multi_upset_run</code></td><td>Mesmo time vence 2+ favoritos na fase de grupos (vitórias com scored > conceded contra populares)</td><td>85</td><td>Japão 2022: venceu Alemanha e Espanha no Grupo E</td></tr>
+    <tr><td><code>cinderella_progression</code></td><td>Time vence 2+ populares em mata-mata consecutivos (inclui pênaltis)</td><td>90</td><td>Marrocos 2022: eliminou Espanha e Portugal</td></tr>
+    <tr><td><code>redemption_journey</code></td><td>Time perde na estreia E chega à final E vence (ou 4+ jogos com recuperação)</td><td>95</td><td>Argentina 2022: perdeu para Arábia, venceu todos os seguintes, campeã</td></tr>
+    <tr><td><code>giant_slayer</code></td><td>Time elimina 2+ populares em mata-mata (mesma condição que cinderella, mas foco no "derrubou")</td><td>85</td><td>Marrocos 2022: "derrubou Espanha e Portugal"</td></tr>
+  </table>
+
+  <p style="font-size:11px;color:var(--text-2);margin-top:8px;">Os arcos alimentam o editorial-story-engine (aumentam confidence) e são visíveis no NarrativeTracker (mostram capítulo atual e próximo passo). Também geram o NextChapter (pergunta aberta sobre o futuro).</p>
+</section>
+
+<!-- 7. TOURNAMENT MEMORY -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Tournament Memory</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>🔧 Como é construída</h4>
+      <p><code>buildMemory(matches)</code> em tournament-memory.ts: recebe todos os Match do torneio, agrupa por time, ordena por data. Para cada time, gera descrições textuais de cada partida ("Eliminou Portugal por 1-0").</p>
+    </div>
+    <div class="card">
+      <h4>🔄 Como é atualizada</h4>
+      <p>A cada fetch da API (60s), os matches são refetchados e a memória é reconstruída do zero. Não há persistência entre builds. É puramente funcional.</p>
+    </div>
+    <div class="card">
+      <h4>📦 O que armazena</h4>
+      <ul>
+        <li><strong>teamJourneys:</strong> Record<string, string[]> — texto descritivo por time. Ex: "Argentina: Perdeu para Arábia → Eliminou Holanda nos pênaltis → Eliminou Croácia → Eliminou França nos pênaltis"</li>
+        <li><strong>narratives:</strong> string[] — frases detectadas. Ex: "Argentina perdeu na estreia mas se recuperou para ser campeão"</li>
+        <li><strong>teamForm:</strong> Record<string, TeamFormEntry> — lost_opener, current_streak, momentum</li>
+        <li><strong>historicalContexts:</strong> Record<string, HistoricalContext> — first_african_semifinalist, etc</li>
+        <li><strong>historicalFacts:</strong> HistoricalFact[] — fatos detectados (shared com prompt)</li>
+        <li><strong>narrativeArcs:</strong> NarrativeArc[] — arcos detectados</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🔗 Como alimenta o sistema</h4>
+      <ul>
+        <li><strong>teamJourneys →</strong> prompt da LLM (contexto narrativo)</li>
+        <li><strong>narratives →</strong> prompt da LLM (contexto narrativo)</li>
+        <li><strong>narrativeArcs →</strong> editorial-story-engine (confidence boost) + next-chapter (geração) + narrative-tracker (exibição)</li>
+        <li><strong>historicalFacts →</strong> editorial-story-engine (confidence boost) + prompt LLM</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8. HOMEPAGE ATUAL -->
+<section>
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">Homepage Atual</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>1. 🏁 ContinuityBar</h4>
+        <p>Topo da página. Mostra dia da Copa, fase atual, número de jogos hoje, ontem (time vencedor) e hoje (próximo jogo). Gera sensação de progressão.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>2. 📋 QuickRead</h4>
+        <p>Headline editorial + 3 bullets. 15 segundos de leitura. A unidade principal de consumo. "Marrocos faz história como primeira seleção africana na semifinal" + 3 bullets com resumo de cada jogo.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>3. 📖 NextChapter</h4>
+        <p>Condicional (só aparece se hasOpenQuestion). Mostra o próximo capítulo da história ativa. "Marrocos tenta continuar campanha. Será que a zebra chega à final?" — mecanismo de retenção.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--blue);">
+        <h4>4. 📊 NarrativeTracker</h4>
+        <p>Lista as histórias ativas da Copa (máx 3). Cada uma mostra capítulo atual, status, próximo passo. "Marrocos: Campanha histórica — Cap 4/6 — Próximo: França".</p>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-left:3px solid var(--rose);">
+        <h4>5. 🔥 Hero Story</h4>
+        <p>Card editorial com headline, tag (🔥 Redenção, 🌍 Marco), why it matters, confidence. É a história mais importante do dia selecionada pelo editorial-story-engine.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--text-3);">
+        <h4>6. ⚽ Matches</h4>
+        <p>Jogos ao vivo (com indicador pulsante) + próximos. Layout horizontal, 2 cards por linha. Mobile abaixo do Hero. Desktop na sidebar.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--text-3);">
+        <h4>7. 📊 Standings</h4>
+        <p>Tabela compacta do grupo mais relevante. Máximo 4 linhas. Seletor de grupos em pills. Abaixo dos jogos na sidebar desktop. Abaixo de tudo no mobile.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--text-3);">
+        <h4>📱 Layout</h4>
+        <p>Mobile: 1 coluna, ordem vertical. Desktop: 2 colunas (1.5fr / 1fr), conteúdos na esquerda, sidebar (Matches + NarrativeTracker + Standings + Footer) na direita.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. DÉBITOS TÉCNICOS -->
+<section>
+  <div class="sec-label">● 9</div>
+  <h2 class="sec-title">Débitos Técnicos</h2>
+
+  <div class="card" style="border-left:3px solid var(--red);">
+    <h4>🐛 Problemas conhecidos</h4>
+    <ul>
+      <li><code>mapStage()</code> em transformers.ts e validate.mjs — ordem das checagens pode mapear "Quarter-finals" como "Final" (contém "final"). Corrigido mas duplicado.</li>
+      <li>Node.js 18.14.0 é antigo — Next.js 16 requer ≥20.9. Preso no Next.js 13. <code>npx next build</code> do PATH global tenta rodar Next 16.</li>
+      <li>Cache do .next causa EPERM no Windows com frequência — precisa de <code>Remove-Item .next -Recurse -Force</code> antes de rebuild.</li>
+      <li>Scripts standalone (.mjs) não leem .env.local — precisam de variáveis passadas no terminal.</li>
+    </ul>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--amber);">
+    <h4>🗑️ Campos não utilizados</h4>
+    <ul>
+      <li><code>simpleImpact.*</code> (classification, consequence, tournamentEffect) — nunca enviado à LLM, apenas usado internamente por templates</li>
+      <li><code>competitionImpact.nextOpponent</code> — sempre null, nunca implementado</li>
+      <li><code>storyCandidates[].score</code> — enviado ao prompt mas LLM ignora números. Só o <code>type</code> importa</li>
+      <li><code>Bulletin</code> — mantido por compatibilidade, substituído por EditorialStory + StoryBrief</li>
+      <li><code>heroImportanceScore</code> — duplicado pelo confidence do EditorialStory</li>
+    </ul>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--accent);">
+    <h4>🔧 Melhorias identificadas</h4>
+    <ul>
+      <li>Player Facts (last_dance, legacy_complete, injury, hero_performance) — especificados mas não implementados</li>
+      <li>hat_trick detection — pode ser adicionado ao player-facts sem refatoração</li>
+      <li>Contexto entre jogos do mesmo time — detectado (narrativeArcs), mas não visível no NarrativeTracker como "capítulo anterior"</li>
+      <li>Áudio — especificado (spec-script-generator.html) mas não integrado à homepage</li>
+      <li>StoryBrief.shareText — implementado mas sem integração com share button funcional</li>
+      <li>OG images — especificadas em spec-story-package.html mas não geradas (@vercel/og pendente)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 10. PRÓXIMA FRONTEIRA -->
+<section style="border:none;">
+  <div class="sec-label">● 10</div>
+  <h2 class="sec-title">Próxima Fronteira: Contexto Histórico</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-left:3px solid var(--red);">
+        <h4>❌ Bases históricas ausentes</h4>
+        <ul>
+          <li><strong>Histórico de confrontos entre seleções:</strong> Quem eliminou quem em Copas anteriores. Sem isso, não detectamos revenge_match, repeat_final, rematch.</li>
+          <li><strong>Recordes individuais históricos:</strong> Maiores artilheiros, mais jogos, mais assistências. Sem dados de jogadores.</li>
+          <li><strong>Linha do tempo de todas as Copas:</strong> Campeões, vices, artilheiros, países-sede, fato marcante. O knowledge.ts só tem títulos.</li>
+          <li><strong>Ranking histórico (ELO ou similar):</strong> Saber se uma zebra de 2022 é maior ou menor que uma zebra de 1950.</li>
+          <li><strong>Dados demográficos de jogadores:</strong> Idade, altura, posição, clube. Essencial para detectar jogador mais jovem, mais velho, revelação.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>📂 Knowledge files que deveriam existir</h4>
+        <ul>
+          <li><code>world-cup-history.json</code> — todas as Copas com campeão, vice, artilheiro, país-sede, ano. ~100 linhas.</li>
+          <li><code>team-rivalries.json</code> — pares de seleções com histórico de confronto em Copas. ~20 linhas.</li>
+          <li><code>player-legends.json</code> — Messi, CR7, Neymar, Mbappé, Modric, etc. ~20 linhas (parcialmente especificado em player-roster).</li>
+          <li><code>milestone-database.json</code> — marcos específicos como "primeira final entre sul-americanos", "primeira final repetida", etc. ~30 linhas.</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>📜 Fatos históricos não detectáveis hoje</h4>
+        <ul>
+          <li><code>repeat_final</code> — mesma final de Copa anterior. Precisa de world-cup-history.json.</li>
+          <li><code>revenge_match</code> — time A eliminou time B em Copa anterior. Precisa de histórico de confrontos.</li>
+          <li><code>first_title_ever</code> — time conquista a primeira Copa. Precisa de contar títulos (knowledge.ts já tem, mas detector não existe).</li>
+          <li><code>back_to_back_final</code> — mesma seleção em duas finais consecutivas. Precisa de world-cup-history.json.</li>
+          <li><code>host_nation_success</code> / <code>host_nation_eliminated</code> — precisa de flag "host" no knowledge.ts.</li>
+          <li><code>threepeat_attempt</code> — time busca o tri consecutivo. Precisa de world-cup-history.json com últimos 2 campeões.</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>📖 Narrativas históricas não geráveis hoje</h4>
+        <ul>
+          <li><strong>"Maior zebra da história":</strong> Não podemos comparar zebras entre edições porque não temos ranking histórico.</li>
+          <li><strong>"Primeira vez que X acontece desde 1930":</strong> Sem a linha do tempo completa, não sabemos o que é inédito.</li>
+          <li><strong>"Jogador X se iguala a Pelé/Y":</strong> Sem dados individuais históricos, não podemos fazer comparações.</li>
+          <li><strong>"Esta é a Copa com mais gols desde 1958":</strong> Sem dados agregados por edição, não podemos gerar contexto estatístico.</li>
+          <li><strong>"A última vez que isso aconteceu foi em...":</strong> Qualquer comparação temporal exige world-cup-history.json.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;">
+    <h4 style="font-size:12px;font-weight:600;margin-bottom:4px;">🎯 Prioridade: world-cup-history.json</h4>
+    <p style="font-size:11px;color:var(--text-2);line-height:1.5;">
+      Um arquivo de ~100 linhas com todas as 22 edições da Copa (1930-2022) — ano, país-sede, campeão, vice, artilheiro, número de times, fato marcante. Com isso, o sistema pode detectar repeat_final, back_to_back_final, threepeat_attempt, revenge_match, e responder "primeira vez desde X". É o dataset de maior ROI para a próxima sprint de contexto histórico.
+    </p>
+  </div>
+</section>
+
+<footer style="padding:24px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Context Dump • 25+ módulos • 4 camadas • ~3.000 linhas de código • Junho 2026</p>
+</footer>
+
+</main>
+</body>
+</html>

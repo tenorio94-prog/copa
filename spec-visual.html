@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copa Pulse — Visual Spec</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --bg: #0a0a0b; --surface: #121214; --surface-2: #1a1a1e; --border: #222226; --text: #f4f4f5; --text-2: #a1a1aa; --text-3: #71717a; --accent: #6366f1; --accent-2: #818cf8; --green: #22c55e; --amber: #f59e0b; --red: #ef4444; --rose: #f43f5e; --radius: 12px; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+::selection { background: var(--accent); color: #fff; }
+.bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(99,102,241,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,.03) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; z-index: 0; }
+nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(10,10,11,.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 24px; height: 52px; display: flex; align-items: center; gap: 16px; }
+nav .logo { background: var(--accent); color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: .3px; }
+nav span { font-size: 13px; font-weight: 500; }
+nav .sub { font-size: 11px; color: var(--text-3); margin-left: auto; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+section:last-child { border-bottom: none; }
+
+/* Hero */
+.doc-hero { padding: 100px 0 48px; text-align: center; }
+.doc-hero h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -1px; }
+.doc-hero h1 span { background: linear-gradient(135deg, var(--accent), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.doc-hero .meta { font-size: 12px; color: var(--text-3); margin-top: 8px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+
+/* Section headings */
+.sec-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; }
+.sec-title { font-size: 24px; font-weight: 700; letter-spacing: -.5px; margin-bottom: 24px; }
+.sec-desc { font-size: 13px; color: var(--text-2); max-width: 600px; margin-bottom: 24px; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+.card h4 { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.card p, .card li { font-size: 12px; color: var(--text-2); line-height: 1.6; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+/* Spec tables */
+.spec-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 16px 0; }
+.spec-table th { padding: 8px 12px; text-align: left; border-bottom: 2px solid var(--border); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); }
+.spec-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-2); }
+.spec-table td:first-child { font-weight: 500; color: var(--text); }
+.spec-table tr:hover td { background: rgba(255,255,255,.015); }
+
+/* Code inline */
+code { background: var(--surface-2); padding: 1px 6px; border-radius: 4px; font-size: 11px; font-family: 'SF Mono', 'Fira Code', monospace; color: var(--accent-2); }
+pre { background: var(--surface-2); padding: 14px; border-radius: var(--radius); font-size: 12px; line-height: 1.6; overflow-x: auto; font-family: 'SF Mono', 'Fira Code', monospace; margin: 12px 0; border: 1px solid var(--border); }
+
+/* Tags */
+.tag { display: inline-flex; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; padding: 2px 7px; border-radius: 4px; margin: 2px; }
+.tag.green { background: rgba(34,197,55,.1); color: var(--green); }
+.tag.amber { background: rgba(245,158,11,.1); color: var(--amber); }
+.tag.blue { background: rgba(99,102,241,.1); color: var(--accent-2); }
+.tag.red { background: rgba(239,68,68,.1); color: var(--red); }
+
+/* Wireframe display */
+.wf-mock { background: #0d0d0f; border: 1px solid var(--border); border-radius: 16px; max-width: 400px; margin: 0 auto; overflow: hidden; font-size: 12px; }
+.wf-status { padding: 10px 14px; display: flex; justify-content: space-between; font-size: 11px; color: var(--text-3); border-bottom: 1px solid var(--border); }
+.wf-body { padding: 14px; }
+.wf-hero { background: linear-gradient(135deg, rgba(99,102,241,.12), rgba(168,85,247,.08)); border: 1px solid rgba(99,102,241,.15); border-radius: 10px; padding: 14px; text-align: center; margin-bottom: 14px; }
+.wf-hero .hl { font-size: 14px; font-weight: 700; }
+.wf-hero .sub { font-size: 11px; color: var(--text-3); margin-top: 3px; }
+.wf-section { margin-bottom: 14px; }
+.wf-section .lbl { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); margin-bottom: 6px; }
+.wf-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 7px; padding: 10px; margin-bottom: 5px; }
+.wf-card .t { font-weight: 600; font-size: 12px; }
+.wf-card .m { font-size: 10px; color: var(--text-3); }
+.wf-card .w { font-size: 10px; color: var(--accent-2); font-style: italic; margin-top: 2px; }
+.wf-matches { display: flex; gap: 6px; }
+.wf-matches .m { flex: 1; background: var(--surface-2); border: 1px solid var(--border); border-radius: 7px; padding: 10px; text-align: center; }
+.wf-matches .m .s { font-weight: 700; font-size: 14px; }
+.wf-matches .m .st { font-size: 9px; color: var(--text-3); }
+.wf-matches .m .live { font-size: 9px; color: var(--red); display: flex; align-items: center; justify-content: center; gap: 4px; }
+.live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--red); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .3; } }
+
+/* Color swatches */
+.swatch-group { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+.swatch { display: flex; align-items: center; gap: 8px; }
+.swatch .dot { width: 20px; height: 20px; border-radius: 6px; border: 1px solid var(--border); }
+.swatch .info { font-size: 11px; }
+.swatch .info .name { font-weight: 500; }
+.swatch .info .hex { color: var(--text-3); }
+
+/* Spacing scale */
+.spacing-vis { display: flex; gap: 8px; align-items: flex-end; margin: 16px 0; flex-wrap: wrap; }
+.spacing-vis .bar { background: var(--accent); border-radius: 4px 4px 0 0; min-width: 20px; display: flex; align-items: flex-end; justify-content: center; font-size: 9px; color: #fff; padding-bottom: 2px; opacity: .7; }
+
+/* Skeleton */
+.skeleton-demo { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.skel { background: linear-gradient(90deg, var(--surface-2) 25%, transparent 50%, var(--surface-2) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; margin-bottom: 8px; }
+.skel:last-child { margin-bottom: 0; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* Component cards */
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+.comp-card .c-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.comp-card .c-sub { font-size: 11px; color: var(--text-3); margin-bottom: 12px; }
+.comp-card .c-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.comp-card .c-item { font-size: 11px; }
+.comp-card .c-item .l { color: var(--text-3); }
+.comp-card .c-item .v { font-weight: 500; }
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .comp-card .c-grid { grid-template-columns: 1fr; }
+  section { padding: 40px 0; }
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<nav>
+  <span class="logo">CP</span>
+  <span>Copa Pulse — Visual Specification</span>
+  <span class="sub">v1.0</span>
+</nav>
+
+<main class="container">
+
+<!-- Hero -->
+<section class="doc-hero" style="border: none;">
+  <h1>Especificação Visual da <span>Homepage</span></h1>
+  <p style="font-size: 14px; color: var(--text-2); max-width: 500px; margin: 12px auto 0;">
+    Documento auto-suficiente para implementação direta por desenvolvedor full-stack.
+  </p>
+  <div class="meta">
+    <span>📄 Product Plan vFinal</span>
+    <span>🎯 Head of Product / UX Lead</span>
+    <span>📱 Mobile-first</span>
+  </div>
+</section>
+
+<!-- 1. Layout -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Layout</h2>
+  <div class="grid-2">
+    <div>
+      <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">📱 Mobile (&lt;480px)</h4>
+      <pre style="font-size: 11px; line-height: 1.4;">┌──────────────────────┐
+│ Status Bar           │
+├──────────────────────┤
+│ Nav [CP]         [≡] │
+├──────────────────────┤
+│ ┌──────────────────┐ │
+│ │ HERO             │ │
+│ │ 🔥 Manchete      │ │
+│ └──────────────────┘ │
+│ ┌──────────────────┐ │
+│ │ 📰 O QUE         │ │
+│ │ ACONTECEU HOJE   │ │
+│ │ 3 cards verticais│ │
+│ └──────────────────┘ │
+│ ┌──────────────────┐ │
+│ │ ⚽ JOGOS         │ │
+│ │ 2 cards lado a   │ │
+│ │ lado             │ │
+│ └──────────────────┘ │
+│ ┌──────────────────┐ │
+│ │ 📊 TABELA        │ │
+│ └──────────────────┘ │
+│ Footer / Share       │
+└──────────────────────┘</pre>
+    </div>
+    <div>
+      <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">🖥️ Desktop (&gt;900px)</h4>
+      <pre style="font-size: 11px; line-height: 1.4;">┌──────────────────┬──────────┐
+│     HERO         │ LIVE     │
+│  (full width)    │ MATCHES  │
+│                  │ (mini)   │
+├──────────────────┼──────────┤
+│  📰 O QUE        │ 📊       │
+│  ACONTECEU HOJE  │ TABELA   │
+│  (3 cards vert.) │ (compact)│
+│                  │          │
+│                  │ UPCOMING │
+│                  │ (teaser) │
+├──────────────────┴──────────┤
+│ ─── 1.5fr ──│── 1fr ───── │
+└─────────────────────────────┘</pre>
+    </div>
+  </div>
+  <p style="font-size: 12px; color: var(--text-3); margin-top: 16px;">
+    <strong>Breakpoints:</strong> Mobile &lt;480px • Tablet 481-900px • Desktop 901-1440px • Wide &gt;1440px<br>
+    <strong>Container max:</strong> 1200px • <strong>Grid:</strong> 12-col, 1.5fr / 1fr • <strong>Gutter:</strong> 32px
+  </p>
+</section>
+
+<!-- 2. Hierarquia Visual -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Hierarquia Visual</h2>
+  <p class="sec-desc">4 níveis. O olho do usuário encontra nesta ordem. Cada nível tem peso visual decrescente.</p>
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; border-left: 4px solid var(--accent);">
+      <span class="tag blue">Nível 1 • 25-30% viewport</span>
+      <h4 style="font-size: 14px; font-weight: 600; margin: 6px 0 2px;">🔥 Hero — o que importa hoje</h4>
+      <p style="font-size: 12px; color: var(--text-2);">Background gradiente. Headline 22-32px weight 700. Maior destaque visual da página.</p>
+    </div>
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; border-left: 4px solid var(--green);">
+      <span class="tag green">Nível 2 • 35-40% viewport</span>
+      <h4 style="font-size: 14px; font-weight: 600; margin: 6px 0 2px;">📰 O que aconteceu — narrativa</h4>
+      <p style="font-size: 12px; color: var(--text-2);">3 cards verticais. Cada um: resultado + "por que importa". Label uppercase tracking 2px.</p>
+    </div>
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; border-left: 4px solid var(--amber);">
+      <span class="tag amber">Nível 3 • 15-20% viewport</span>
+      <h4 style="font-size: 14px; font-weight: 600; margin: 6px 0 2px;">⚽ Jogos — ação imediata</h4>
+      <p style="font-size: 12px; color: var(--text-2);">Layout horizontal. Ao vivo com badge verde pulsante. Times weight 600, placar grande.</p>
+    </div>
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; border-left: 4px solid var(--text-3);">
+      <span class="tag" style="background: rgba(113,113,122,.1); color: var(--text-3);">Nível 4 • 10-15% viewport</span>
+      <h4 style="font-size: 14px; font-weight: 600; margin: 6px 0 2px;">📊 Tabela — referência</h4>
+      <p style="font-size: 12px; color: var(--text-2);">Compacta. Fonte 10-11px. Sem destaques. Apenas posição, time, pts, saldo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Homepage Wireframe -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Homepage — Simulação Mobile</h2>
+  <p class="sec-desc">Ordem exata de seções. Contexto primeiro, dados depois.</p>
+  <div class="wf-mock">
+    <div class="wf-status"><span>9:41</span><span>📶 5G</span></div>
+    <div class="wf-body">
+      <div class="wf-hero">
+        <div class="hl">🔥 Brasil vence e elimina a Espanha</div>
+        <div class="sub">Richarlison na prorrogação. Brasil enfrenta França nas quartas.</div>
+        <div style="margin-top: 6px; display: flex; gap: 6px; justify-content: center; font-size: 9px;">
+          <span style="background: rgba(34,197,55,.1); color: var(--green); padding: 2px 6px; border-radius: 3px;">importance: 95</span>
+          <span style="background: rgba(255,255,255,.05); color: var(--text-3); padding: 2px 6px; border-radius: 3px;">🏆 Mata-mata</span>
+        </div>
+      </div>
+      <div class="wf-section">
+        <div class="lbl">📰 O QUE ACONTECEU HOJE</div>
+        <div class="wf-card">
+          <div class="t">Brasil elimina Espanha com virada</div>
+          <div class="m">3×2 na prorrogação • Quartas</div>
+          <div class="w">💡 Por que importa: Brasil pega a França nas quartas. Eliminatória mais difícil.</div>
+        </div>
+        <div class="wf-card">
+          <div class="t">Argentina tropeça contra o México</div>
+          <div class="m">0×0 • Fase de grupos</div>
+          <div class="w">💡 Por que importa: Grupo D embolado. Argentina pode depender de outros resultados.</div>
+        </div>
+        <div class="wf-card">
+          <div class="t">Alemanha goleia e assume liderança</div>
+          <div class="m">4×0 • Fase de grupos</div>
+          <div class="w">💡 Por que importa: Alemanha garante primeiro lugar e evita Brasil no mata-mata.</div>
+        </div>
+      </div>
+      <div class="wf-section">
+        <div class="lbl">⚽ JOGOS</div>
+        <div class="wf-matches">
+          <div class="m">
+            <div class="s">🇫🇷 0-0 🇵🇹</div>
+            <div class="live"><span class="live-dot"></span> AO VIVO</div>
+            <div style="font-size: 9px; color: var(--text-3);">67'</div>
+          </div>
+          <div class="m">
+            <div class="s">🇳🇱 - 🇺🇾</div>
+            <div style="font-size: 9px; color: var(--text-3); margin-top: 4px;">16:00</div>
+            <div style="font-size: 9px; color: var(--text-3);">Próximo</div>
+          </div>
+        </div>
+      </div>
+      <div class="wf-section">
+        <div class="lbl">📊 TABELA • GRUPO D</div>
+        <div style="font-size: 10px; display: grid; gap: 3px;">
+          <div style="display: flex; justify-content: space-between; background: var(--surface-2); padding: 4px 8px; border-radius: 4px;"><span>1. 🇦🇷 Argentina</span><span>4 pts +2</span></div>
+          <div style="display: flex; justify-content: space-between; background: var(--surface-2); padding: 4px 8px; border-radius: 4px;"><span>2. 🇲🇽 México</span><span>2 pts 0</span></div>
+          <div style="display: flex; justify-content: space-between; background: var(--surface-2); padding: 4px 8px; border-radius: 4px;"><span>3. 🇵🇱 Polônia</span><span>1 pt -1</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top: 16px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+    <span style="font-size: 11px; color: var(--text-3);">📱 Mobile: 1 coluna, padding 16px</span>
+    <span style="font-size: 11px; color: var(--text-3);">🖥️ Desktop: 2 colunas, sidebar com jogos ao vivo + tabela</span>
+  </div>
+</section>
+
+<!-- 4. Tipografia -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Tipografia</h2>
+  <p class="sec-desc"><code>font-family: 'Inter', -apple-system, sans-serif</code></p>
+  <div class="grid-2">
+    <div>
+      <table class="spec-table">
+        <tr><th>Token</th><th>Mobile</th><th>Desktop</th><th>Weight</th><th>Uso</th></tr>
+        <tr><td><code>--fs-display</code></td><td>28px</td><td>36px</td><td>700</td><td>Hero headline</td></tr>
+        <tr><td><code>--fs-headline</code></td><td>20px</td><td>24px</td><td>600</td><td>Card titles, scores</td></tr>
+        <tr><td><code>--fs-body</code></td><td>14px</td><td>15px</td><td>400</td><td>Card content</td></tr>
+        <tr><td><code>--fs-caption</code></td><td>12px</td><td>13px</td><td>400</td><td>Meta, timestamps</td></tr>
+        <tr><td><code>--fs-micro</code></td><td>10px</td><td>11px</td><td>500</td><td>Badges, tags</td></tr>
+      </table>
+    </div>
+    <div>
+      <table class="spec-table">
+        <tr><th>Weight</th><th>Token</th><th>Uso</th></tr>
+        <tr><td>400</td><td>Regular</td><td>Body text, descrições</td></tr>
+        <tr><td>500</td><td>Medium</td><td>Section labels, team names</td></tr>
+        <tr><td>600</td><td>Semibold</td><td>Card titles, match scores</td></tr>
+        <tr><td>700</td><td>Bold</td><td>Hero, Why Matters label</td></tr>
+        <tr><td>800</td><td>ExtraBold</td><td>Logo, importance value</td></tr>
+      </table>
+      <p style="font-size: 11px; color: var(--text-3); margin-top: 8px;">
+        Line-height: headline 1.1 • body 1.6 • caption 1.4<br>
+        Letter-spacing: labels uppercase 0.08em • demais -0.01em
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Cores -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Cores</h2>
+  <div class="grid-2">
+    <div>
+      <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Texto</h4>
+      <div class="swatch-group">
+        <div class="swatch"><div class="dot" style="background: #f4f4f5;"></div><div class="info"><div class="name">--text</div><div class="hex">#f4f4f5</div></div></div>
+        <div class="swatch"><div class="dot" style="background: #a1a1aa;"></div><div class="info"><div class="name">--text-2</div><div class="hex">#a1a1aa</div></div></div>
+        <div class="swatch"><div class="dot" style="background: #71717a;"></div><div class="info"><div class="name">--text-3</div><div class="hex">#71717a</div></div></div>
+      </div>
+      <h4 style="font-size: 13px; font-weight: 600; margin: 12px 0 8px;">Superfícies</h4>
+      <div class="swatch-group">
+        <div class="swatch"><div class="dot" style="background: #0a0a0b;"></div><div class="info"><div class="name">--bg</div><div class="hex">#0a0a0b</div></div></div>
+        <div class="swatch"><div class="dot" style="background: #121214;"></div><div class="info"><div class="name">--surface</div><div class="hex">#121214</div></div></div>
+        <div class="swatch"><div class="dot" style="background: #1a1a1e;"></div><div class="info"><div class="name">--surface-2</div><div class="hex">#1a1a1e</div></div></div>
+        <div class="swatch"><div class="dot" style="background: #222226;"></div><div class="info"><div class="name">--border</div><div class="hex">#222226</div></div></div>
+      </div>
+    </div>
+    <div>
+      <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Funcionais</h4>
+      <div class="swatch-group">
+        <div class="swatch"><div class="dot" style="background: #6366f1;"></div><div class="info"><div class="name">--accent</div><div class="hex">#6366f1</div></div></div>
+        <div class="swatch"><div class="dot" style="background: #818cf8;"></div><div class="info"><div class="name">--accent-2</div><div class="hex">#818cf8</div></div></div>
+        <div class="swatch"><div class="dot" style="background: #22c55e;"></div><div class="info"><div class="name">--green</div><div class="hex">#22c55e</div></div></div>
+        <div class="swatch"><div class="dot" style="background: #f59e0b;"></div><div class="info"><div class="name">--amber</div><div class="hex">#f59e0b</div></div></div>
+        <div class="swatch"><div class="dot" style="background: #ef4444;"></div><div class="info"><div class="name">--red</div><div class="hex">#ef4444</div></div></div>
+      </div>
+      <p style="font-size: 11px; color: var(--text-3); margin-top: 8px;">
+        <strong>Contrast:</strong> All text AA compliant (4.5:1 normal, 3:1 large)<br>
+        <strong>Hover border:</strong> rgba(99,102,241,.3)
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Spacing -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Spacing</h2>
+  <p class="sec-desc">Base unit: 4px. Consistência vertical e horizontal.</p>
+  <div class="spacing-vis">
+    <div class="bar" style="height: 4px;">4</div>
+    <div class="bar" style="height: 8px;">8</div>
+    <div class="bar" style="height: 12px;">12</div>
+    <div class="bar" style="height: 16px;">16</div>
+    <div class="bar" style="height: 20px;">20</div>
+    <div class="bar" style="height: 24px;">24</div>
+    <div class="bar" style="height: 32px;">32</div>
+    <div class="bar" style="height: 40px;">40</div>
+  </div>
+  <div class="grid-2" style="margin-top: 8px;">
+    <div>
+      <table class="spec-table">
+        <tr><th>Contexto</th><th>Mobile</th><th>Desktop</th></tr>
+        <tr><td>Container padding lateral</td><td>16px</td><td>32px</td></tr>
+        <tr><td>Entre seções</td><td>24px</td><td>32px</td></tr>
+        <tr><td>Entre cards</td><td>8px</td><td>12px</td></tr>
+        <tr><td>Card padding interno</td><td>12-14px</td><td>20px</td></tr>
+        <tr><td>Label → primeiro card</td><td>12px</td><td>16px</td></tr>
+        <tr><td>Last section → footer</td><td>32px</td><td>48px</td></tr>
+      </table>
+    </div>
+    <div>
+      <table class="spec-table">
+        <tr><th>Token</th><th>Valor</th></tr>
+        <tr><td><code>--space-1</code></td><td>4px</td></tr>
+        <tr><td><code>--space-2</code></td><td>8px</td></tr>
+        <tr><td><code>--space-3</code></td><td>12px</td></tr>
+        <tr><td><code>--space-4</code></td><td>16px</td></tr>
+        <tr><td><code>--space-5</code></td><td>20px</td></tr>
+        <tr><td><code>--space-6</code></td><td>24px</td></tr>
+        <tr><td><code>--space-8</code></td><td>32px</td></tr>
+        <tr><td><code>--space-10</code></td><td>40px</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Componentes -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Componentes</h2>
+
+  <div class="comp-card">
+    <div class="c-title">🏗️ NavBar</div>
+    <div class="c-sub">Fixed top, 56px, backdrop-filter blur, z-index 100</div>
+    <div class="c-grid">
+      <div class="c-item"><span class="l">Logo:</span> <span class="v">Badge "CP" bg-accent + "Copa Pulse" weight 600</span></div>
+      <div class="c-item"><span class="l">Mobile:</span> <span class="v">Hamburger (≡) abre drawer</span></div>
+      <div class="c-item"><span class="l">Desktop:</span> <span class="v">Links "Sobre" | "Compartilhar" visíveis</span></div>
+      <div class="c-item"><span class="l">Bg:</span> <span class="v">rgba(10,10,11,.85) + backdrop-filter(20px)</span></div>
+    </div>
+  </div>
+
+  <div class="comp-card">
+    <div class="c-title">🔥 Hero</div>
+    <div class="c-sub">1 card destacado. Background gradiente. Border radius 16px.</div>
+    <div class="c-grid">
+      <div class="c-item"><span class="l">Headline:</span> <span class="v">22-28px, weight 700, line-height 1.1</span></div>
+      <div class="c-item"><span class="l">Summary:</span> <span class="v">14px, color text-2, margin-top 4px</span></div>
+      <div class="c-item"><span class="l">Badges:</span> <span class="v">importance_score (green tint) + tag (ex: 🏆 Mata-mata)</span></div>
+      <div class="c-item"><span class="l">Padding:</span> <span class="v">20px mobile / 28px desktop</span></div>
+      <div class="c-item"><span class="l">Empty:</span> <span class="v">"Aguardando primeiro jogo" + contagem regressiva</span></div>
+      <div class="c-item"><span class="l">Bg:</span> <span class="v">linear-gradient(135deg, rgba(99,102,241,.12), rgba(168,85,247,.08))</span></div>
+    </div>
+  </div>
+
+  <div class="comp-card">
+    <div class="c-title">📰 What Happened Today (Card)</div>
+    <div class="c-sub">3 cards verticais. Cada um: resultado + contexto + "Por que importa"</div>
+    <div class="c-grid">
+      <div class="c-item"><span class="l">Container:</span> <span class="v">bg surface-2, border 1px, radius 10px</span></div>
+      <div class="c-item"><span class="l">Padding:</span> <span class="v">12px 14px</span></div>
+      <div class="c-item"><span class="l">Match line:</span> <span class="v">15px weight 600</span></div>
+      <div class="c-item"><span class="l">Meta:</span> <span class="v">12px, color text-3</span></div>
+      <div class="c-item"><span class="l">Why Matters:</span> <span class="v">12px italic, accent-2, border-left 2px, padding-left 8px</span></div>
+      <div class="c-item"><span class="l">Gap entre cards:</span> <span class="v">8px</span></div>
+      <div class="c-item"><span class="l">Hover:</span> <span class="v">border-color accent hover</span></div>
+      <div class="c-item"><span class="l">Empty:</span> <span class="v">"Nenhum jogo ontem. Acompanhe os jogos de hoje abaixo."</span></div>
+    </div>
+  </div>
+
+  <div class="comp-card">
+    <div class="c-title">⚽ Matches (Live / Upcoming)</div>
+    <div class="c-sub">2 cards horizontais lado a lado. Mobile: mesma largura.</div>
+    <div class="c-grid">
+      <div class="c-item"><span class="l">Design:</span> <span class="v">bg surface, border 1px, radius 12px, texto centralizado</span></div>
+      <div class="c-item"><span class="l">Team:</span> <span class="v">flag + 3-letter code, weight 600</span></div>
+      <div class="c-item"><span class="l">Score:</span> <span class="v">18px weight 700</span></div>
+      <div class="c-item"><span class="l">Live badge:</span> <span class="v">"AO VIVO" red bg 10%, bullet pulsante ⬤</span></div>
+      <div class="c-item"><span class="l">Padding:</span> <span class="v">14px 16px</span></div>
+      <div class="c-item"><span class="l">Empty:</span> <span class="v">"Nenhum jogo hoje. Próximo: [data]"</span></div>
+    </div>
+  </div>
+
+  <div class="comp-card">
+    <div class="c-title">📊 Quick Standings</div>
+    <div class="c-sub">Tabela compacta. Apenas 4 linhas. Fonte reduzida.</div>
+    <div class="c-grid">
+      <div class="c-item"><span class="l">Font:</span> <span class="v">10-11px</span></div>
+      <div class="c-item"><span class="l">Row:</span> <span class="v">bg surface-2, radius 6px, padding 6px 10px</span></div>
+      <div class="c-item"><span class="l">Gap:</span> <span class="v">3px entre rows</span></div>
+      <div class="c-item"><span class="l">Groups:</span> <span class="v">pills para trocar grupo (dropdown mobile, inline desktop)</span></div>
+      <div class="c-item"><span class="l">Empty:</span> <span class="v">"Classificação disponível após o primeiro jogo."</span></div>
+      <div class="c-item"><span class="l">Desktop:</span> <span class="v">2 tabelas visíveis lado a lado</span></div>
+    </div>
+  </div>
+
+  <div class="comp-card">
+    <div class="c-title">🔗 Share Footer</div>
+    <div class="c-sub">Sempre visível no final da página.</div>
+    <div class="c-grid">
+      <div class="c-item"><span class="l">Icons:</span> <span class="v">X, WhatsApp, Copy Link</span></div>
+      <div class="c-item"><span class="l">Meta:</span> <span class="v">"Gerado em [data] [hora]"</span></div>
+      <div class="c-item"><span class="l">Font:</span> <span class="v">12px / 10px meta</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Estados -->
+<section>
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">Estados</h2>
+  <div class="grid-2">
+    <div>
+      <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">📭 Empty State (Pré-Copa)</h4>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center;">
+        <div style="font-size: 28px; margin-bottom: 8px;">🏆</div>
+        <div style="font-size: 16px; font-weight: 700;">A Copa começa em</div>
+        <div style="font-size: 22px; font-weight: 800; color: var(--accent); margin: 4px 0;">47 dias • 14h • 23min</div>
+        <div style="font-size: 12px; color: var(--text-3);">Primeiro jogo: Brasil vs Sérvia • 15/06 16:00</div>
+      </div>
+    </div>
+    <div>
+      <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">⏳ Loading (Skeleton)</h4>
+      <div class="skeleton-demo">
+        <div class="skel" style="height: 16px; width: 40%;"></div>
+        <div class="skel" style="height: 70px;"></div>
+        <div class="skel" style="height: 70px;"></div>
+        <div class="skel" style="height: 70px; width: 85%;"></div>
+      </div>
+      <p style="font-size: 11px; color: var(--text-3); margin-top: 6px;">
+        <code>animation: shimmer 1.5s infinite</code><br>
+        bg: <code>linear-gradient(90deg, surface-2 25%, transparent 50%, surface-2 75%)</code><br>
+        <code>background-size: 200% 100%</code>
+      </p>
+    </div>
+  </div>
+  <div style="margin-top: 16px;">
+    <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">⚠️ Error State</h4>
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; align-items: center; gap: 12px;">
+      <span style="font-size: 20px;">⚠️</span>
+      <div>
+        <div style="font-size: 13px; font-weight: 500;">Não foi possível carregar os dados agora</div>
+        <div style="font-size: 11px; color: var(--text-3);">Apenas a seção afetada. Botão "Tentar novamente" recarrega só aquela seção.</div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top: 16px;">
+    <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">🖱️ Hover / Tap</h4>
+    <table class="spec-table">
+      <tr><th>Elemento</th><th>Desktop (Hover)</th><th>Mobile (Tap)</th></tr>
+      <tr><td>Card</td><td>border-color accent hover • translateY(-1px) • 200ms</td><td>bg rgba(99,102,241,.08) • scale(.98) 100ms</td></tr>
+      <tr><td>Table row</td><td>bg rgba(255,255,255,.02)</td><td>—</td></tr>
+      <tr><td>Link</td><td>color accent-2 • underline</td><td>opacity 80%</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 9. Edge Cases & Data Flow -->
+<section>
+  <div class="sec-label">● 9</div>
+  <h2 class="sec-title">Edge Cases & Pipeline</h2>
+  <div class="grid-2">
+    <div>
+      <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Casos</h4>
+      <table class="spec-table">
+        <tr><th>Caso</th><th>Comportamento</th></tr>
+        <tr><td>Dia sem jogos</td><td>Hero "Dia de folga" • What Happened vazio com mensagem • Matches mostra próximos</td></tr>
+        <tr><td>8+ jogos</td><td>importance_score filtra top 3-5 • Link "Ver todos →"</td></tr>
+        <tr><td>Mistos (live + finished)</td><td>Live sempre primeiro • Finished ordenados por importance_score desc</td></tr>
+        <tr><td>API offline</td><td>Cache do último fetch • Badge amarelo "Dados podem estar desatualizados"</td></tr>
+        <tr><td>IA falha</td><td>Fallback: texto genérico com resultados crus. Sem Why Matters.</td></tr>
+      </table>
+    </div>
+    <div>
+      <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Pipeline</h4>
+      <pre style="font-size: 11px;">API-Football (5min)
+     ↓
+importance_score (edge function)
+     ↓
+OpenAI GPT-4o-mini (06:00 • 1 call/dia)
+     ↓
+JSON → { headline, items: [...] }
+     ↓
+Supabase (armazenamento)
+     ↓
+Next.js ISR (revalida página)
+     ↓
+Homepage renderizada</pre>
+    </div>
+  </div>
+</section>
+
+<!-- 10. Performance & Acessibilidade -->
+<section style="border: none;">
+  <div class="sec-label">● 10</div>
+  <h2 class="sec-title">Performance & Acessibilidade</h2>
+  <div class="grid-2">
+    <div>
+      <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">⚡ Performance Targets</h4>
+      <table class="spec-table">
+        <tr><th>Métrica</th><th>Target</th></tr>
+        <tr><td>LCP</td><td>&lt; 1.5s</td></tr>
+        <tr><td>FCP</td><td>&lt; 0.8s</td></tr>
+        <tr><td>TBT</td><td>&lt; 100ms</td></tr>
+        <tr><td>First Load JS</td><td>&lt; 150kb</td></tr>
+        <tr><td>Lighthouse</td><td>&gt; 90</td></tr>
+      </table>
+    </div>
+    <div>
+      <h4 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">♿ Accessibility</h4>
+      <ul style="font-size: 12px; color: var(--text-2); line-height: 1.8; list-style: none; padding: 0;">
+        <li>✅ Contrast AA (4.5:1 normal, 3:1 large)</li>
+        <li>✅ Focus states: 2px solid accent, offset 2px</li>
+        <li>✅ ARIA labels: nav, cards clicáveis, share buttons</li>
+        <li>✅ Role regions: banner, main, complementary</li>
+        <li>✅ Emoji flags com role="img" + aria-label</li>
+        <li>✅ <code>prefers-reduced-motion</code> desliga shimmer</li>
+        <li>✅ Touch targets ≥ 44×44px</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="padding: 32px 0; text-align: center; border-top: 1px solid var(--border); margin-top: 0;">
+  <p style="font-size: 11px; color: var(--text-3);">
+    Copa Pulse — Especificação Visual v1.0<br>
+    Baseado no Product Plan validado. Pronto para implementação.
+  </p>
+</footer>
+
+</main>
+</body>
+</html>

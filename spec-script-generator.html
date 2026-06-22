@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copa Pulse — Script Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:1000px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:60px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:8px}
+.sec-title{font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.5px;margin-bottom:16px}
+
+.doc-hero{padding:100px 0 40px;text-align:center}
+.doc-hero h1{font-size:clamp(32px,5vw,48px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:14px;color:var(--text-2);max-width:550px;margin:8px auto 0;line-height:1.6}
+.doc-hero .sub{font-size:12px;color:var(--text-3);margin-top:4px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+.card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.card p,.card li{font-size:12px;color:var(--text-2);line-height:1.6}
+.card ul{padding-left:16px}
+.card ul li{padding:3px 0}
+
+.hook-card{padding:16px 20px;border-radius:10px;margin-bottom:8px}
+.hook-card .arc{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.hook-card .hook{font-size:14px;font-weight:500;line-height:1.4;font-style:italic}
+.hook-card .note{font-size:11px;color:var(--text-3);margin-top:4px}
+
+.script-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;max-width:600px;margin:16px auto}
+.script-card .label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);margin-bottom:12px}
+.script-card .cue{color:var(--accent);font-weight:600;font-size:11px;margin-top:16px;margin-bottom:4px}
+.script-card .cue:first-child{margin-top:0}
+.script-card .text{color:var(--text-2);padding-left:12px;border-left:2px solid var(--border);font-size:13px;line-height:1.7}
+.script-card .text .hl{color:var(--text);font-weight:500}
+.script-card .text .em{color:var(--amber);font-style:italic}
+
+.stacked{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+.stacked .l{display:flex;gap:12px;align-items:flex-start;font-size:12px;color:var(--text-2)}
+.stacked .l .num{width:20px;height:20px;border-radius:50%;background:rgba(99,102,241,.1);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.stacked .l .d{line-height:1.6}
+
+.rule-box{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin:4px 0;font-size:12px;color:var(--text-2);border-left:3px solid var(--accent)}
+.rule-box strong{color:var(--text)}
+
+hr{border:none;border-top:1px solid var(--border);margin:16px 0}
+
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Script Generator — <span>Manual Editorial</span></h1>
+  <p>90 segundos. Uma história. Um tom. Zero clichês.</p>
+  <div class="sub">Equivalente esportivo do The Daily (NYT) em formato ultra-rápido.</div>
+</section>
+
+<!-- 1. Estrutura -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Estrutura Narrativa</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:16px;">
+    A estrutura segue o princípio de <strong>pirâmide invertida emocional</strong>: o gancho narrativo vem primeiro, o resultado vem depois. O ouvinte precisa saber POR QUE importa antes de saber O QUE aconteceu.
+  </p>
+
+  <div class="stacked">
+    <div class="l"><span class="num">1</span><div class="d"><strong>Narrative Hook</strong> (8s) — A primeira frase. Não comece pelo resultado. Comece pela consequência. "A maior zebra da história da Copa continua fazendo vítimas."</div></div>
+    <div class="l"><span class="num">2</span><div class="d"><strong>Context</strong> (12s) — Estabeleça o cenário. O que estava em jogo? Qual era a expectativa? Sem repetir o hook.</div></div>
+    <div class="l"><span class="num">3</span><div class="d"><strong>Result + Why It Matters</strong> (25s) — O placar. Quem decidiu. E, mais importante: o que muda no torneio.</div></div>
+    <div class="l"><span class="num">4</span><div class="d"><strong>Historical Weight</strong> (10s) — O fato histórico que dá profundidade. "Argentina não vencia desde 1986." "Nunca antes um africano."</div></div>
+    <div class="l"><span class="num">5</span><div class="d"><strong>Secondary Story</strong> (15s) — A segunda história mais importante. Versão compacta: hook + resultado + why.</div></div>
+    <div class="l"><span class="num">6</span><div class="d"><strong>Emerging / What's Next</strong> (12s) — O que acontece agora. Prévia do próximo jogo relevante.</div></div>
+    <div class="l"><span class="num">7</span><div class="d"><strong>Closing Thought</strong> (5s) — Uma frase que funciona sozinha. Citável. Compartilhável. "Marrocos não veio pra participar. Marrocos veio pra fazer história."</div></div>
+  </div>
+
+  <p style="font-size:11px;color:var(--text-3);margin-top:12px;">Total: ~87 segundos. Abertura sem "hoje na Copa Pulse" — o hook já é a abertura.</p>
+</section>
+
+<!-- 2. Narrative Hooks -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Catálogo de Narrative Hooks</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    Cada arco narrativo tem um hook específico. O hook NÃO menciona o placar. Ele cria uma pergunta que o áudio responde.
+  </p>
+
+  <div class="hook-card" style="background:rgba(244,63,94,.06);border:1px solid rgba(244,63,94,.15);">
+    <div class="arc" style="color:var(--rose);">🔥 Redemption Journey</div>
+    <div class="hook">"A história mais improvável da Copa chegou ao final que ninguém esperava."</div>
+    <div class="note">Usado quando: equipe perdeu cedo e terminou campeã. Ex: Argentina 2022.</div>
+  </div>
+
+  <div class="hook-card" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);">
+    <div class="arc" style="color:var(--amber);">🌍 Cinderella Progression</div>
+    <div class="hook">"O time que ninguém levava a sério acabou de eliminar mais uma favorita."</div>
+    <div class="note">Usado quando: equipe zebra acumula vitórias em fases consecutivas. Ex: Marrocos 2022.</div>
+  </div>
+
+  <div class="hook-card" style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);">
+    <div class="arc" style="color:var(--red);">⚡ Giant Slayer</div>
+    <div class="hook">"Mais uma potência caiu. O algoz? O mesmo de sempre."</div>
+    <div class="note">Usado quando: equipe elimina múltiplos favoritos. Ex: Marrocos elimina Espanha e Portugal.</div>
+  </div>
+
+  <div class="hook-card" style="background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.15);">
+    <div class="arc" style="color:var(--accent);">🎯 Multi-Upset Run</div>
+    <div class="hook">"O torneio continua desafiando todas as previsões possíveis."</div>
+    <div class="note">Usado quando: equipe vence 2+ favoritos na fase de grupos. Ex: Japão 2022.</div>
+  </div>
+
+  <div class="hook-card" style="background:rgba(34,197,55,.06);border:1px solid rgba(34,197,55,.15);">
+    <div class="arc" style="color:var(--green);">🏆 Historic Milestone</div>
+    <div class="hook">"O que parecia impossível há quatro anos, hoje é realidade."</div>
+    <div class="note">Usado quando: marco histórico é atingido. Ex: primeira seleção africana na semi.</div>
+  </div>
+
+  <div class="hook-card" style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);">
+    <div class="arc" style="color:var(--red);">💥 Traditional Power Eliminated</div>
+    <div class="hook">"O mundo do futebol está de cabeça para baixo. De novo."</div>
+    <div class="note">Usado quando: Brasil, Alemanha ou Itália são eliminados. Ex: Brasil 2022, Alemanha 2022.</div>
+  </div>
+</section>
+
+<!-- 3. Historical Facts -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Quando usar Historical Facts</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    Fato histórico NÃO é abertura. Fato histórico é <strong>reforço</strong>. Ele aparece depois que o ouvinte já entendeu a história — para dar peso.
+  </p>
+
+  <div class="grid-2">
+    <div>
+      <div class="rule-box"><strong>✅ Regra 1:</strong> Fato histórico aparece no bloco <strong>Historical Weight</strong> (4º bloco), nunca antes. O ouvinte precisa primeiro saber O QUE ACONTECEU para depois entender O QUE ISSO SIGNIFICA.</div>
+      <div class="rule-box"><strong>✅ Regra 2:</strong> Um fato por roteiro. Máximo. Dois fatos competem pela atenção. Escolha o de maior editorialWeight.</div>
+      <div class="rule-box"><strong>✅ Regra 3:</strong> Fato histórico NÃO substitui Why It Matters. Why It Matters é sobre o torneio. Fato histórico é sobre o contexto. São complementares.</div>
+    </div>
+    <div>
+      <div class="rule-box" style="border-left-color:var(--rose);"><strong>❌ Erro comum:</strong> "Argentina venceu França nos pênaltis. Argentina não vencia desde 1986." — O ouvinte ainda não sabe por que importa. O fato histórico aparece antes do Why Matters.</div>
+      <div class="rule-box" style="border-left-color:var(--green);"><strong>✅ Correto:</strong> "Argentina quebrou um jejum de 36 anos. A última vez que levantaram a taça, Maradona estava em campo." — O fato vem DEPOIS do resultado, como camada de profundidade.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;">
+    <h4 style="font-size:12px;font-weight:600;margin-bottom:8px;">📋 Prioridade de fatos (escolha apenas 1 por roteiro)</h4>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+      <span style="font-size:10px;background:rgba(244,63,94,.1);color:var(--rose);padding:4px 10px;border-radius:4px;">first_african_semifinalist (95)</span>
+      <span style="font-size:10px;background:rgba(245,158,11,.1);color:var(--amber);padding:4px 10px;border-radius:4px;">years_since_last_title (95)</span>
+      <span style="font-size:10px;background:rgba(239,68,68,.1);color:var(--red);padding:4px 10px;border-radius:4px;">defending_champion_eliminated (85)</span>
+      <span style="font-size:10px;background:rgba(99,102,241,.1);color:var(--accent);padding:4px 10px;border-radius:4px;">giant_killing (85)</span>
+      <span style="font-size:10px;background:rgba(34,197,55,.1);color:var(--green);padding:4px 10px;border-radius:4px;">streak_broken (80)</span>
+    </div>
+    <p style="font-size:11px;color:var(--text-3);margin-top:6px;">Se houver múltiplos fatos, usar o de maior peso. Se empatar, usar o mais específico ao time vencedor.</p>
+  </div>
+</section>
+
+<!-- 4. Editorial Events -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Quando usar Editorial Events</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    Editorial Events são <strong>molduras</strong>. Eles definem o tom do roteiro inteiro. Se um Editorial Event disparou, ele substitui o Narrative Hook padrão.
+  </p>
+
+  <div class="grid-2">
+    <div>
+      <div class="rule-box"><strong>✅ traditional_power_eliminated</strong> → Abre o roteiro. "O mundo do futebol está de cabeça para baixo." O tom é de queda, não de celebração.</div>
+      <div class="rule-box"><strong>✅ defending_champion_eliminated</strong> → Reforça a conclusão. "A França, atual campeã, viu o bi escapar nos detalhes." O tom é de quase, não de fracasso.</div>
+    </div>
+    <div>
+      <div class="rule-box"><strong>✅ title_favorite_eliminated_early</strong> → Abre o roteiro com surpresa. "Ninguém esperava. Talvez nem eles."</div>
+      <div class="rule-box"><strong>⚠️ dynasty_ended</strong> → Reflexão no fechamento. "Uma geração que marcou época se despede sem o final que merecia."</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;">
+    <h4 style="font-size:12px;font-weight:600;margin-bottom:8px;">📋 Regra de uso</h4>
+    <p style="font-size:12px;color:var(--text-2);line-height:1.7;">
+      <strong>1 evento por roteiro.</strong> Se houver múltiplos eventos, o de maior editorialWeight define o tom.<br>
+      <strong>Evento NÃO substitui o arco.</strong> Se houver arco narrativo E evento editorial, o arco dita o gancho e o evento dita o tom.<br>
+      <strong>Evento SEMPRE aparece no bloco 1 ou 7.</strong> Ou abre ou fecha. Nunca no meio.
+    </p>
+  </div>
+</section>
+
+<!-- 5. Storytelling Layers -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Storytelling Layers</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    Cada roteiro tem 4 camadas. O ouvinte desce uma camada a cada 15-20 segundos.
+  </p>
+
+  <div class="stacked">
+    <div class="l"><span class="num">1</span><div class="d"><strong>🌊 Surface Layer — O que aconteceu?</strong> "Marrocos 1 a 0 Portugal. Gol de En-Nesyri." — 10% do roteiro. O mínimo necessário.</div></div>
+    <div class="l"><span class="num">2</span><div class="d"><strong>🌊 Tension Layer — Por que importa?</strong> "Com esse resultado, uma seleção africana chega à semifinal pela PRIMEIRA vez na história." — 30% do roteiro. A camada mais importante.</div></div>
+    <div class="l"><span class="num">3</span><div class="d"><strong>🌊 Depth Layer — Qual é a história por trás?</strong> "Marrocos não tomou um gol sequer de Portugal. Nem da Espanha. Três jogos consecutivos contra europeus sem ser vazado." — 30% do roteiro. O que torna esta história única.</div></div>
+    <div class="l"><span class="num">4</span><div class="d"><strong>🌊 Horizon Layer — O que muda agora?</strong> "A França espera na semifinal. Uma barreira europeia contra o sonho africano." — 30% do roteiro. O futuro próximo.</div></div>
+  </div>
+
+  <p style="font-size:11px;color:var(--text-3);margin-top:8px;">A ordem é fixa. O ouvinte precisa surfar cada camada antes de descer para a próxima. Pular camadas quebra a imersão.</p>
+</section>
+
+<!-- 6. Script Examples -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Exemplos Completos</h2>
+
+  <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">📘 Caso 1 — Marrocos 1×0 Portugal</h3>
+  <p style="font-size:11px;color:var(--text-3);margin-bottom:8px;">Arcos: cinderella_progression, giant_slayer, historic_milestone | Fatos: first_african_semifinalist (95)</p>
+  <div class="script-card">
+    <div class="label">🎙️ ROTEIRO — 90s</div>
+    <div class="cue">[HOOK — 8s]</div>
+    <div class="text">"O time que ninguém levava a sério nos grupos agora é o sonho de um continente inteiro."</div>
+    <div class="cue">[CONTEXT — 10s]</div>
+    <div class="text">"Marrocos enfrentava Portugal nas quartas. Uma vaga na semifinal em jogo. Do outro lado, Cristiano Ronaldo, talvez sua última Copa."</div>
+    <div class="cue">[RESULT + WHY — 22s]</div>
+    <div class="text">"<span class="hl">Marrocos 1 a 0.</span> Gol de En-Nesyri, ainda no primeiro tempo. Depois disso, Portugal tentou de tudo. Não passou. <span class="em">Marrocos não tomou um gol sequer na fase de mata-mata</span>. Nem da Espanha, nem de Portugal. Defesa que virou muralha."</div>
+    <div class="cue">[HISTORICAL WEIGHT — 10s]</div>
+    <div class="text">"<span class="hl">É a primeira vez que uma seleção africana chega à semifinal de uma Copa do Mundo.</span> Em 92 anos de torneio, nenhum país do continente tinha ido tão longe."</div>
+    <div class="cue">[SECONDARY — 12s]</div>
+    <div class="text">"Enquanto isso, França 2 a 1 na Inglaterra. A Inglaterra perdeu um pênalti no fim. A França segue viva e enfrenta justamente Marrocos na semi."</div>
+    <div class="cue">[EMERGING — 10s]</div>
+    <div class="text">"A França é favorita. Mas Marrocos já ouviu isso antes. Duas vezes. E está aqui."</div>
+    <div class="cue">[CLOSING — 5s]</div>
+    <div class="text">"Marrocos não veio pra participar. Marrocos veio pra fazer história."</div>
+  </div>
+
+  <hr>
+
+  <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">📘 Caso 2 — Argentina campeã 3×3 (4–2) França</h3>
+  <p style="font-size:11px;color:var(--text-3);margin-bottom:8px;">Arcos: redemption_journey | Fatos: years_since_last_title (95), defending_champion_eliminated (85)</p>
+  <div class="script-card">
+    <div class="label">🎙️ ROTEIRO — 90s</div>
+    <div class="cue">[HOOK — 8s]</div>
+    <div class="text">"A história mais improvável da Copa chegou ao final que ninguém ousou escrever."</div>
+    <div class="cue">[CONTEXT — 10s]</div>
+    <div class="text">"Argentina e França na final. De um lado, Messi buscando o único título que falta. Do outro, a França tentando o bicampeonato consecutivo, algo que não acontece desde 1962."</div>
+    <div class="cue">[RESULT + WHY — 25s]</div>
+    <div class="text">"<span class="hl">3 a 3 no tempo normal.</span> A Argentina abriu 2 a 0, a França buscou. Mbappé fez três gols. Messi fez dois. <span class="em">A final mais eletrizante da história terminou nos pênaltis.</span> Argentina 4 a 2. Campeã."</div>
+    <div class="cue">[HISTORICAL WEIGHT — 12s]</div>
+    <div class="text">"<span class="hl">Argentina não vencia uma Copa desde 1986.</span> 36 anos. Uma geração inteira sem ver o país no topo do mundo. Messi, que já foi chamado de 'o melhor sem Copa', agora tem a resposta."</div>
+    <div class="cue">[SECONDARY — 12s]</div>
+    <div class="text">"A França, atual campeã, viu o bi escapar. Mbappé fez o que podia — três gols numa final de Copa. Mas não foi suficiente."</div>
+    <div class="cue">[EMERGING — 10s]</div>
+    <div class="text">"O que vem agora? Messi provavelmente se aposenta da Copa. A França perdeu o título mas ganhou um Mbappé que carrega o time nas costas."</div>
+    <div class="cue">[CLOSING — 5s]</div>
+    <div class="text">"O melhor jogador da história finalmente tem a Copa que merecia."</div>
+  </div>
+
+  <hr>
+
+  <h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">📘 Caso 3 — Alemanha eliminada na fase de grupos</h3>
+  <p style="font-size:11px;color:var(--text-3);margin-bottom:8px;">Eventos: traditional_power_eliminated (90), title_favorite_eliminated_early (85)</p>
+  <div class="script-card">
+    <div class="label">🎙️ ROTEIRO — 60s</div>
+    <div class="cue">[HOOK — 8s]</div>
+    <div class="text">"O mundo do futebol está de cabeça para baixo. De novo."</div>
+    <div class="cue">[CONTEXT — 8s]</div>
+    <div class="text">"A Alemanha, tetracampeã mundial, precisava vencer a Costa Rica para seguir viva. E venceu. Mas não adiantou."</div>
+    <div class="cue">[RESULT + WHY — 20s]</div>
+    <div class="text">"<span class="hl">Alemanha 4 a 2 na Costa Rica.</span> Vitória convincente. Mas a Espanha perdeu para o Japão, e o saldo de gols deixou a Alemanha fora. <span class="em">Pela segunda Copa consecutiva, a Alemanha cai na fase de grupos.</span> Algo que parece piada para quem viu essa seleção ganhar tudo entre 2002 e 2014."</div>
+    <div class="cue">[HISTORICAL WEIGHT — 8s]</div>
+    <div class="text">"A última vez que a Alemanha caiu duas vezes seguidas na primeira fase foi em 1938. Antes da guerra."</div>
+    <div class="cue">[EMERGING — 8s]</div>
+    <div class="text">"O Japão, que venceu a Espanha, lidera o grupo da morte. E a Alemanha volta pra casa para se perguntar: o que aconteceu com o futebol alemão?"</div>
+  </div>
+</section>
+
+<!-- 7. Style -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Estilo Editorial Definitivo</h2>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>✅ Escolhido: The Athletic + Morning Brew (adaptado)</h4>
+      <p style="margin-top:4px;">
+        <strong style="color:var(--text);">Do The Athletic:</strong> Tom premium, confiança de que o leitor/ouvinte é inteligente. Sem subestimar. Sem explicar o óbvio.<br><br>
+        <strong style="color:var(--text);">Do Morning Brew:</strong> Ritmo rápido. Transições secas. Sem enrolação. Cada frase precisa estar ali.<br><br>
+        <strong style="color:var(--text);">Adaptação para Copa Pulse:</strong> Tom conversacional mas respeitoso. Mais próximo do The Athletic no Brasil — que não existe. Este é o primeiro.
+      </p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--rose);">
+      <h4>❌ Rejeitados</h4>
+      <ul>
+        <li><strong>Jornal esportivo tradicional:</strong> "Em partida válida pelas quartas de final..." — Muito formal. Muito descartável.</li>
+        <li><strong>Podcast premium (The Daily):</strong> Reportagem, entrevistas, profundidade. Ótimo para 20min. Pessado para 90s.</li>
+        <li><strong>Locutor de rádio:</strong> "E A CROÁCIA ELIMINA O BRASIL!" — Energia alta não sustenta consumo diário.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Manual Editorial -->
+<section>
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">Manual Editorial — Guia de Estilo</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:16px;">
+    Todo roteiro gerado pelo Copa Pulse deve soar como se fosse escrito pela mesma pessoa. As regras abaixo garantem consistência.
+  </p>
+
+  <div class="grid-2">
+    <div>
+      <h4 style="font-size:12px;font-weight:600;margin-bottom:6px;">📝 Tom</h4>
+      <ul style="font-size:12px;color:var(--text-2);line-height:1.8;">
+        <li>Confiante, não arrogante</li>
+        <li>Informado, não pedante</li>
+        <li>Próximo, não íntimo</li>
+        <li>Rápido, não apressado</li>
+      </ul>
+
+      <h4 style="font-size:12px;font-weight:600;margin:12px 0 6px;">📝 Vocabulário</h4>
+      <ul style="font-size:12px;color:var(--text-2);line-height:1.8;">
+        <li>Prefira verbos fortes: "eliminou", "atropelou", "buscou", "virou"</li>
+        <li>Evite verbos fracos: "foi", "teve", "aconteceu"</li>
+        <li>Use "Copa" — não "Copa do Mundo" (economia de sílaba)</li>
+        <li>Time = "seleção" ou pelo nome do país. Nunca "equipe"</li>
+      </ul>
+
+      <h4 style="font-size:12px;font-weight:600;margin:12px 0 6px;">📝 Ritmo</h4>
+      <ul style="font-size:12px;color:var(--text-2);line-height:1.8;">
+        <li>Média: 10-14 palavras por frase</li>
+        <li>Máximo: 18 palavras (contadas em voz alta)</li>
+        <li>Varie: frase curta, frase média</li>
+        <li>Nunca duas frases longas seguidas</li>
+        <li>Use pausas implícitas: "Pois é." "É isso." "Sim."</li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="font-size:12px;font-weight:600;margin-bottom:6px;">📝 Transições</h4>
+      <ul style="font-size:12px;color:var(--text-2);line-height:1.8;">
+        <li>"Enquanto isso..." → Secondary</li>
+        <li>"E agora?" → Emerging</li>
+        <li>"O detalhe:" → Historical Weight</li>
+        <li>"Pois é." → Reflexão</li>
+      </ul>
+
+      <h4 style="font-size:12px;font-weight:600;margin:12px 0 6px;">🚫 Palavras proibidas</h4>
+      <ul style="font-size:12px;color:var(--red);line-height:1.8;">
+        <li>"Grande vitória"</li>
+        <li>"Jogo emocionante"</li>
+        <li>"Partida eletrizante"</li>
+        <li>"Tudo pode acontecer"</li>
+        <li>"Futebol é uma caixinha de surpresas"</li>
+        <li>"Na raça"</li>
+        <li>"Com raça e determinação"</li>
+        <li>"Time de guerreiros"</li>
+        <li>"Fez história" (USE uma vez por roteiro, no máximo)</li>
+        <li>"Sem palavras"</li>
+      </ul>
+
+      <h4 style="font-size:12px;font-weight:600;margin:12px 0 6px;">🚫 Clichês estruturais proibidos</h4>
+      <ul style="font-size:12px;color:var(--red);line-height:1.8;">
+        <li>Abrir com "Hoje na Copa Pulse..." (o hook já é a abertura)</li>
+        <li>Fechar com "Amanhã tem mais" (a closing thought substitui)</li>
+        <li>"Vamos aos resultados" (nunca liste resultados)</li>
+        <li>Falar o placar antes do contexto (resultado nunca é a primeira informação)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:12px;">
+    <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;">✅ Checklist de qualidade editorial</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:12px;color:var(--text-2);">
+      <span>✅ Abre com hook narrativo (não com resultado)</span>
+      <span>✅ Why It Matters antes do fato histórico</span>
+      <span>✅ Máximo 1 fato histórico por roteiro</span>
+      <span>✅ Fechamento funciona como frase isolada</span>
+      <span>✅ Zero palavras proibidas</span>
+      <span>✅ Zero clichês estruturais</span>
+      <span>✅ Secondary tem hook próprio</span>
+      <span>✅ Emerging olha para frente</span>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Spec -->
+<section style="border:none;">
+  <div class="sec-label">● 9</div>
+  <h2 class="sec-title">Especificação Final</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;">
+
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;">Script Generator — Input / Output</h3>
+
+    <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;">
+      <div style="background:var(--surface-2);padding:12px 16px;border-radius:8px;font-size:11px;border:1px solid var(--border);text-align:center;">
+        <strong style="color:var(--text);">INPUT</strong><br>
+        <span style="color:var(--text-2);">hero_story<br>secondary_story<br>emerging_story<br>narrative_arcs[]<br>historical_facts[]<br>editorial_events[]</span>
+      </div>
+      <div style="display:flex;align-items:center;font-size:24px;color:var(--text-3);">→</div>
+      <div style="background:var(--accent);padding:12px 16px;border-radius:8px;font-size:11px;text-align:center;">
+        <strong style="color:#fff;">SCRIPT GENERATOR</strong><br>
+        <span style="color:rgba(255,255,255,.7);">7 blocos<br>Manual de estilo<br>Regras editoriais</span>
+      </div>
+      <div style="display:flex;align-items:center;font-size:24px;color:var(--text-3);">→</div>
+      <div style="background:var(--surface-2);padding:12px 16px;border-radius:8px;font-size:11px;border:1px solid var(--border);text-align:center;">
+        <strong style="color:var(--text);">OUTPUT</strong><br>
+        <span style="color:var(--text-2);">Roteiro de 90s<br>7 blocos nomeados<br>Tom consistente</span>
+      </div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:600;margin-bottom:8px;">Algoritmo de seleção de bloco</h3>
+    <div style="padding:12px;background:var(--surface-2);border-radius:8px;font-size:12px;color:var(--text-2);line-height:1.7;font-family:monospace;">
+      1. Se editorial_events.length > 0 → hook = evento de maior peso<br>
+      2. Senão, se narrative_arcs.length > 0 → hook = arco de maior peso<br>
+      3. Senão → hook = "O resultado do dia: {placar}" (fallback)<br>
+      4. historical_facts aparece no bloco 4 (Historical Weight)<br>
+      5. Apenas 1 fato (o de maior editorialWeight)<br>
+      6. secondary_story existe → bloco 5. Se não existe → pula para bloco 6<br>
+      7. emerging_story existe → bloco 6. Se não existe → pula para bloco 7<br>
+      8. closing thought sempre presente
+    </div>
+
+    <h3 style="font-size:14px;font-weight:600;margin:16px 0 8px;">Estrutura final do roteiro</h3>
+    <table style="width:100%;font-size:12px;border-collapse:collapse;">
+      <tr><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);font-weight:600;">Bloco</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);font-weight:600;">Duração</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);font-weight:600;">Função</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);font-weight:600;">Sempre?</th></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">1. Hook</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">8s</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Gancho narrativo</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">✅</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">2. Context</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">10s</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Cenário do jogo</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">✅</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">3. Result + Why</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">22s</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Placar + consequência</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">✅</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">4. Historical Weight</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">10s</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Fato histórico (1 apenas)</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Se houver fato</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">5. Secondary</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">12s</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Segunda história</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Se houver secondary</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">6. Emerging</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">10s</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">O que vem agora</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Se houver emerging</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">7. Closing</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">5s</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Frase final</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">✅</td></tr>
+    </table>
+
+    <p style="font-size:11px;color:var(--text-3);margin-top:12px;">
+      Duração total variável: 60s (apenas hero) a 90s (hero + secondary + emerging + histórical weight).
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="padding:32px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">
+    Copa Pulse — Script Generator • Manual Editorial v1.0<br>
+    Nove décimos de um minuto. Uma história. Zero clichês.
+  </p>
+</footer>
+
+</main>
+</body>
+</html>

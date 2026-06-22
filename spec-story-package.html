@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — Story Package System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:1000px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:60px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:8px}
+.sec-title{font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.5px;margin-bottom:16px}
+.doc-hero{padding:80px 0 40px;text-align:center}
+.doc-hero h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:14px;color:var(--text-2);max-width:550px;margin:8px auto 0;line-height:1.6}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:12px}
+.card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.card p,.card li{font-size:12px;color:var(--text-2);line-height:1.6}
+.card ul{padding-left:16px}
+.card ul li{padding:3px 0}
+
+.format-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:8px;border-left:3px solid}
+.format-card h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.format-card .meta{font-size:10px;color:var(--text-3);margin-bottom:4px}
+.format-card .desc{font-size:11px;color:var(--text-2);line-height:1.5}
+.format-card .rule{font-size:10px;color:var(--accent);margin-top:4px;font-style:italic}
+
+.package-diagram{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.package-diagram .box{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 16px;text-align:center;font-size:11px}
+.package-diagram .box.accent{border-color:var(--accent);background:rgba(99,102,241,.05)}
+.package-diagram .box .sub{font-size:9px;color:var(--text-3)}
+.package-diagram .arrow{color:var(--text-3);font-size:14px}
+
+.social-card-mock{background:linear-gradient(135deg,#121214,#1a1a1e);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:360px;margin:12px auto}
+.social-card-mock .tag{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:8px}
+.social-card-mock .headline{font-size:18px;font-weight:700;line-height:1.2;margin-bottom:6px}
+.social-card-mock .why{font-size:12px;color:var(--text-2);margin-bottom:12px}
+.social-card-mock .divider{border-top:1px solid var(--border);margin-bottom:8px;padding-top:8px}
+.social-card-mock .brand{font-size:10px;color:var(--text-3);display:flex;justify-content:space-between}
+
+.example-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin:12px 0}
+.example-box .ex-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);margin-bottom:6px}
+.example-box .ex-content{font-size:13px;color:var(--text-2);line-height:1.6}
+.example-box .ex-content .hl{color:var(--text);font-weight:500}
+.example-box .ex-content .em{color:var(--amber);font-style:italic}
+
+.roadmap{display:flex;flex-direction:column;gap:8px;margin:16px 0}
+.roadmap .phase{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.roadmap .phase h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.roadmap .phase p{font-size:11px;color:var(--text-2);line-height:1.5}
+.roadmap .phase .items{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.roadmap .phase .items span{font-size:10px;padding:2px 6px;border-radius:4px}
+
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Story Package <span>System</span></h1>
+  <p>Uma história. Sete formatos. Zero duplicação editorial.</p>
+</section>
+
+<!-- TAREFA 1 — Entidade -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Entidade StoryPackage</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;">
+    <pre style="font-size:11px;color:var(--text-2);line-height:1.7;font-family:monospace;">
+<span style="color:var(--accent);">interface StoryPackage</span> {
+  <span style="color:var(--text-3);">// Referência à história fonte</span>
+  story: EditorialStory
+
+  <span style="color:var(--text-3);">// Formato principal — homepage</span>
+  homepage: {
+    headline: string       // 8-15 palavras
+    summary: string        // 2-3 frases
+    whyItMatters: string   // 1 frase
+    tag: string
+    storyType: string
+    evidence: string[]
+  }
+
+  <span style="color:var(--text-3);">// Áudio — 90 segundos</span>
+  audio: {
+    script: string         // roteiro completo
+    duration: number       // segundos
+    chapters: { label, start }[]
+    hook: string
+    closing: string
+  } | null
+
+  <span style="color:var(--text-3);">// Newsletter — snippet matinal</span>
+  newsletter: {
+    subject: string        // 5-8 palavras
+    preview: string        // 1 frase
+    body: string           // 2-3 parágrafos
+  } | null
+
+  <span style="color:var(--text-3);">// Redes sociais</span>
+  social: {
+    cardText: string       // 150-200 caracteres
+    cardSubtext: string    // 1 linha
+    ogImage: string        // URL da imagem gerada
+    hashtags: string[]
+  } | null
+
+  <span style="color:var(--text-3);">// Share — texto para copiar</span>
+  share: {
+    text: string           // 1 frase, pronta para copiar
+    link: string
+  }
+
+  <span style="color:var(--text-3);">// Push notification</span>
+  push: {
+    title: string          // 5-8 palavras
+    body: string           // 1 frase
+    urgency: "normal" | "high"
+  } | null
+
+  <span style="color:var(--text-3);">// Daily recap — resumo do dia</span>
+  recap: {
+    heroHeadline: string
+    secondaryHeadline: string | null
+    emergingHeadline: string | null
+    storiesCount: number
+    matchesToday: number
+    audioDuration: number
+  }
+}
+    </pre>
+  </div>
+</section>
+
+<!-- TAREFA 2 — Formatos -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Formatos de Saída</h2>
+
+  <div class="format-card" style="border-left-color:var(--accent);">
+    <h4>1. Homepage Hero</h4>
+    <div class="meta">Tamanho: 8-15 palavras headline • 2-3 frases summary • Prioridade: máxima</div>
+    <div class="desc">Já existe. É o <code>EditorialStory</code> atual. Precisa de headline editorial, não factual. "Marrocos faz história como primeira seleção africana na semi" — não "Marrocos 1×0 Portugal".</div>
+    <div class="rule">📐 Já implementado. Apenas integrar ao StoryPackage.</div>
+  </div>
+
+  <div class="format-card" style="border-left-color:var(--green);">
+    <h4>2. Audio Script</h4>
+    <div class="meta">Tamanho: 90 segundos • 150-200 palavras • Tom: conversacional</div>
+    <div class="desc">7 blocos: Hook → Context → Result + Why → Historical Weight → Secondary → Emerging → Closing. O Script Generator (Sprint 2.2) já define isso.</div>
+    <div class="rule">📐 Já especificado. Integrar ao StoryPackage como campo <code>audio.script</code>.</div>
+  </div>
+
+  <div class="format-card" style="border-left-color:var(--amber);">
+    <h4>3. Newsletter Snippet</h4>
+    <div class="meta">Tamanho: 3-5 parágrafos • 150-200 palavras • Tom: editorial premium</div>
+    <div class="desc">O resumo matinal que o usuário recebe por email. Deve funcionar sozinho (quem abre o email não abre o site). Incluir: hero + secondary + why matters + link para áudio.</div>
+    <div class="rule">📐 Novo. Precisa de template e geração.</div>
+  </div>
+
+  <div class="format-card" style="border-left-color:var(--rose);">
+    <h4>4. Social Card</h4>
+    <div class="meta">Tamanho: 150-200 caracteres • 1 imagem • Tom: compartilhável</div>
+    <div class="desc">O card que o usuário compartilha no WhatsApp, X, Instagram. Deve ser informativo sozinho + fazer quem vê querer abrir o link. O fato histórico ou o dado surpreendente é o gancho.</div>
+    <div class="rule">📐 Novo. Precisa de design e geração de imagem.</div>
+  </div>
+
+  <div class="format-card" style="border-left-color:var(--blue);">
+    <h4>5. Share Text</h4>
+    <div class="meta">Tamanho: 1 frase • 15-25 palavras • Tom: orgulho de compartilhar</div>
+    <div class="desc">Texto pré-escrito para copiar e colar. O usuário não precisa pensar no que escrever. "A Argentina é campeã mundial após 36 anos. Messi finalmente tem a Copa que merecia. [link]"</div>
+    <div class="rule">📐 Novo. Geração simples baseada no story type.</div>
+  </div>
+
+  <div class="format-card" style="border-left-color:var(--accent);">
+    <h4>6. Push Notification</h4>
+    <div class="meta">Tamanho: 5-8 palavras título • 10-15 palavras body • Tom: urgência seletiva</div>
+    <div class="desc">Apenas para histórias de alto impacto. Não para resultados normais. "Brasil eliminado da Copa" — sim. "Brasil vence fase de grupos" — não.</div>
+    <div class="rule">📐 Novo. Precisa de regras editoriais de quando enviar.</div>
+  </div>
+
+  <div class="format-card" style="border-left-color:var(--text-3);">
+    <h4>7. Daily Recap</h4>
+    <div class="meta">Tamanho: 3 seções • 50 palavras total • Tom: resumo executivo</div>
+    <div class="desc">O "fim do dia". Hero + Secondary + Emerging em formato de lista. Ideal para: final da noite, resumo antes de dormir, compartilhar com amigos que perderam o dia.</div>
+    <div class="rule">📐 Novo. Composto automaticamente das 3 stories selecionadas.</div>
+  </div>
+</section>
+
+<!-- TAREFA 3 — Regras por canal -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Regras Editoriais por Canal</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>🏠 Homepage</h4>
+        <ul>
+          <li>Headline editorial, não factual</li>
+          <li>Why It Matters sempre visível</li>
+          <li>Evidence list como segunda camada</li>
+          <li>Tag e storyType como metadata</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>🎙️ Audio</h4>
+        <ul>
+          <li>Hook antes do resultado</li>
+          <li>1 fato histórico no meio</li>
+          <li>Closing thought memorável</li>
+          <li>90 segundos, ritmo conversacional</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>📧 Newsletter</h4>
+        <ul>
+          <li>Subject: hook + time</li>
+          <li>Preview: why it matters</li>
+          <li>Corpo: hero → secondary → emerging</li>
+          <li>CTA: "Ouça o resumo em 90s"</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-left:3px solid var(--rose);">
+        <h4>📱 Social Card</h4>
+        <ul>
+          <li>Headline grande (18-22px)</li>
+          <li>1 fato surpreendente como subtitle</li>
+          <li>Tag no topo (🔥 Redenção, 🌍 Marco)</li>
+          <li>Logo Copa Pulse no rodapé</li>
+          <li>Formato: 1080×1080 ou 1080×1920</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--blue);">
+        <h4>🔔 Push Notification</h4>
+        <ul>
+          <li>Apenas editorialWeight ≥ 85</li>
+          <li>Nunca para grupos</li>
+          <li>Nunca para resultados esperados</li>
+          <li>Máximo 1 push por dia</li>
+          <li>Silencioso entre 22h e 8h</li>
+        </ul>
+      </div>
+      <div class="card" style="border-left:3px solid var(--text-3);">
+        <h4>📋 Share Text</h4>
+        <ul>
+          <li>1 frase que funciona isolada</li>
+          <li>Sempre terminar com link</li>
+          <li>Nunca pedir "compartilhe"</li>
+          <li>Usar emoji no início</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 4 — Distribuição exemplo -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Distribuição — Mesma História, Múltiplos Formatos</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;">
+    <div style="text-align:center;margin-bottom:16px;">
+      <span style="background:rgba(244,63,94,.1);color:var(--rose);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:600;">🔥 REDENÇÃO</span>
+      <h3 style="font-size:18px;font-weight:700;margin-top:8px;">Argentina é campeã mundial após 36 anos</h3>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="example-box" style="border-left:3px solid var(--accent);">
+          <div class="ex-label">🏠 Homepage</div>
+          <div class="ex-content"><span class="hl">"Argentina supera início turbulento e conquista o tri mundial nos pênaltis"</span><br>Messi finalmente tem a Copa que faltava. Argentina quebra jejum de 36 anos na final mais emocionante da história.</div>
+        </div>
+        <div class="example-box" style="border-left:3px solid var(--green);">
+          <div class="ex-label">🎙️ Audio Intro</div>
+          <div class="ex-content">"A história mais improvável da Copa chegou ao final que ninguém ousou escrever. Argentina e França nos pênaltis. Messi contra o destino. E o destino venceu."</div>
+        </div>
+        <div class="example-box" style="border-left:3px solid var(--amber);">
+          <div class="ex-label">📧 Newsletter Subject</div>
+          <div class="ex-content">"Argentina campeã. Messi imortal. 36 anos de espera."</div>
+        </div>
+      </div>
+      <div>
+        <div class="example-box" style="border-left:3px solid var(--rose);">
+          <div class="ex-label">📱 Social Card</div>
+          <div class="ex-content"><span class="hl">"Argentina é campeã mundial pela 3ª vez"</span><br>Messi conquista o único título que faltava. Jejum de 36 anos encerrado na final mais épica da história.</div>
+        </div>
+        <div class="example-box" style="border-left:3px solid var(--blue);">
+          <div class="ex-label">🔔 Push</div>
+          <div class="ex-content"><span class="hl">🏆 Argentina campeã mundial!</span><br>Messi finalmente tem a Copa. Argentina vence França nos pênaltis em final histórica.</div>
+        </div>
+        <div class="example-box" style="border-left:3px solid var(--text-3);">
+          <div class="ex-label">📋 Share Text</div>
+          <div class="ex-content">"Argentina é campeã mundial após 36 anos. Messi, o melhor da história, finalmente tem a Copa que merecia. [link]"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 5 — Social Cards -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Social Cards</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    O que faz alguém compartilhar um card? <strong>Dado surpreendente + design premium + orgulho de associar a marca.</strong>
+  </p>
+
+  <div class="social-card-mock">
+    <div class="tag">🔥 Redenção • Copa 2026</div>
+    <div class="headline">Argentina quebra jejum de 36 anos e conquista o tri</div>
+    <div class="why">Messi conquista o único título que faltava. Argentina supera derrota na estreia e vence final histórica nos pênaltis.</div>
+    <div class="divider"></div>
+    <div class="brand"><span>COPAPULSE.ENG</span><span>🎧 90s de áudio</span></div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px;">
+    <div class="card" style="border-left:3px solid var(--green);">
+      <h4>✅ O que faz alguém compartilhar</h4>
+      <ul>
+        <li><strong>Surpresa:</strong> "36 anos" é mais compartilhável que "Argentina campeã"</li>
+        <li><strong>Identidade:</strong> Torcedor compartilha por orgulho nacional</li>
+        <li><strong>Utilidade:</strong> "Resumo em 90s" é um bônus que justifica o clique</li>
+        <li><strong>Status:</strong> Saber um fato histórico que outros não sabem</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <h4>❌ O que NÃO faz compartilhar</h4>
+      <ul>
+        <li>Placar puro ("Argentina 3×3 França")</li>
+        <li>Headline genérica ("Grande jogo hoje")</li>
+        <li>Sem contexto histórico ("Argentina venceu")</li>
+        <li>Design poluído ou genérico</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 6 — Push Notifications -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Push Notifications</h2>
+
+  <div class="card" style="border-left:3px solid var(--green);">
+    <h4>✅ Quando enviar</h4>
+    <ul>
+      <li><strong>Eliminação de favorito:</strong> "Brasil eliminado da Copa nos pênaltis"</li>
+      <li><strong>Marco histórico:</strong> "Marrocos é o primeiro africano a chegar à semifinal"</li>
+      <li><strong>Final definida:</strong> "Argentina e França decidem o título no domingo"</li>
+      <li><strong>Resultado histórico:</strong> "Arábia Saudita vence Argentina na maior zebra da história"</li>
+      <li><strong>Lesão de lendário:</strong> "Neymar está fora da Copa por lesão"</li>
+    </ul>
+    <p style="font-size:11px;color:var(--text-3);margin-top:6px;">Regra: apenas quando editorialWeight ≥ 85 E stage não é fase de grupos.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--red);">
+    <h4>❌ Quando NÃO enviar</h4>
+    <ul>
+      <li><strong>Vitória de favorito:</strong> "Brasil vence fase de grupos"</li>
+      <li><strong>Jogo normal:</strong> "França 2×0 Dinamarca"</li>
+      <li><strong>Classificação esperada:</strong> "Alemanha vence e segue viva"</li>
+      <li><strong>Múltiplos pushes no mesmo dia:</strong> Máximo 1 push diário</li>
+      <li><strong>Período noturno:</strong> Entre 22h e 8h, silencioso</li>
+    </ul>
+  </div>
+</section>
+
+<!-- TAREFA 7 — Newsletter -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Newsletter</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;">
+    <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;">📧 Copa Pulse Matinal</h4>
+    <p style="font-size:12px;color:var(--text-2);margin-bottom:12px;">Diária, enviada às 7h. Conteúdo do dia anterior + o que esperar hoje.</p>
+
+    <div style="background:var(--surface-2);border-radius:8px;padding:16px;">
+      <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Assunto: Argentina campeã. Messi imortal. 36 anos.</div>
+      <div style="font-size:12px;color:var(--text-2);line-height:1.7;">
+        <p><strong style="color:var(--text);">🔥 A história de ontem:</strong> Argentina é campeã mundial pela 3ª vez. Messi finalmente tem a Copa que faltava. Jejum de 36 anos encerrado na final mais épica da história. <span class="em">[ouça o resumo em 90s]</span></p>
+        <p style="margin-top:6px;"><strong style="color:var(--text);">📰 Também aconteceu:</strong> França perde chance do bi. Mbappé faz hat-trick e não é suficiente. Argentina supera derrota na estreia em campanha de redenção.</p>
+        <p style="margin-top:6px;"><strong style="color:var(--text);">⚽ Hoje:</strong> Dia de folga na Copa. A próxima edição começa em 4 anos.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;padding:12px;background:rgba(99,102,241,.05);border-radius:8px;border-left:3px solid var(--accent);">
+      <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+        <strong style="color:var(--accent);">MVP:</strong> Newsletter diária (7h). Apenas hero + secondary + emerging + 1 CTA (áudio). Template fixo. Geração automática via LLM a partir do StoryPackage. Sem designer. Sem curadoria manual.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 8 — Daily Recap -->
+<section>
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">Daily Recap</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    O "fim do dia" do Copa Pulse. Um resumo que funciona em qualquer formato: texto, card, áudio curto. Ideal para o usuário que abre o site às 23h querendo saber o que perdeu.
+  </p>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <div style="font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">📋 RESUMO DO DIA • 10 DEZ 2026</div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
+      <div style="display:flex;gap:8px;background:var(--surface-2);padding:8px 12px;border-radius:6px;">
+        <span style="color:var(--rose);font-weight:600;font-size:11px;">🔥</span>
+        <span style="font-size:12px;color:var(--text);">Marrocos faz história como primeira seleção africana na semi</span>
+      </div>
+      <div style="display:flex;gap:8px;background:var(--surface-2);padding:8px 12px;border-radius:6px;">
+        <span style="color:var(--amber);font-weight:600;font-size:11px;">📰</span>
+        <span style="font-size:12px;color:var(--text-2);">França elimina Inglaterra e mantém viva chance do bi</span>
+      </div>
+      <div style="display:flex;gap:8px;background:var(--surface-2);padding:8px 12px;border-radius:6px;">
+        <span style="color:var(--accent);font-weight:600;font-size:11px;">⚽</span>
+        <span style="font-size:12px;color:var(--text-2);">Amanhã: Argentina × Croácia na semifinal</span>
+      </div>
+    </div>
+    <div style="margin-top:8px;font-size:10px;color:var(--text-3);">🎧 Resumo em áudio: 90s • 📊 2 jogos hoje • 🔗 Compartilhar</div>
+  </div>
+</section>
+
+<!-- TAREFA 9 — Exercício completo -->
+<section>
+  <div class="sec-label">● 9</div>
+  <h2 class="sec-title">Exercício Completo — Um Dia na Copa</h2>
+
+  <div style="text-align:center;margin-bottom:16px;">
+    <span style="background:rgba(34,197,55,.1);color:var(--green);padding:4px 12px;border-radius:100px;font-size:11px;font-weight:600;">🌍 MARCO HISTÓRICO</span>
+    <h3 style="font-size:16px;font-weight:700;margin-top:6px;">Hero: Marrocos faz história • Secondary: Argentina busca redenção • Emerging: França favorita</h3>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="example-box" style="border-left:3px solid var(--accent);">
+        <div class="ex-label">🏠 HOMEPAGE HERO</div>
+        <div class="ex-content"><span class="hl">"Marrocos faz história como primeira seleção africana a chegar à semifinal"</span><br>Em 92 anos de Copa, nenhum país africano tinha ido tão longe. Marrocos não tomou um gol sequer no mata-mata.</div>
+      </div>
+      <div class="example-box" style="border-left:3px solid var(--green);">
+        <div class="ex-label">🎙️ ÁUDIO (90s)</div>
+        <div class="ex-content">"O time que ninguém levava a sério nos grupos agora é o sonho de um continente inteiro. Marrocos 1 a 0 em Portugal. Gol de En-Nesyri. Primeira seleção africana na semifinal. Em 92 anos de Copa, nenhum país do continente tinha ido tão longe. Enquanto isso, França elimina Inglaterra. Amanhã: Argentina x Croácia, a redenção de Messi contra a resistência de Modric."</div>
+      </div>
+      <div class="example-box" style="border-left:3px solid var(--amber);">
+        <div class="ex-label">📧 NEWSLETTER</div>
+        <div class="ex-content"><span class="hl">Subject: Marrocos faz história. África na semifinal.</span><br>Marrocos é a primeira seleção africana a chegar à semifinal de uma Copa do Mundo. A vitória sobre Portugal por 1 a 0 quebra uma barreira de 92 anos. Enquanto isso, França elimina Inglaterra e mantém vivo o sonho do bi. Amanhã: Argentina x Croácia decide o outro finalista.</div>
+      </div>
+    </div>
+    <div>
+      <div class="example-box" style="border-left:3px solid var(--rose);">
+        <div class="ex-label">📱 SOCIAL CARD</div>
+        <div class="ex-content"><span class="hl">"Marrocos faz história: primeira seleção africana na semifinal"</span><br>Em 92 anos de Copa, nenhum país africano tinha chegado tão longe. copapulse.eng</div>
+      </div>
+      <div class="example-box" style="border-left:3px solid var(--blue);">
+        <div class="ex-label">🔔 PUSH</div>
+        <div class="ex-content"><span class="hl">🌍 Marrocos faz história na Copa</span><br>Primeira seleção africana a chegar à semifinal. Marrocos 1×0 Portugal.</div>
+      </div>
+      <div class="example-box" style="border-left:3px solid var(--text-3);">
+        <div class="ex-label">📋 SHARE TEXT</div>
+        <div class="ex-content">"Marrocos é a primeira seleção africana a chegar à semifinal de uma Copa do Mundo. História sendo escrita. copapulse.eng/marrocos"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 10 — Roadmap -->
+<section style="border:none;">
+  <div class="sec-label">● 10</div>
+  <h2 class="sec-title">Roadmap</h2>
+
+  <div class="roadmap">
+    <div class="phase" style="border-left:3px solid var(--green);">
+      <h4 style="color:var(--green);">✅ MVP — StoryPackage Core</h4>
+      <p>Homepage Hero + Share Text + Daily Recap. Os 3 formatos que não exigem novos canais de distribuição. Homepage já existe. Share text é gerado com template de 1 linha. Daily recap é composto das 3 stories já selecionadas.</p>
+      <div class="items">
+        <span style="background:rgba(34,197,55,.1);color:var(--green);">homepage</span>
+        <span style="background:rgba(34,197,55,.1);color:var(--green);">share text</span>
+        <span style="background:rgba(34,197,55,.1);color:var(--green);">daily recap</span>
+      </div>
+    </div>
+
+    <div class="phase" style="border-left:3px solid var(--amber);">
+      <h4 style="color:var(--amber);">⏰ Sprint 3.1 — Distribuição</h4>
+      <p>Social Cards (geração de OG image + template de card) + Audio Script integration. Social cards exigem geração de imagem server-side (@vercel/og). Audio usa o Script Generator da Sprint 2.2.</p>
+      <div class="items">
+        <span style="background:rgba(245,158,11,.1);color:var(--amber);">social cards</span>
+        <span style="background:rgba(245,158,11,.1);color:var(--amber);">og images</span>
+        <span style="background:rgba(245,158,11,.1);color:var(--amber);">audio integration</span>
+      </div>
+    </div>
+
+    <div class="phase" style="border-left:3px solid var(--accent);">
+      <h4 style="color:var(--accent);">⏰ Sprint 3.2 — Canais Externos</h4>
+      <p>Newsletter (setup de email, template diário) + Push Notifications (service worker, regras editoriais). Ambos exigem canais de distribuição que o MVP não tem.</p>
+      <div class="items">
+        <span style="background:rgba(99,102,241,.1);color:var(--accent);">newsletter</span>
+        <span style="background:rgba(99,102,241,.1);color:var(--accent);">push</span>
+      </div>
+    </div>
+
+    <div class="phase" style="border-left:3px solid var(--text-3);">
+      <h4 style="color:var(--text-3);">📅 Pós-Copa</h4>
+      <p>Wrapped (resumo do torneio), App Nativo (notificações nativas), Recomendação personalizada.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px;">
+    <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;">🎯 MVP — O menor StoryPackage possível</h4>
+    <p style="font-size:12px;color:var(--text-2);line-height:1.7;">
+      <strong>3 formatos, 0 canais novos.</strong> Homepage (já existe) + Share Text (template) + Daily Recap (composto). Nenhuma infraestrutura nova. Nenhum canal externo. O MVP do StoryPackage é simplesmente estruturar os dados que o sistema já produz em um formato que o frontend pode consumir de forma unificada.<br><br>
+      <strong style="color:var(--text);">O que muda no frontend:</strong> O Hero da homepage passa a consumir <code>storyPackage.homepage</code> em vez de <code>editorialStory.headline</code>. A diferença? <code>storyPackage</code> já vem com todos os formatos prontos.<br><br>
+      <strong style="color:var(--text);">Ganho esperado:</strong> Compartilhamento (+). Retenção (++). Consistência entre canais (+++). Uma história, uma fonte da verdade, N versões.
+    </p>
+  </div>
+</section>
+
+<footer style="padding:32px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Story Package System • Uma história. Sete formatos. Zero duplicação.</p>
+</footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — User Validation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:920px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:36px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:4px}
+.sec-title{font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px}
+.doc-hero{padding:48px 0 24px;text-align:center}
+.doc-hero h1{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:13px;color:var(--text-2);max-width:500px;margin:6px auto 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:8px}
+.card h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.card p,.card li{font-size:11px;color:var(--text-2);line-height:1.5}
+.card ul{padding-left:14px}
+.card ul li{padding:2px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+table{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0}
+th,td{padding:4px 8px;text-align:left;border-bottom:1px solid var(--border)}
+th{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3)}
+td{color:var(--text-2)}
+td:first-child{color:var(--text);font-weight:500}
+.verdict{border:1px solid;border-radius:8px;padding:14px 16px;margin:8px 0}
+.verdict h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.verdict p{font-size:11px;color:var(--text-2);line-height:1.5}
+pre{font-size:10px;color:var(--text-2);line-height:1.4;background:var(--surface-2);padding:12px;border-radius:8px;overflow-x:auto;font-family:monospace;margin:6px 0}
+.tag{display:inline-block;font-size:9px;padding:2px 6px;border-radius:3px}
+.tag.green{background:rgba(34,197,55,.1);color:var(--green)}
+.tag.amber{background:rgba(245,158,11,.1);color:var(--amber)}
+.tag.red{background:rgba(239,68,68,.1);color:var(--red)}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Copa Pulse — <span>User Validation</span></h1>
+  <p>10 usuários. 30 segundos cada. Um roteiro. Métricas claras. Operação mínima.</p>
+</section>
+
+<!-- ENTREGÁVEL 1 -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Roteiro de Teste — 10 Usuários</h2>
+
+  <div class="card" style="border-left:3px solid var(--accent);">
+    <h4>📋 Setup</h4>
+    <p><strong>Duração:</strong> 10-15 minutos por usuário. Remoto ou presencial.<br>
+    <strong>Perfil:</strong> 5 homens, 5 mulheres. 25-40 anos. Acompanham Copa mas não são viciados em futebol.<br>
+    <strong>Dispositivo:</strong> Celular próprio. Sem instruções prévias.<br>
+    <strong>Ambiente:</strong> Link enviado por WhatsApp. "Abre aí e me diz o que você acha."</p>
+  </div>
+
+  <div class="card">
+    <h4>🎬 Fase 1 — Primeiro impacto (15 segundos)</h4>
+    <p style="margin-bottom:4px;"><strong>Instrução:</strong> "Abra o link. Olhe a tela. Me diga o que você entendeu."</p>
+    <table>
+      <tr><th>Pergunta</th><th>O que mede</th></tr>
+      <tr><td>O que aconteceu hoje na Copa?</td><td>QuickRead comprehension</td></tr>
+      <tr><td>Qual é a história mais importante?</td><td>Hero selection clarity</td></tr>
+      <tr><td>O que mais chamou sua atenção?</td><td>Visual hierarchy</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h4>🎬 Fase 2 — Exploração (30 segundos)</h4>
+    <p style="margin-bottom:4px;"><strong>Instrução:</strong> "Continue olhando. Me diga o que você entendeu a mais."</p>
+    <table>
+      <tr><th>Pergunta</th><th>O que mede</th></tr>
+      <tr><td>O que acontece amanhã?</td><td>NextChapter comprehension</td></tr>
+      <tr><td>Você entendeu o que significa "Capítulo 4 de 6"?</td><td>NarrativeTracker clarity</td></tr>
+      <tr><td>Você voltaria amanhã para acompanhar essa história?</td><td>Retention potential</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h4>🎬 Fase 3 — Abertura (sem limite)</h4>
+    <p style="margin-bottom:4px;"><strong>Instrução:</strong> "Agora me mostre tudo que você conseguir encontrar. Fale em voz alta o que está pensando."</p>
+    <table>
+      <tr><th>Pergunta</th><th>O que mede</th></tr>
+      <tr><td>O que você ignorou completamente?</td><td>Dead components</td></tr>
+      <tr><td>Qual parte você achou mais útil?</td><td>Core value</td></tr>
+      <tr><td>O que você mudaria?</td><td>Friction points</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h4>🎬 Fase 4 — Fechamento</h4>
+    <table>
+      <tr><th>Pergunta</th><th>Opções</th></tr>
+      <tr><td>Você usaria isso durante a Copa?</td><td>Sim / Talvez / Não</td></tr>
+      <tr><td>Quanto tempo por dia?</td><td>&lt;1min / 1-3min / 3-5min / &gt;5min</td></tr>
+      <tr><td>O que está faltando?</td><td>Livre</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ENTREGÁVEL 2 -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Métricas de Validação</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>✅ Obrigatórias para validar o MVP</h4>
+        <table>
+          <tr><th>Métrica</th><th>Target</th><th>Medido por</th></tr>
+          <tr><td>Entendeu a história principal em 15s</td><td>≥ 8/10</td><td>Pergunta 1</td></tr>
+          <tr><td>Entendeu o que acontece amanhã em 30s</td><td>≥ 7/10</td><td>Pergunta 3</td></tr>
+          <tr><td>Disse que voltaria amanhã</td><td>≥ 6/10</td><td>Pergunta 5</td></tr>
+          <tr><td>Entendeu "Capítulo X de Y"</td><td>≥ 6/10</td><td>Pergunta 4</td></tr>
+          <tr><td>Usaria durante a Copa</td><td>≥ 7/10</td><td>Fechamento</td></tr>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>📊 Informacionais (sem threshold)</h4>
+        <table>
+          <tr><th>Métrica</th><th>Por que importa</th></tr>
+          <tr><td>O que ignorou completamente</td><td>Identifica componentes mortos</td></tr>
+          <tr><td>Tempo médio de uso declarado</td><td>Valida 30s de consumo</td></tr>
+          <tr><td>O que mudaria</td><td>Prioriza próximos passos</td></tr>
+        </table>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green);" style="margin-top:8px;">
+        <h4>✅ Critério de aprovação</h4>
+        <p><strong>Aprovado:</strong> 4/5 métricas obrigatórias atingem target.<br>
+        <strong>Aprovado com ressalvas:</strong> 3/5. Revisar componentes com falha e re-testar.<br>
+        <strong>Não aprovado:</strong> &lt; 3/5. Voltar para Product Audit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTREGÁVEL 3 -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Operação Mínima — VPS + Cron</h2>
+
+  <div class="card" style="border-left:3px solid var(--accent);">
+    <h4>🚀 Arquitetura de Operação</h4>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center;margin:12px 0;">
+      <span style="background:var(--surface-2);padding:6px 10px;border-radius:6px;font-size:10px;border:1px solid var(--border);">Cron<br><span style="font-size:8px;color:var(--text-3);">*/5 * * * *</span></span>
+      <span style="color:var(--text-3);font-size:14px;">→</span>
+      <span style="background:var(--surface-2);padding:6px 10px;border-radius:6px;font-size:10px;border:1px solid var(--border);">fetch-data.sh<br><span style="font-size:8px;color:var(--text-3);">Node script</span></span>
+      <span style="color:var(--text-3);font-size:14px;">→</span>
+      <span style="background:var(--surface-2);padding:6px 10px;border-radius:6px;font-size:10px;border:1px solid var(--border);">latest.json<br><span style="font-size:8px;color:var(--text-3);">disco</span></span>
+      <span style="color:var(--text-3);font-size:14px;">→</span>
+      <span style="background:var(--accent);padding:6px 10px;border-radius:6px;font-size:10px;color:#fff;">Next.js<br><span style="font-size:8px;color:rgba(255,255,255,.7);">ISR revalidate</span></span>
+    </div>
+
+    <h4 style="font-size:12px;font-weight:600;margin:8px 0 4px;">📄 fetch-data.sh</h4>
+    <pre>#!/bin/bash
+# /opt/copa-pulse/fetch-data.sh
+# Chamado pelo cron a cada 5 minutos
+
+cd /opt/copa-pulse
+
+# 1. Fetch fixtures da API-Football
+curl -s -H "x-rapidapi-key: $API_FOOTBALL_KEY" \
+  "https://v3.football.api-sports.io/fixtures?live=all" \
+  -o /tmp/live-fixtures.json
+
+curl -s -H "x-rapidapi-key: $API_FOOTBALL_KEY" \
+  "https://v3.football.api-sports.io/fixtures?date=$(date +%Y-%m-%d)&league=1&season=2026" \
+  -o /tmp/date-fixtures.json
+
+# 2. Fetch standings
+curl -s -H "x-rapidapi-key: $API_FOOTBALL_KEY" \
+  "https://v3.football.api-sports.io/standings?league=1&season=2026" \
+  -o /tmp/standings.json
+
+# 3. Processar com Node
+node scripts/build-data.mjs
+
+# 4. Mover para o diretório servido pelo Next.js
+cp /tmp/latest-brief.json /opt/copa-pulse/public/data/latest.json</pre>
+
+    <h4 style="font-size:12px;font-weight:600;margin:8px 0 4px;">⏰ Crontab</h4>
+    <pre># A cada 5 minutos durante a Copa
+*/5 * * * * /opt/copa-pulse/fetch-data.sh >> /var/log/copa-pulse.log 2>&1
+
+# Diariamente às 06:00 — gera boletim + LLM
+0 6 * * * /opt/copa-pulse/scripts/generate-brief.sh >> /var/log/copa-pulse-daily.log 2>&1</pre>
+
+    <h4 style="font-size:12px;font-weight:600;margin:8px 0 4px;">📦 Dependências da VPS</h4>
+    <ul>
+      <li>Node.js 18+ (npm install no projeto)</li>
+      <li>curl (para API-Football)</li>
+      <li>cron (pré-instalado em Linux)</li>
+      <li>Nginx (reverse proxy para Next.js na porta 3000)</li>
+      <li>~2GB RAM, 10GB disco — $10-15/mês</li>
+    </ul>
+
+    <h4 style="font-size:12px;font-weight:600;margin:8px 0 4px;">📋 scripts/build-data.mjs</h4>
+    <pre>import { readFileSync, writeFileSync } from 'fs'
+// Lê os JSONs do /tmp
+// Importa e roda o pipeline editorial:
+// toMatch() → enrichMatches() → buildMemory() → selectStories() → buildBrief()
+// Salva resultado como latest-brief.json
+// Também salva matches-live.json para consulta rápida</pre>
+  </div>
+</section>
+
+<!-- ENTREGÁVEL 4 -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Checklist de Lançamento</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="verdict" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+        <h4 style="color:var(--red);">🔴 Obrigatório — Bloqueia teste</h4>
+        <ul style="padding-left:14px;font-size:11px;color:var(--text-2);line-height:1.6;">
+          <li>[ ] Assinar API-Footwall (ou usar dados abertos)</li>
+          <li>[ ] Configurar DEEPSEEK_API_KEY para geração editorial</li>
+          <li>[ ] Configurar cron para fetch a cada 5 minutos</li>
+          <li>[ ] VPS com Node.js 18+ rodando Next.js</li>
+          <li>[ ] Nginx reverso com HTTPS (Let's Encrypt)</li>
+          <li>[ ] Domínio configurado (copapulse.vercel.app ou próprio)</li>
+          <li>[ ] scripts/build-data.mjs implementado</li>
+          <li>[ ] ISR configurado para revalidar a cada 60s</li>
+          <li>[ ] Testar o pipeline completo do zero</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="verdict" style="border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.03);">
+        <h4 style="color:var(--amber);">🟡 Importante — Melhora o teste</h4>
+        <ul style="padding-left:14px;font-size:11px;color:var(--text-2);line-height:1.6;">
+          <li>[ ] Roteiro de teste impresso para os 10 usuários</li>
+          <li>[ ] Formulário de feedback (Google Forms ou similar)</li>
+          <li>[ ] Template de email de convite para os testers</li>
+          <li>[ ] Link de acesso via WhatsApp (mais natural para o público)</li>
+          <li>[ ] Monitoramento básico (logs do cron)</li>
+          <li>[ ] Fallback: se API-Footwall falhar, manter últimos dados válidos</li>
+        </ul>
+      </div>
+      <div class="verdict" style="border-color:rgba(34,197,55,.2);background:rgba(34,197,55,.03);">
+        <h4 style="color:var(--green);">🟢 Opcional — Pode esperar</h4>
+        <ul style="padding-left:14px;font-size:11px;color:var(--text-2);line-height:1.6;">
+          <li>[ ] Áudio diário (OpenAI TTS)</li>
+          <li>[ ] Player Facts (Messi, CR7, Neymar, Mbappé)</li>
+          <li>[ ] Newsletter</li>
+          <li>[ ] OG images / Social cards</li>
+          <li>[ ] Google Analytics</li>
+          <li>[ ] Modo claro</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTREGÁVEL 5 -->
+<section style="border:none;">
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Veredito Final</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;">
+    <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;">🎯 O que falta para colocar nas mãos de 10 usuários?</h4>
+
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="background:var(--surface-2);border-radius:8px;padding:12px 14px;">
+        <h4 style="font-size:12px;font-weight:600;color:var(--accent);">1. Assinar API-Football ($99/ano) ⏱ 1h</h4>
+        <p style="font-size:11px;color:var(--text-2);">Produto não funciona sem dados reais. A chave está no .env.local. Basta pagar e configurar.</p>
+      </div>
+
+      <div style="background:var(--surface-2);border-radius:8px;padding:12px 14px;">
+        <h4 style="font-size:12px;font-weight:600;color:var(--accent);">2. Configurar cron na VPS ⏱ 2h</h4>
+        <p style="font-size:11px;color:var(--text-2);">fetch-data.sh + scripts/build-data.mjs + crontab. ~30 linhas de script. Documentado no Entregável 3.</p>
+      </div>
+
+      <div style="background:var(--surface-2);border-radius:8px;padding:12px 14px;">
+        <h4 style="font-size:12px;font-weight:600;color:var(--accent);">3. Rodar o roteiro com 10 usuários ⏱ 1 semana</h4>
+        <p style="font-size:11px;color:var(--text-2);">Recrutar 10 pessoas. 15 minutos cada. Seguir o roteiro do Entregável 1. Coletar métricas.</p>
+      </div>
+
+      <div style="background:var(--surface-2);border-radius:8px;padding:12px 14px;">
+        <h4 style="font-size:12px;font-weight:600;color:var(--accent);">4. Analisar resultados ⏱ 1 dia</h4>
+        <p style="font-size:11px;color:var(--text-2);">Comparar com thresholds do Entregável 2. Decidir: aprova, aprova com ressalvas, ou volta para Product Audit.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;padding:16px;background:rgba(34,197,55,.05);border:1px solid rgba(34,197,55,.15);border-radius:8px;">
+      <p style="font-size:13px;color:var(--text-2);line-height:1.6;">
+        <strong style="color:var(--green);">Resumo:</strong> Faltam 4 ações concretas. Nenhuma delas é nova funcionalidade. Nenhuma delas é nova tela. Nenhuma delas é nova IA.<br><br>
+        O produto editorial está pronto. A operação precisa ser montada. Os usuários precisam ser convidados.<br><br>
+        <strong style="color:var(--text);">O Copa Pulse pode estar nas mãos dos primeiros 10 usuários em 1 semana de trabalho operacional.</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:20px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — User Validation • 10 usuários. 30 segundos. 4 ações. 1 semana.</p>
+</footer>
+
+</main>
+</body>
+</html>

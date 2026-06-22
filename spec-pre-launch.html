@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — Pre-Launch Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:880px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:32px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:4px}
+.sec-title{font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px}
+.doc-hero{padding:48px 0 24px;text-align:center}
+.doc-hero h1{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:13px;color:var(--text-2);max-width:500px;margin:6px auto 0}.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:8px}
+.card h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.card p,.card li{font-size:11px;color:var(--text-2);line-height:1.5}
+.card ul{padding-left:14px}
+.card ul li{padding:2px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.verdict{border:1px solid;border-radius:8px;padding:14px 16px;margin:8px 0}
+.verdict h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.verdict p{font-size:11px;color:var(--text-2);line-height:1.5}
+.principle{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 14px;margin:4px 0;font-size:12px;color:var(--text-2);line-height:1.6}
+.principle strong{color:var(--text)}
+.tag{display:inline-block;font-size:9px;padding:2px 6px;border-radius:3px}
+.tag.green{background:rgba(34,197,55,.1);color:var(--green)}
+.tag.amber{background:rgba(245,158,11,.1);color:var(--amber)}
+.tag.red{background:rgba(239,68,68,.1);color:var(--red)}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Pre-Launch <span>Review</span></h1>
+  <p>Não é sobre o produto ser perfeito. É sobre o produto ser bom o suficiente para testar a hipótese.</p>
+</section>
+
+<!-- Pergunta 1 -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">A forma mais rápida de colocar o produto na frente de 10 usuários</h2>
+
+  <div class="principle"><strong>1. Usar Vercel (não VPS).</strong> O Next.js já está pronto para deploy na Vercel. A VPS exigiria configurar Nginx, cron, build scripts. A Vercel faz isso em 5 minutos com `git push`. O cron pode ser substituído por Vercel Cron Jobs (plano Pro, $20/mês) ou por um script simples no seu computador que roda durante o teste.</div>
+
+  <div class="principle"><strong>2. Dados mockados são aceitáveis para o primeiro teste.</strong> 10 usuários não vão saber que os dados não são reais. Eles vão avaliar o CONCEITO: "um resumo diário da Copa faz sentido para mim?" Não precisam de dados ao vivo para responder isso. Economiza a assinatura da API-Football até validar a demanda.</div>
+
+  <div class="principle"><strong>3. DeepSeek já está configurado.</strong> O boilerplate editorial funciona. Com dados mockados bem escritos (simulando jogos reais), o sistema gera conteúdo editorial completo.</div>
+
+  <div class="principle"><strong>4. Compartilhar um link.</strong> `npm run dev` com `--host 0.0.0.0` exposto via Cloudflare Tunnel (`cloudflared tunnel`) ou deploy na Vercel com dados mockados + ISR. O usuário abre no celular, não precisa instalar nada.</div>
+
+  <div style="margin-top:8px;padding:12px;background:rgba(34,197,55,.05);border:1px solid rgba(34,197,55,.15);border-radius:8px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.5;">
+      <strong style="color:var(--green);">Tempo total estimado: 2-3 horas.</strong> Deploy na Vercel + domínio + dados mockados atualizados + link compartilhado. Sem VPS. Sem API paga. Sem cron. Produto funcional para teste de conceito.
+    </p>
+  </div>
+</section>
+
+<!-- Pergunta 2 -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Cronograma de 7 dias</h2>
+
+  <div style="display:flex;flex-direction:column;gap:6px;">
+    <div style="display:flex;gap:12px;align-items:flex-start;background:var(--surface);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+      <span style="font-size:20px;font-weight:700;color:var(--accent);">1</span>
+      <div><strong>Deploy na Vercel</strong><br><span style="font-size:11px;color:var(--text-2);">`vercel --prod`. Configurar domínio. HTTPS automático. 30 minutos.</span></div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;background:var(--surface);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+      <span style="font-size:20px;font-weight:700;color:var(--accent);">2</span>
+      <div><strong>Dados mockados realistas</strong><br><span style="font-size:11px;color:var(--text-2);">Atualizar fallbackMatches e fallbackBulletin em mock-data.ts com dados de 3 dias simulados da Copa. Simular ontem, hoje e amanhã. 1 hora.</span></div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;background:var(--surface);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+      <span style="font-size:20px;font-weight:700;color:var(--accent);">3</span>
+      <div><strong>Recrutar 10 usuários</strong><br><span style="font-size:11px;color:var(--text-2);">Amigos, familiares, grupos de WhatsApp. "Preciso de 15 minutos para testar um negócio que estou criando." 1 dia para conseguir os 10.</span></div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;background:var(--surface);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+      <span style="font-size:20px;font-weight:700;color:var(--accent);">4</span>
+      <div><strong>Testar com 10 usuários</strong><br><span style="font-size:11px;color:var(--text-2);">Seguir o roteiro. 15 minutos cada. 5 por dia. 2 dias.</span></div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:flex-start;background:var(--surface);border-radius:8px;padding:10px 14px;border:1px solid var(--border);">
+      <span style="font-size:20px;font-weight:700;color:var(--accent);">5</span>
+      <div><strong>Analisar resultados</strong><br><span style="font-size:11px;color:var(--text-2);">Comparar com thresholds do User Validation Plan. Decidir: aprova, aprova com ressalvas, ou volta ao Product Audit. 1 dia.</span></div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--text-3);margin-top:6px;">Dias 6 e 7: buffer para reagendamentos e análise mais profunda.</p>
+</section>
+
+<!-- Pergunta 3 -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">O que NÃO fazer antes da validação</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="verdict" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+        <h4 style="color:var(--red);">❌ Não fazer</h4>
+        <ol style="padding-left:14px;font-size:11px;color:var(--text-2);line-height:1.7;">
+          <li>Assinar API-Football ($99) antes de validar a demanda</li>
+          <li>Configurar VPS com cron antes de saber se alguém quer o produto</li>
+          <li>Adicionar mais datasets históricos (world-cup-history.json já está pronto)</li>
+          <li>Implementar Player Facts (Messi, CR7 — ninguém testou se isso importa)</li>
+          <li>Refatorar arquitetura editorial (o motor funciona)</li>
+          <li>Adicionar áudio diário (custo de TTS sem saber se alguém vai ouvir)</li>
+          <li>Criar newsletter (sem audiência para enviar)</li>
+          <li>Otimizar performance (Next.js já entrega 80kB, não há o que otimizar)</li>
+          <li>Adicionar mais tipos de histórico (ROI decrescente)</li>
+          <li>Escrever testes automatizados (produto não tem clientes ainda)</li>
+        </ol>
+      </div>
+    </div>
+    <div>
+      <div class="verdict" style="border-color:rgba(34,197,55,.2);background:rgba(34,197,55,.03);">
+        <h4 style="color:var(--green);">✅ O que fazer em vez disso</h4>
+        <ol style="padding-left:14px;font-size:11px;color:var(--text-2);line-height:1.7;">
+          <li>Deploy na Vercel (grátis)</li>
+          <li>Dados mockados realistas (1h de trabalho)</li>
+          <li>Recrutar 10 usuários (WhatsApp + 1 dia)</li>
+          <li>Rodar o roteiro de teste (2 dias)</li>
+          <li>Analisar resultados (1 dia)</li>
+          <li>Decidir se o produto merece continuar</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pergunta 4 -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">A hipótese principal</h2>
+
+  <div style="background:var(--surface);border:2px solid var(--accent);border-radius:12px;padding:24px;text-align:center;max-width:600px;margin:0 auto;">
+    <p style="font-size:16px;font-weight:700;line-height:1.4;color:var(--text);">
+      "Fãs casuais da Copa preferem um resumo narrativo de 15 segundos a um portal de placares tradicional."
+    </p>
+  </div>
+
+  <p style="font-size:11px;color:var(--text-3);text-align:center;margin-top:6px;">O teste não valida o motor editorial, os datasets históricos ou a escolha do LLM. O teste valida se existe demanda pelo formato "resumo diário premium de 15 segundos".</p>
+</section>
+
+<!-- Pergunta 5 -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Sinais de que o produto merece continuar</h2>
+
+  <div class="grid-2">
+    <div class="verdict" style="border-color:rgba(34,197,55,.2);background:rgba(34,197,55,.03);">
+      <h4 style="color:var(--green);">🟢 Forte sinal positivo</h4>
+      <ul style="font-size:11px;color:var(--text-2);line-height:1.6;">
+        <li>≥ 7/10 disseram que usariam durante a Copa</li>
+        <li>≥ 6/10 disseram que voltariam amanhã</li>
+        <li>≥ 8/10 entenderam a história principal em 15s</li>
+        <li>Testers compartilharam o link com amigos SEM ser solicitados</li>
+        <li>Alguém perguntou "tem app?" ou "tem notificação?"</li>
+      </ul>
+      <p style="margin-top:4px;font-size:10px;color:var(--green);">Ação: Contratar API-Football. Montar VPS. Preparar para Copa real.</p>
+    </div>
+
+    <div class="verdict" style="border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.03);">
+      <h4 style="color:var(--amber);">🟡 Sinal neutro</h4>
+      <ul style="font-size:11px;color:var(--text-2);line-height:1.6;">
+        <li>5-6/10 disseram que usariam</li>
+        <li>QuickRead funciona, NextChapter não</li>
+        <li>"É legal, mas não voltaria todo dia"</li>
+        <li>Entenderam o conteúdo mas não sentiram necessidade</li>
+      </ul>
+      <p style="margin-top:4px;font-size:10px;color:var(--amber);">Ação: Revisar hipótese. Testar com outro formato ou outro público.</p>
+    </div>
+
+    <div class="verdict" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+      <h4 style="color:var(--red);">🔴 Sinal negativo</h4>
+      <ul style="font-size:11px;color:var(--text-2);line-height:1.6;">
+        <li>&lt; 5/10 entenderam o propósito</li>
+        <li>"Isso é igual ao Google Notícias"</li>
+        <li>Não entenderam a diferença entre QuickRead e Hero</li>
+        <li>"Cadê os gols? Cadê os vídeos?"</li>
+        <li>Ninguém voltaria no dia seguinte</li>
+      </ul>
+      <p style="margin-top:4px;font-size:10px;color:var(--red);">Ação: Arquivar ou pivotar. Produto não resolve um problema real.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pergunta 6 -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Aprendizados mais prováveis</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>✅ Aprendizados positivos prováveis</h4>
+        <ol style="padding-left:14px;font-size:11px;color:var(--text-2);line-height:1.7;">
+          <li><strong>QuickRead é amado.</strong> "Gostei que é rápido. Não preciso ler um monte de texto." — 15 segundos de consumo é o diferencial real.</li>
+          <li><strong>Tag editorial funciona.</strong> "🔥 Redenção" e "🌍 Marco histórico" são compreendidos sem explicação.</li>
+          <li><strong>Design dark mode chama atenção.</strong> "Parece um produto de verdade, não um site amador."</li>
+          <li><strong>ContinuityBar é compreendida.</strong> "Dia 23 • Quartas • 2 jogos" — o usuário entende onde está no torneio.</li>
+          <li><strong>Próximo capítulo gera curiosidade.</strong> "Então amanhã tem Marrocos contra França? Vou acompanhar."</li>
+        </ol>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-left:3px solid var(--red);">
+        <h4>⚠️ Problemas prováveis</h4>
+        <ol style="padding-left:14px;font-size:11px;color:var(--text-2);line-height:1.7;">
+          <li><strong>NarrativeTracker é confuso.</strong> "Capítulo 4 de 6" — comparar história da Copa com série de TV pode não funcionar para todos.</li>
+          <li><strong>HeroMini e QuickRead se confundem.</strong> "Tem duas manchetes? Qual é a principal?" — mesmo após simplificação, o usuário pode não entender a hierarquia.</li>
+          <li><strong>NextChapter não é visto.</strong> Se o usuário não rolar, ele perde o componente de retenção mais importante.</li>
+          <li><strong>"Cadê o resto?"</strong> Usuário acostumado com ESPN pode sentir falta de vídeos, estatísticas, escalações.</li>
+          <li><strong>Dados mockados são percebidos como reais.</strong> Se os dados simularem jogos futuros, o usuário pode confiar na informação e se frustrar se ela não se confirmar. <em>Risco: usar dados mockados de uma Copa passada (2022) em vez de simular 2026.</em></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pergunta 7 -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Se o teste for sucesso, qual a próxima fase?</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;">
+    <p style="font-size:14px;font-weight:700;color:var(--accent);">📈 Validar retenção real, não intenção declarada</p>
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;margin-top:6px;">
+      O teste com 10 usuários valida INTENÇÃO. A próxima fase deve validar COMPORTAMENTO.<br><br>
+      <strong>Estratégia:</strong> Colocar o produto online com dados reais (API-Football + cron) e medir quantos usuários VOLTAM nos dias seguintes. Não o que eles dizem — o que eles fazem.<br><br>
+      <strong>Métrica única:</strong> "Daily Active Users / Total Users who ever visited". Se &gt; 30% dos visitantes voltam em 3+ dias da semana, o hábito está se formando.<br><br>
+      <strong>Próximo movimento estratégico:</strong> Se a retenção for positiva, escalar para 100 usuários orgânicos (compartilhamento, SEO, comunidades). Se a retenção for negativa, entrevistar os usuários que não voltaram para entender o que falta.<br><br>
+      <em>Não é sobre adicionar features. É sobre provar que o produto gera hábito.</em>
+    </p>
+  </div>
+</section>
+
+<!-- Pergunta 8 -->
+<section style="border:none;">
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">Veredito Final</h2>
+
+  <div style="background:var(--surface);border:2px solid var(--accent);border-radius:14px;padding:24px;text-align:center;">
+    <div style="font-size:48px;margin-bottom:8px;">🚀</div>
+    <h3 style="font-size:20px;font-weight:700;color:var(--accent);">B) Lançar imediatamente para os primeiros usuários</h3>
+    <p style="font-size:13px;color:var(--text-2);margin-top:8px;line-height:1.6;text-align:left;">
+      O produto nunca estará "pronto". A cada dia que passa sem teste, você acumula suposições não validadas.<br><br>
+      <strong style="color:var(--text);">O que já temos:</strong> Um resumo diário funcional. Uma hipótese clara. Um roteiro de teste. Métricas de validação.<br><br>
+      <strong style="color:var(--text);">O que não precisamos:</strong> API paga. VPS. Cron. Player Facts. Áudio. Newsletter. Nada disso é necessário para saber se alguém quer um resumo da Copa em 15 segundos.<br><br>
+      <strong style="color:var(--text);">O que faremos:</strong>
+    </p>
+    <div style="display:flex;flex-direction:column;gap:4px;margin-top:8px;text-align:left;font-size:12px;color:var(--text-2);">
+      <div>1. Deploy na Vercel com dados mockados da Copa 2022</div>
+      <div>2. DeepSeek gerando conteúdo editorial real</div>
+      <div>3. 10 usuários testando em 7 dias</div>
+      <div>4. Decisão baseada em dados, não em opinião</div>
+    </div>
+    <div style="margin-top:16px;padding:12px;background:rgba(34,197,55,.05);border:1px solid rgba(34,197,55,.15);border-radius:8px;">
+      <p style="font-size:13px;color:var(--green);font-weight:600;">
+        ✅ Veredito: 7 dias. 10 usuários. Uma resposta.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:20px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Pre-Launch Review • 7 dias. 10 usuários. Uma resposta.</p>
+</footer>
+
+</main>
+</body>
+</html>

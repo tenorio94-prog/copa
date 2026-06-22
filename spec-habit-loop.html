@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — Habit Loop & Quick Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:920px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:48px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:6px}
+.sec-title{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.5px;margin-bottom:12px}
+.doc-hero{padding:64px 0 32px;text-align:center}
+.doc-hero h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:14px;color:var(--text-2);max-width:500px;margin:8px auto 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:12px}
+.card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.card p,.card li{font-size:12px;color:var(--text-2);line-height:1.6}
+.card ul{padding-left:16px}
+.card ul li{padding:3px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+.tradeoff{display:flex;gap:12px;margin:12px 0;flex-wrap:wrap}
+.tradeoff .col{flex:1;min-width:200px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px}
+.tradeoff .col h4{font-size:12px;font-weight:600;margin-bottom:6px}
+.tradeoff .col p{font-size:11px;color:var(--text-2);line-height:1.5}
+.tradeoff .col .bar{height:4px;border-radius:2px;margin-top:8px}
+
+.quick-mock{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;max-width:480px;margin:16px auto}
+.quick-mock .tag{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);margin-bottom:8px}
+.quick-mock .hero{font-size:16px;font-weight:700;line-height:1.2;margin-bottom:8px}
+.quick-mock .bullets{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.quick-mock .bullets .b{font-size:12px;color:var(--text-2);padding-left:12px;border-left:2px solid var(--border)}
+.quick-mock .meta{font-size:10px;color:var(--text-3);display:flex;gap:12px}
+
+.principle{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;margin:6px 0;font-size:12px;color:var(--text-2);line-height:1.6}
+.principle strong{color:var(--text)}
+
+.verdict{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin:8px 0}
+.verdict .v-head{font-size:12px;font-weight:600;margin-bottom:4px}
+.verdict .v-body{font-size:11px;color:var(--text-2);line-height:1.5}
+
+table{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0}
+th,td{padding:6px 8px;text-align:left;border-bottom:1px solid var(--border)}
+th{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3)}
+td{color:var(--text-2)}
+td:first-child{color:var(--text);font-weight:500}
+
+@media(max-width:768px){.grid-2,.tradeoff{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Habit Loop & <span>Quick Read</span></h1>
+  <p>O Copa Pulse compete com 30 segundos no elevador. Cada tela precisa responder "o que importa hoje?" antes do usuário descer o dedo.</p>
+</section>
+
+<!-- TAREFA 1 — Crítica do StoryPackage -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Crítica do StoryPackage</h2>
+
+  <table>
+    <tr><th>Formato</th><th>Cria hábito?</th><th>Valor real</th><th>Classificação</th></tr>
+    <tr><td>Homepage Hero</td><td>✅ Sim — é a porta de entrada</td><td>Alto</td><td style="color:var(--green);font-weight:600;">MVP</td></tr>
+    <tr><td>Share Text</td><td>❌ Não — é saída, não entrada</td><td>Médio (só útil se o usuário compartilhar)</td><td style="color:var(--amber);">Adiar</td></tr>
+    <tr><td>Daily Recap</td><td>🟡 Talvez — fim do dia, baixo uso</td><td>Médio (sobreposição com Hero)</td><td style="color:var(--amber);">Adiar</td></tr>
+    <tr><td>Audio</td><td>🟡 Talvez — nicho, mas fideliza</td><td>Alto para quem usa, zero para quem não usa</td><td style="color:var(--amber);">Depois</td></tr>
+    <tr><td>Social Card</td><td>❌ Não — é viralidade, não retenção</td><td>Médio (crescimento, não hábito)</td><td style="color:var(--amber);">Depois</td></tr>
+    <tr><td>Newsletter</td><td>✅ Sim — email é canal de retenção comprovado</td><td>Alto (mas exige setup de email)</td><td style="color:var(--amber);">Depois</td></tr>
+    <tr><td>Push</td><td>✅ Sim — notificação traz de volta</td><td>Alto (mas exige permissão do usuário)</td><td style="color:var(--amber);">Depois</td></tr>
+  </table>
+
+  <div style="margin-top:16px;padding:16px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:10px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong style="color:var(--red);">Conclusão impopular:</strong> O StoryPackage como projetado tem 7 formatos, mas apenas 1 (Homepage Hero) cria hábito diário imediato. Newsletter e Push criam hábito, mas exigem canais que o MVP não tem. Share Text, Daily Recap, Social Cards e Audio são interessantes, mas não trazem o usuário de volta amanhã. <strong>O MVP do StoryPackage deve ter 1 formato (Homepage), não 7.</strong> Os outros são adiados até que o hábito diário esteja comprovado.
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 2 — Quick Read -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Quick Read — O verdadeiro MVP</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    A menor unidade de valor do Copa Pulse. 15 segundos. 3 bullets. Zero distração. O usuário abre, lê, entende, sai.
+  </p>
+
+  <div class="quick-mock">
+    <div class="tag">🔥 Resumo do dia • 15 segundos</div>
+    <div class="hero">Marrocos faz história como primeira seleção africana na semifinal</div>
+    <div class="bullets">
+      <div class="b">🌍 <strong>Marrocos 1×0 Portugal</strong> — Primeiro africano a chegar na semi em 92 anos de Copa</div>
+      <div class="b">🇫🇷 <strong>França 2×1 Inglaterra</strong> — Atual campeã segue viva. Inglaterra perde pênalti no fim</div>
+      <div class="b">⚽ <strong>Amanhã:</strong> Argentina × Croácia na semifinal</div>
+    </div>
+    <div class="meta"><span>📖 15s de leitura</span><span>🎧 90s de áudio</span></div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <h4 style="font-size:12px;font-weight:600;margin-bottom:8px;">📋 Especificação do Quick Read</h4>
+    <pre style="font-size:11px;color:var(--text-2);line-height:1.6;font-family:monospace;">
+interface QuickRead {
+  <span style="color:var(--text-3);">// 1 linha, 10-14 palavras</span>
+  hero: string
+
+  <span style="color:var(--text-3);">// 3 bullets. Cada um: 10-15 palavras</span>
+  bullets: [string, string, string]
+
+  <span style="color:var(--text-3);">// Tempo de leitura em segundos (sempre ≤ 20)</span>
+  readingTime: number
+
+  <span style="color:var(--text-3);">// Metadados</span>
+  stories: number   // quantos jogos ocorreram
+  audioAvailable: boolean
+}
+    </pre>
+    <p style="font-size:11px;color:var(--text-3);margin-top:8px;">Geração: 3 linhas a partir do top 3 EditorialStory. Sempre 3 bullets. Se só há 1 história, as outras 2 viram contexto adicional.</p>
+  </div>
+</section>
+
+<!-- TAREFA 3 — Homepage Otimizada para Hábito -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Homepage do Hábito Diário</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:8px;">
+    Se o usuário tem 30 segundos, a ordem precisa ser cirúrgica. Cada seção ou entrega valor imediato ou é removida.
+  </p>
+
+  <div class="principle"><strong>1. Quick Read (15s).</strong> Hero + 3 bullets. O usuário vê isso PRIMEIRO, antes do hero card atual. Se ele quiser mais profundidade, o Hero Story está logo abaixo.</div>
+  <div class="principle"><strong>2. Hero Story (5s).</strong> Headline editorial + tag + why it matters. O Quick Read já deu o resumo. O Hero Story dá a profundidade editorial para quem quer mais.</div>
+  <div class="principle"><strong>3. Jogos de hoje (5s).</strong> Ao vivo + próximos. Ação imediata. "O que posso assistir agora?"</div>
+  <div class="principle"><strong>4. Tabela (5s).</strong> Classificação. Apenas um grupo, o mais relevante. Seletor de grupos secundário.</div>
+
+  <div style="margin-top:12px;padding:16px;background:var(--surface-2);border-radius:8px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong style="color:var(--accent);">Ordem final — 30 segundos:</strong>
+      <span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+        <span style="background:rgba(99,102,241,.1);color:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;">15s Quick Read</span>
+        <span style="font-size:11px;color:var(--text-3);">→</span>
+        <span style="background:var(--surface-2);border:1px solid var(--border);padding:2px 8px;border-radius:4px;font-size:11px;">5s Hero Story</span>
+        <span style="font-size:11px;color:var(--text-3);">→</span>
+        <span style="background:var(--surface-2);border:1px solid var(--border);padding:2px 8px;border-radius:4px;font-size:11px;">5s Jogos</span>
+        <span style="font-size:11px;color:var(--text-3);">→</span>
+        <span style="background:var(--surface-2);border:1px solid var(--border);padding:2px 8px;border-radius:4px;font-size:11px;">5s Tabela</span>
+      </span>
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 4 — Eliminar Complexidade -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Eliminar Complexidade</h2>
+
+  <div class="tradeoff">
+    <div class="col">
+      <h4>🗑️ Remover do MVP</h4>
+      <div class="bar" style="background:var(--red);width:100%;"></div>
+      <ul style="font-size:11px;color:var(--text-2);line-height:1.7;padding-left:14px;margin-top:6px;">
+        <li><strong>Newsletter:</strong> Exige email service, duplicação de conteúdo diário. Adicionar quando houver audiência.</li>
+        <li><strong>Push:</strong> Exige service worker, permissão do usuário, servidor de push. Adicionar quando houver retenção.</li>
+        <li><strong>Social Cards (OG Image):</strong> Exige @vercel/og, geração server-side. Adicionar quando houver compartilhamento orgânico.</li>
+        <li><strong>Hashtags:</strong> Zero valor para o usuário. Só para SEO/marketing.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>✅ Manter no MVP</h4>
+      <div class="bar" style="background:var(--green);width:100%;"></div>
+      <ul style="font-size:11px;color:var(--text-2);line-height:1.7;padding-left:14px;margin-top:6px;">
+        <li><strong>Quick Read:</strong> 3 linhas de template. Zero infraestrutura. Máximo valor.</li>
+        <li><strong>Homepage Hero:</strong> Já existe. Apenas integrar ao StoryPackage.</li>
+        <li><strong>Share Text:</strong> 1 linha de template. Compartilhar é viralidade gratuita.</li>
+        <li><strong>Daily Recap:</strong> Composto automaticamente das stories. Sem custo adicional.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>⏰ Adiar</h4>
+      <div class="bar" style="background:var(--amber);width:60%;"></div>
+      <ul style="font-size:11px;color:var(--text-2);line-height:1.7;padding-left:14px;margin-top:6px;">
+        <li><strong>Audio:</strong> 90s de áudio é diferencial mas não cria hábito diário. Implementar quando houver equipe ou orçamento.</li>
+        <li><strong>Subject Lines:</strong> Newsletter adiada.</li>
+        <li><strong>Recap visual:</strong> Wrapped-style, pós-Copa.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 5 — Loop de Hábito -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Loop de Hábito — Por que voltar amanhã?</h2>
+
+  <div class="card" style="border-left:3px solid var(--accent);">
+    <h4>Gatilho 1 — Continuidade narrativa (força: alta)</h4>
+    <p>"Marrocos venceu Portugal. Amanhã enfrenta a França na semi." O usuário volta para saber o desfecho de uma história que já acompanha. A Copa tem uma narrativa natural de começo, meio e fim. Nosso trabalho é não quebrar essa corrente.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--accent);">
+    <h4>Gatilho 2 — Medo de perder contexto (força: alta)</h4>
+    <p>"Se eu não abrir o Copa Pulse hoje, não vou entender o que está acontecendo no torneio." O Quick Read resolve isso em 15 segundos. O custo de "se manter atualizado" é baixíssimo — e o custo de "ficar por fora" é altíssimo socialmente.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--amber);">
+    <h4>Gatilho 3 — Identidade nacional (força: média)</h4>
+    <p>"Brasil jogou hoje." Torcedor quer saber. Mas isso só funciona nos dias de jogo do seu time. Não sustenta hábito diário para todos os usuários.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--amber);">
+    <h4>Gatilho 4 — Progressão do torneio (força: média)</h4>
+    <p>"Estamos nas quartas. Quem já caiu? Quem ainda está vivo?" O usuário volta para ver o "tabuleiro" atualizado. A tabela e o mata-mata são o tabuleiro.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--text-3);">
+    <h4>Gatilho 5 — Hábito fixo (força: baixa no início)</h4>
+    <p>"Toda manhã eu vejo o Copa Pulse." Só funciona depois de 2+ semanas de uso consistente. Não é um ponto de partida, é um ponto de chegada.</p>
+  </div>
+
+  <div style="margin-top:8px;padding:12px;background:rgba(34,197,55,.05);border:1px solid rgba(34,197,55,.15);border-radius:8px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong style="color:var(--green);">Resumo:</strong> O melhor gatilho é a <strong>continuidade narrativa</strong>. A Copa tem começo, meio e fim — o Copa Pulse deve ser o marcador de progresso. "Você acompanhou Marrocos até aqui. Não pare agora." O Quick Read é a ferramenta que torna esse acompanhamento indolor.
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 6 — Continuidade -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Sistema de Continuidade</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:8px;">
+    O usuário acompanha a Copa por 30+ dias. Cada dia é um capítulo. Precisamos mostrar que o torneio está progredindo sem criar uma timeline infinita.
+  </p>
+
+  <div class="card">
+    <h4>Proposta: "Onde estamos" — 1 linha no topo da página</h4>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px;margin-top:6px;">
+      <span style="background:var(--surface-2);border:1px solid var(--border);padding:4px 10px;border-radius:100px;">📅 Dia 23 da Copa</span>
+      <span style="background:var(--surface-2);border:1px solid var(--border);padding:4px 10px;border-radius:100px;">🏆 Fase de grupos</span>
+      <span style="background:var(--surface-2);border:1px solid var(--border);padding:4px 10px;border-radius:100px;">⚽ 2 jogos hoje</span>
+      <span style="background:var(--surface-2);border:1px solid var(--border);padding:4px 10px;border-radius:100px;">🔥 Maior história: Marrocos na semi</span>
+    </div>
+    <p style="font-size:11px;color:var(--text-3);margin-top:6px;">Uma barra no topo. Não precisa de click. Apenas orientação. Gera o "medo de perder contexto".</p>
+  </div>
+
+  <div class="card">
+    <h4>Proposta: "A jornada continua" — transição entre dias</h4>
+    <p style="font-size:11px;color:var(--text-2);margin-top:4px;">"Ontem: Marrocos eliminou Portugal 🇲🇦. Hoje: Argentina enfrenta Croácia 🇦🇷🇭🇷." Uma linha conectando o dia anterior ao dia atual. Cria a sensação de que o usuário está acompanhando UMA HISTÓRIA, não notícias soltas.</p>
+  </div>
+</section>
+
+<!-- TAREFA 7 — StoryBrief -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">StoryBrief — A unidade mínima de valor</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <pre style="font-size:11px;color:var(--text-2);line-height:1.6;font-family:monospace;">
+<span style="color:var(--accent);">interface StoryBrief</span> {
+  <span style="color:var(--text-3);">// 10-14 palavras. Lida sem clique.</span>
+  headline: string
+
+  <span style="color:var(--text-3);">// 12-18 palavras. O que muda no torneio.</span>
+  whyItMatters: string
+
+  <span style="color:var(--text-3);">// 1-3 curtas evidências</span>
+  evidence: string[]
+
+  <span style="color:var(--text-3);">// 1 frase pronta para copiar</span>
+  shareText: string
+
+  <span style="color:var(--text-3);">// Metadados editoriais</span>
+  storyType: <span style="color:var(--accent);">EditorialStoryType</span>
+  tag: string
+  confidence: number
+
+  <span style="color:var(--text-3);">// Tempo estimado de leitura</span>
+  readingTime: number  <span style="color:var(--text-3);">// sempre ≤ 20s</span>
+}
+    </pre>
+    <p style="font-size:11px;color:var(--text-3);margin-top:8px;">StoryBrief é o que o usuário vê nos primeiros 15 segundos. StoryPackage é o que ele vê se quiser mais. A relação: StoryBrief ⊂ StoryPackage — o Brief é um subconjunto do Package, não uma entidade separada.</p>
+  </div>
+</section>
+
+<!-- TAREFA 8 — Exercício -->
+<section>
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">Comparação: Valor por Segundo</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;">
+      <h4 style="font-size:11px;font-weight:600;margin-bottom:6px;">📋 StoryBrief (15s)</h4>
+      <div style="font-size:11px;color:var(--text-2);line-height:1.5;">
+        "Marrocos faz história como primeira seleção africana na semi"<br>
+        <span style="color:var(--text-3);">• Marrocos 1×0 Portugal — feito inédito em 92 anos de Copa</span><br>
+        <span style="color:var(--text-3);">• França 2×1 Inglaterra — atual campeã segue viva</span><br>
+        <span style="color:var(--text-3);">• Amanhã: Argentina × Croácia</span>
+      </div>
+      <p style="font-size:10px;color:var(--green);margin-top:4px;">Valor por segundo: ALTO. 3 informações em 15s.</p>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;">
+      <h4 style="font-size:11px;font-weight:600;margin-bottom:6px;">📰 Homepage Hero (30s+)</h4>
+      <div style="font-size:11px;color:var(--text-2);line-height:1.5;">
+        "Marrocos faz história como primeira seleção africana a chegar à semifinal"<br>
+        <span style="color:var(--text-3);">Em 92 anos de Copa, nenhum país africano tinha ido tão longe. Marrocos não tomou um gol sequer no mata-mata. A defesa virou muralha.</span>
+      </div>
+      <p style="font-size:10px;color:var(--amber);margin-top:4px;">Valor por segundo: MÉDIO. Mais contexto, mas o usuário já sabia pelo Brief.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;padding:16px;background:rgba(34,197,55,.05);border:1px solid rgba(34,197,55,.15);border-radius:10px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong style="color:var(--green);">Veredito:</strong> StoryBrief gera MAIS valor por segundo que qualquer outro formato. O usuário consome o dia em 15 segundos. Se quiser mais, o Hero Story está a 1 scroll de distância. O Brief não substitui o Hero — ele é a porta de entrada.
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 9 — Métrica -->
+<section>
+  <div class="sec-label">● 9</div>
+  <h2 class="sec-title">Value Density Score</h2>
+
+  <div class="card">
+    <h4>📊 Como medir "valor por segundo"</h4>
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong>Value Density = Informação Útil / Tempo de Consumo</strong><br><br>
+      <strong>Informação Útil:</strong> Número de fatos que o usuário lembra 5 minutos depois de consumir. Não é o que o sistema produziu — é o que o usuário reteve.<br><br>
+      <strong>Proxy prático para MVP:</strong> Número de <code>evidence[]</code> que aparecem na story com maior confidence dividido por 15 segundos. Um Quick Read com 3 evidence em 15 segundos tem density de 0.2 fatos/segundo. Um audio de 90 segundos com 5 evidence tem density de 0.05 fatos/segundo.<br><br>
+      <strong>O Quick Read é 4x mais denso que o áudio.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 10 — Roadmap -->
+<section style="border:none;">
+  <div class="sec-label">● 10</div>
+  <h2 class="sec-title">Roadmap Otimizado para Hábito</h2>
+
+  <div class="verdict" style="border-left:3px solid var(--green);">
+    <div class="v-head" style="color:var(--green);">✅ AGORA — Criar o hábito (1-2 dias)</div>
+    <div class="v-body">
+      • Implementar <strong>Quick Read</strong> (3 bullets a partir do EditorialStory)<br>
+      • Reordenar homepage: Quick Read → Hero → Jogos → Tabela<br>
+      • Adicionar <strong>barra de continuidade</strong> ("Dia 23 • Fase de grupos • 2 jogos hoje")<br>
+      • <strong>StoryBrief</strong> como entidade principal de consumo
+    </div>
+  </div>
+
+  <div class="verdict" style="border-left:3px solid var(--amber);">
+    <div class="v-head" style="color:var(--amber);">⏰ PRÓXIMO — Reforçar o hábito (3-5 dias)</div>
+    <div class="v-body">
+      • <strong>Share Text</strong> — template de 1 linha para copiar<br>
+      • <strong>Continuidade narrativa</strong> — "Ontem: X. Hoje: Y." no topo do Quick Read<br>
+      • <strong>Audio</strong> — se o orçamento permitir (OpenAI TTS é $1.20/mês)<br>
+      • <strong>Daily Recap</strong> — composto automático para fechamento do dia
+    </div>
+  </div>
+
+  <div class="verdict" style="border-left:3px solid var(--text-3);">
+    <div class="v-head" style="color:var(--text-3);">📅 DEPOIS — Escalar (pós-validação)</div>
+    <div class="v-body">
+      • Newsletter (quando houver audiência)<br>
+      • Push (quando houver retenção)<br>
+      • Social Cards / OG Images (quando houver compartilhamento orgânico)<br>
+      • Wrapped pós-Copa
+    </div>
+  </div>
+
+  <div class="verdict" style="border-left:3px solid var(--red);">
+    <div class="v-head" style="color:var(--red);">❌ NUNCA (para o MVP)</div>
+    <div class="v-body">
+      • Hashtags automáticas<br>
+      • Análise de sentimento<br>
+      • Recomendação personalizada<br>
+      • Modo escuro (ops, já temos) — modo claro<br>
+      • Comentários dos usuários
+    </div>
+  </div>
+
+  <div style="margin-top:20px;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px;">
+    <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;">🎯 O MVP real do Copa Pulse</h4>
+    <p style="font-size:12px;color:var(--text-2);line-height:1.7;">
+      <strong>Não é StoryPackage com 7 formatos.</strong><br>
+      <strong>Não é Newsletter.</strong><br>
+      <strong>Não é Áudio.</strong><br>
+      <strong>Não é Push.</strong><br><br>
+      <strong style="color:var(--text);">É o Quick Read.</strong><br><br>
+      Um template de 3 linhas. Zero infraestrutura. 15 segundos de consumo. Responde "o que importa hoje?" antes do usuário descer o dedo. O Quick Read é a razão pela qual o usuário abre o Copa Pulse amanhã — porque ontem ele abriu, leu em 15 segundos, entendeu o dia, e não perdeu nada.<br><br>
+      <span style="color:var(--text-3);">O resto é incremento.</span>
+    </p>
+  </div>
+</section>
+
+<footer style="padding:24px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Habit Loop • 15 segundos. 3 bullets. O resto é incremento.</p>
+</footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copa Pulse — Homepage Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --bg: #0a0a0b; --surface: #121214; --surface-2: #1a1a1e; --border: #222226; --text: #f4f4f5; --text-2: #a1a1aa; --text-3: #71717a; --accent: #6366f1; --green: #22c55e; --amber: #f59e0b; --red: #ef4444; --rose: #f43f5e; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(99,102,241,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,.03) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; z-index: 0; }
+
+/* Layout */
+.wrapper { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+.sec-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; }
+.sec-title { font-size: clamp(24px, 3vw, 32px); font-weight: 700; letter-spacing: -.5px; margin-bottom: 24px; }
+
+/* Hero */
+.doc-hero { padding: 100px 0 40px; text-align: center; }
+.doc-hero h1 { font-size: clamp(32px, 5vw, 48px); font-weight: 800; letter-spacing: -1.5px; }
+.doc-hero h1 span { background: linear-gradient(135deg, var(--accent), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.doc-hero p { font-size: 14px; color: var(--text-2); max-width: 500px; margin: 8px auto 0; }
+
+/* Wireframe phone mockup */
+.phone-wrap { display: flex; gap: 32px; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+.phone { width: 375px; background: #0d0d0f; border: 1px solid var(--border); border-radius: 24px; overflow: hidden; flex-shrink: 0; }
+.phone .notch { padding: 10px 16px; display: flex; justify-content: space-between; font-size: 11px; color: var(--text-3); border-bottom: 1px solid var(--border); }
+.phone .screen { padding: 0; }
+.phone .section { padding: 14px; border-bottom: 1px solid var(--border); }
+.phone .section:last-child { border-bottom: none; }
+
+/* Hero story card */
+.hero-card { background: linear-gradient(135deg, rgba(99,102,241,.15), rgba(168,85,247,.08)); border: 1px solid rgba(99,102,241,.2); border-radius: 14px; padding: 16px; text-align: center; }
+.hero-card .tag { display: inline-block; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+.hero-card .tag.redemption { background: rgba(244,63,94,.15); color: var(--rose); }
+.hero-card .tag.historic { background: rgba(99,102,241,.15); color: var(--accent); }
+.hero-card .tag.zebra { background: rgba(245,158,11,.15); color: var(--amber); }
+.hero-card h2 { font-size: 17px; font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
+.hero-card .sub { font-size: 12px; color: var(--text-2); margin-bottom: 8px; }
+.hero-card .why { font-size: 11px; color: var(--accent); font-style: italic; padding: 6px 8px; background: rgba(99,102,241,.08); border-radius: 6px; border-left: 2px solid var(--accent); }
+.hero-card .meta { display: flex; justify-content: center; gap: 12px; margin-top: 8px; font-size: 10px; color: var(--text-3); }
+
+/* Secondary story */
+.secondary { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; gap: 10px; align-items: center; }
+.secondary .num { font-size: 20px; font-weight: 800; color: var(--text-3); }
+.secondary .content { flex: 1; }
+.secondary .content .t { font-size: 12px; font-weight: 600; }
+.secondary .content .m { font-size: 10px; color: var(--text-3); }
+.secondary .content .tag-sm { font-size: 8px; text-transform: uppercase; letter-spacing: .5px; padding: 1px 5px; border-radius: 3px; background: rgba(245,158,11,.1); color: var(--amber); }
+
+/* Bulletin card */
+.bulletin-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 6px; }
+.bulletin-card:last-child { margin-bottom: 0; }
+.bulletin-card .res { font-size: 13px; font-weight: 600; }
+.bulletin-card .ctx { font-size: 10px; color: var(--text-3); margin-top: 1px; }
+.bulletin-card .why-line { font-size: 10px; color: var(--accent); font-style: italic; margin-top: 4px; border-left: 2px solid var(--accent); padding-left: 6px; }
+
+/* Match cards */
+.match-row { display: flex; gap: 6px; }
+.match-card { flex: 1; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; }
+.match-card .teams { font-size: 13px; font-weight: 600; }
+.match-card .status { font-size: 9px; color: var(--text-3); margin-top: 3px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.match-card .status .live-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--red); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* Standings */
+.standing-row { display: flex; justify-content: space-between; background: var(--surface-2); padding: 4px 8px; border-radius: 4px; font-size: 10px; margin-bottom: 2px; }
+.standing-row:last-child { margin-bottom: 0; }
+
+/* Audio bar */
+.audio-bar { display: flex; align-items: center; gap: 10px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-top: 8px; }
+.audio-bar .play { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.audio-bar .info { flex: 1; }
+.audio-bar .info .t { font-size: 12px; font-weight: 600; }
+.audio-bar .info .sub { font-size: 10px; color: var(--text-3); }
+.audio-bar .duration { font-size: 10px; color: var(--text-3); }
+
+/* Desktop layout */
+.desktop-layout { display: grid; grid-template-columns: 1.6fr 1fr; gap: 32px; margin-top: 32px; }
+.desktop-layout .sidebar { display: flex; flex-direction: column; gap: 16px; }
+.desktop-layout .sidebar .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.desktop-layout .sidebar .box h4 { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); margin-bottom: 8px; }
+
+/* Flow diagram */
+.flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 24px 0; }
+.flow .step { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; font-size: 11px; text-align: center; }
+.flow .step .sub { font-size: 9px; color: var(--text-3); }
+.flow .arrow { color: var(--text-3); font-size: 14px; }
+
+/* Timing */
+.timeline { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; }
+.timeline .t-item { display: flex; gap: 12px; align-items: flex-start; }
+.timeline .t-item .time { font-size: 11px; font-weight: 600; color: var(--accent); white-space: nowrap; min-width: 70px; padding-top: 2px; }
+.timeline .t-item .desc { font-size: 12px; color: var(--text-2); }
+.timeline .t-item .desc strong { color: var(--text); }
+
+/* Section labels in phone */
+.phone-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-3); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+
+/* Comparison */
+.comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.comp-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.comp-card p { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+.comp-card .badge { display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 4px; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+.comp-card.v1 { border-left: 3px solid var(--accent); }
+.comp-card.v2 { border-left: 3px solid var(--green); }
+.comp-card.v1 .badge { background: rgba(99,102,241,.1); color: var(--accent); }
+.comp-card.v2 .badge { background: rgba(34,197,55,.1); color: var(--green); }
+
+/* States */
+.states-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px; }
+.state-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }
+.state-card .icon { font-size: 24px; margin-bottom: 8px; }
+.state-card h4 { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+.state-card p { font-size: 10px; color: var(--text-3); }
+
+@media (max-width: 768px) {
+  .desktop-layout { grid-template-columns: 1fr; }
+  .comp-grid, .states-grid { grid-template-columns: 1fr; }
+  .flow { flex-direction: column; }
+  .flow .arrow { transform: rotate(90deg); }
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<main class="wrapper">
+
+<!-- Hero -->
+<section class="doc-hero" style="border: none;">
+  <h1>Copa Pulse — <span>Experiência</span></h1>
+  <p>3 minutos. É tudo que você precisa para entender a Copa.</p>
+</section>
+
+<!-- Flow -->
+<section>
+  <div class="sec-label">● Fluxo</div>
+  <h2 class="sec-title">Os 3 Minutos</h2>
+  <div class="timeline">
+    <div class="t-item"><span class="time">0:00 — 0:30</span><div class="desc"><strong>🔥 Hero Story</strong> — O que importa hoje. Headline + Why It Matters. Se quiser, escuta o resumo em áudio.</div></div>
+    <div class="t-item"><span class="time">0:30 — 1:30</span><div class="desc"><strong>📰 O que aconteceu</strong> — Os 3 jogos mais importantes de ontem. Cada um com Why It Matters. Contexto sem estatística.</div></div>
+    <div class="t-item"><span class="time">1:30 — 2:30</span><div class="desc"><strong>⚽ Jogos de hoje</strong> — Ao vivo + próximos. Placar, minuto, quem joga. Nada mais.</div></div>
+    <div class="t-item"><span class="time">2:30 — 3:00</span><div class="desc"><strong>📊 Tabela + Compartilhar</strong> — Classificação dos grupos. Card bonito pra mandar no WhatsApp.</div></div>
+  </div>
+</section>
+
+<!-- Mobile Wireframe -->
+<section>
+  <div class="sec-label">● Mobile</div>
+  <h2 class="sec-title">Homepage — Mobile First</h2>
+  <div class="phone-wrap">
+    <!-- Phone 1: Scroll position top -->
+    <div class="phone">
+      <div class="notch"><span>9:41</span><span>🔋</span></div>
+      <div class="screen">
+        <!-- Nav -->
+        <div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;">
+          <span style="display:flex;align-items:center;gap:6px;"><span style="background:var(--accent);color:#fff;padding:1px 6px;border-radius:4px;font-size:10px;">CP</span>Copa Pulse</span>
+          <span style="color:var(--text-3);">≡</span>
+        </div>
+
+        <!-- Hero Story -->
+        <div class="section">
+          <div class="hero-card">
+            <span class="tag redemption">🔥 Redenção</span>
+            <h2>Argentina supera início turbulento e conquista o tri mundial nos pênaltis</h2>
+            <div class="why">Após derrota na estreia, Argentina venceu todos os jogos seguintes e quebrou jejum de 36 anos na final mais emocionante da história.</div>
+            <div class="meta">
+              <span>Argentina 3–3 (4–2) França</span>
+              <span>•</span>
+              <span>Final</span>
+              <span>•</span>
+              <span>editorial score: 97</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Story -->
+        <div class="section" style="padding-top:0;">
+          <div class="secondary">
+            <span class="num">2</span>
+            <div class="content">
+              <div class="t">Marrocos elimina Portugal e faz história</div>
+              <div class="m">Primeira seleção africana a chegar à semifinal</div>
+              <span class="tag-sm">🌍 Marco histórico</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- What happened today -->
+        <div class="section">
+          <div class="phone-label">📰 O que aconteceu hoje</div>
+          <div class="bulletin-card">
+            <div class="res">🇦🇷 Argentina 3–3 (4–2) 🇫🇷 França</div>
+            <div class="ctx">Final • Messi conquista o título que faltava</div>
+            <div class="why-line">Argentina encerra jejum de 36 anos na final mais emocionante da história.</div>
+          </div>
+          <div class="bulletin-card">
+            <div class="res">🇭🇷 Croácia 1–1 (4–2) 🇧🇷 Brasil</div>
+            <div class="ctx">Quartas de final • Pentacampeão eliminado</div>
+            <div class="why-line">Brasil, favorito ao título, cai nos pênaltis. Croácia avança.</div>
+          </div>
+          <div class="bulletin-card">
+            <div class="res">🇲🇦 Marrocos 1–0 🇵🇹 Portugal</div>
+            <div class="ctx">Quartas de final • Primeiro africano na semi</div>
+            <div class="why-line">Marrocos faz história e leva a África à semifinal pela primeira vez.</div>
+          </div>
+        </div>
+
+        <!-- Audio -->
+        <div class="section" style="padding-top:0;">
+          <div class="audio-bar">
+            <div class="play">▶</div>
+            <div class="info">
+              <div class="t">Resumo do dia em 90 segundos</div>
+              <div class="sub">Ouça o que importa hoje</div>
+            </div>
+            <span class="duration">1:30</span>
+          </div>
+        </div>
+
+        <!-- Matches -->
+        <div class="section">
+          <div class="phone-label">⚽ Jogos</div>
+          <div class="match-row">
+            <div class="match-card">
+              <div class="teams">🇫🇷 0–0 🇵🇹</div>
+              <div class="status"><span class="live-dot"></span> AO VIVO • 67'</div>
+            </div>
+            <div class="match-card">
+              <div class="teams">🇳🇱 vs 🇺🇾</div>
+              <div class="status">16:00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Standings -->
+        <div class="section">
+          <div class="phone-label">📊 Tabela • Grupo D</div>
+          <div class="standing-row"><span>1. 🇦🇷 Argentina</span><span>4 pts +2</span></div>
+          <div class="standing-row"><span>2. 🇲🇽 México</span><span>2 pts 0</span></div>
+          <div class="standing-row"><span>3. 🇵🇱 Polônia</span><span>1 pt -1</span></div>
+          <div class="standing-row"><span>4. 🇸🇦 Arábia Saudita</span><span>1 pt -1</span></div>
+        </div>
+
+        <!-- Share -->
+        <div class="section" style="text-align:center;padding:12px 14px;">
+          <div style="font-size:10px;color:var(--text-3);margin-bottom:6px;">Compartilhe o resumo de hoje</div>
+          <div style="display:flex;justify-content:center;gap:12px;font-size:12px;">
+            <span>𝕏</span><span>💬 WhatsApp</span><span>🔗 Copiar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone 2: Scrolled down -->
+    <div class="phone" style="opacity:.85;">
+      <div class="notch"><span>9:41</span><span>🔋</span></div>
+      <div class="screen">
+        <div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;">
+          <span style="display:flex;align-items:center;gap:6px;"><span style="background:var(--accent);color:#fff;padding:1px 6px;border-radius:4px;font-size:10px;">CP</span>Copa Pulse</span>
+          <span style="color:var(--text-3);">≡</span>
+        </div>
+        <div class="section">
+          <div class="phone-label">⚽ Jogos de hoje</div>
+          <div class="match-row" style="margin-bottom:10px;">
+            <div class="match-card"><div class="teams">🇫🇷 0–0 🇵🇹</div><div class="status"><span class="live-dot"></span> 67'</div></div>
+            <div class="match-card"><div class="teams">🇳🇱 vs 🇺🇾</div><div class="status">16:00</div></div>
+          </div>
+          <div class="match-row">
+            <div class="match-card" style="opacity:.6;"><div class="teams">🇧🇷 vs 🇨🇭</div><div class="status">19:00</div></div>
+            <div class="match-card" style="opacity:.6;"><div class="teams">🇩🇪 vs 🇯🇵</div><div class="status">22:00</div></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="phone-label">📊 Tabela • Grupo D</div>
+          <div class="standing-row"><span>1. 🇦🇷 Argentina</span><span>4 pts</span></div>
+          <div class="standing-row"><span>2. 🇲🇽 México</span><span>2 pts</span></div>
+          <div class="standing-row"><span>3. 🇵🇱 Polônia</span><span>1 pt</span></div>
+          <div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;">
+            <span style="font-size:9px;background:var(--surface-2);padding:3px 8px;border-radius:4px;border:1px solid var(--border);">Grupo A</span>
+            <span style="font-size:9px;background:var(--accent);color:#fff;padding:3px 8px;border-radius:4px;">Grupo D</span>
+            <span style="font-size:9px;background:var(--surface-2);padding:3px 8px;border-radius:4px;border:1px solid var(--border);">Grupo E</span>
+            <span style="font-size:9px;background:var(--surface-2);padding:3px 8px;border-radius:4px;border:1px solid var(--border);">Grupo G</span>
+          </div>
+        </div>
+        <div class="section" style="text-align:center;padding:12px 14px;">
+          <div style="font-size:10px;color:var(--text-3);">Compartilhe</div>
+          <div style="display:flex;justify-content:center;gap:12px;font-size:12px;margin-top:4px;">
+            <span>𝕏</span><span>💬</span><span>🔗</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:16px;font-size:11px;color:var(--text-3);">
+    Esquerda: topo da página (hero + bulletin). Direita: scroll (jogos + tabela).
+  </div>
+</section>
+
+<!-- Desktop Layout -->
+<section>
+  <div class="sec-label">● Desktop</div>
+  <h2 class="sec-title">Layout 2 Colunas</h2>
+  <div class="desktop-layout">
+    <div>
+      <!-- Hero (full width) -->
+      <div class="hero-card" style="margin-bottom:20px;">
+        <span class="tag redemption">🔥 Redenção</span>
+        <h2 style="font-size:22px;">Argentina supera início turbulento e conquista o tri mundial</h2>
+        <div class="why" style="max-width:500px;margin:8px auto;">Após derrota na estreia, Argentina venceu todos os jogos seguintes e quebrou jejum de 36 anos.</div>
+        <div class="meta">Argentina 3–3 (4–2) França • Final • score: 97</div>
+      </div>
+
+      <!-- Secondary + Emerging inline -->
+      <div style="display:flex;gap:12px;margin-bottom:20px;">
+        <div class="secondary" style="flex:1;">
+          <span class="num">2</span>
+          <div class="content">
+            <div class="t">Marrocos elimina Portugal</div>
+            <div class="m">Primeiro africano na semifinal</div>
+          </div>
+        </div>
+        <div class="secondary" style="flex:1;">
+          <span class="num">3</span>
+          <div class="content">
+            <div class="t">Brasil cai nos pênaltis</div>
+            <div class="m">Favorito eliminado nas quartas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full bulletin -->
+      <div class="phone-label">📰 O que aconteceu hoje</div>
+      <div class="bulletin-card">
+        <div class="res">🇦🇷 Argentina 3–3 (4–2) 🇫🇷 França</div>
+        <div class="why-line">Argentina encerra jejum de 36 anos na final mais emocionante da história. Messi conquista o título que faltava.</div>
+      </div>
+      <div class="bulletin-card">
+        <div class="res">🇭🇷 Croácia 1–1 (4–2) 🇧🇷 Brasil</div>
+        <div class="why-line">Brasil, pentacampeão e favorito ao título, eliminado nos pênaltis. Croácia avança às semifinais.</div>
+      </div>
+      <div class="bulletin-card">
+        <div class="res">🇲🇦 Marrocos 1–0 🇵🇹 Portugal</div>
+        <div class="why-line">Marrocos faz história: primeira seleção africana a chegar à semifinal de uma Copa do Mundo.</div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="box">
+        <h4>⚽ Ao vivo</h4>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface-2);padding:8px 10px;border-radius:6px;">
+            <span style="font-weight:600;font-size:12px;">🇫🇷 0–0 🇵🇹</span>
+            <span style="font-size:9px;color:var(--red);display:flex;align-items:center;gap:3px;"><span class="live-dot"></span> AO VIVO</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface-2);padding:8px 10px;border-radius:6px;opacity:.6;">
+            <span style="font-weight:600;font-size:12px;">🇳🇱 vs 🇺🇾</span>
+            <span style="font-size:9px;color:var(--text-3);">16:00</span>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <h4>📊 Tabela • Grupo D</h4>
+        <div class="standing-row"><span>1. 🇦🇷 Argentina</span><span>4 pts</span></div>
+        <div class="standing-row"><span>2. 🇲🇽 México</span><span>2 pts</span></div>
+        <div class="standing-row"><span>3. 🇵🇱 Polônia</span><span>1 pt</span></div>
+        <div style="display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;">
+          <span style="font-size:9px;background:var(--surface-2);padding:2px 6px;border-radius:3px;border:1px solid var(--border);">A</span>
+          <span style="font-size:9px;background:var(--accent);color:#fff;padding:2px 6px;border-radius:3px;">D</span>
+          <span style="font-size:9px;background:var(--surface-2);padding:2px 6px;border-radius:3px;border:1px solid var(--border);">E</span>
+          <span style="font-size:9px;background:var(--surface-2);padding:2px 6px;border-radius:3px;border:1px solid var(--border);">G</span>
+        </div>
+      </div>
+      <div class="box">
+        <h4>🎙️ Resumo em áudio</h4>
+        <div class="audio-bar">
+          <div class="play">▶</div>
+          <div class="info">
+            <div class="t">Resumo do dia</div>
+            <div class="sub">90 segundos</div>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <h4>📤 Compartilhar</h4>
+        <div style="display:flex;gap:8px;font-size:12px;">
+          <span style="background:var(--surface-2);padding:4px 10px;border-radius:6px;">𝕏</span>
+          <span style="background:var(--surface-2);padding:4px 10px;border-radius:6px;">💬</span>
+          <span style="background:var(--surface-2);padding:4px 10px;border-radius:6px;">🔗</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Seções compared -->
+<section>
+  <div class="sec-label">● Evolução</div>
+  <h2 class="sec-title">Sprint 1 vs Sprint 2</h2>
+  <div class="comp-grid">
+    <div class="comp-card v1">
+      <span class="badge">Versão 1 — Dados primeiro</span>
+      <ol style="padding-left:16px;font-size:12px;color:var(--text-2);line-height:1.8;">
+        <li>Hero (placar + tag)</li>
+        <li>⚽ Jogos</li>
+        <li>📊 Tabela</li>
+        <li>📰 Boletim (se houver)</li>
+      </ol>
+      <p style="margin-top:8px;font-size:11px;">"Aqui estão os números. Você descobre o que importa."</p>
+    </div>
+    <div class="comp-card v2">
+      <span class="badge">Versão 2 — Contexto primeiro</span>
+      <ol style="padding-left:16px;font-size:12px;color:var(--text-2);line-height:1.8;">
+        <li>🔥 Hero Story (headline + why it matters)</li>
+        <li>📰 Secondary + Emerging</li>
+        <li>📰 O que aconteceu hoje (com why matters)</li>
+        <li>🎙️ Resumo em áudio</li>
+        <li>⚽ Jogos ao vivo</li>
+        <li>📊 Tabela compacta</li>
+      </ol>
+      <p style="margin-top:8px;font-size:11px;">"Aqui está o que importa. E os dados pra confirmar."</p>
+    </div>
+  </div>
+</section>
+
+<!-- Estados -->
+<section style="border:none;">
+  <div class="sec-label">● Estados</div>
+  <h2 class="sec-title">Experiência em Cada Momento</h2>
+  <div class="states-grid">
+    <div class="state-card">
+      <div class="icon">🏆</div>
+      <h4>Pré-Copa</h4>
+      <p>Hero mostra contagem regressiva. Boletim: "Os primeiros jogos começam em breve." Jogos mostra a primeira partida.</p>
+    </div>
+    <div class="state-card">
+      <div class="icon">⚡</div>
+      <h4>Dia de Jogos</h4>
+      <p>Hero = história mais importante. Boletim = ontem. Jogos = hoje. Tabela = grupos em disputa. Áudio disponível.</p>
+    </div>
+    <div class="state-card">
+      <div class="icon">📊</div>
+      <h4>Pós-Copa</h4>
+      <p>Hero = resumo do torneio. "Wrapped" da Copa: MVP, artilheiro, maior zebra, melhor jogo. Cards compartilháveis.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="padding:32px 0;text-align:center;border-top:1px solid var(--border);">
+  <p style="font-size:11px;color:var(--text-3);">
+    Copa Pulse — Homepage Experience • Sprint 2.0<br>
+    3 minutos. Contexto primeiro. História sempre.
+  </p>
+</footer>
+
+</main>
+</body>
+</html>

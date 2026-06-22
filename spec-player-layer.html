@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — Player Narratives Layer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:1000px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:60px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:8px}
+.sec-title{font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.5px;margin-bottom:16px}
+.doc-hero{padding:100px 0 40px;text-align:center}
+.doc-hero h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:14px;color:var(--text-2);max-width:550px;margin:8px auto 0;line-height:1.6}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+.card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.card p,.card li{font-size:12px;color:var(--text-2);line-height:1.6}
+.card ul{padding-left:16px}
+.card ul li{padding:3px 0}
+
+.roi-table{width:100%;border-collapse:collapse;font-size:11px;margin:16px 0}
+.roi-table th{padding:6px 8px;text-align:left;border-bottom:2px solid var(--border);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3)}
+.roi-table td{padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-2)}
+.roi-table td:first-child{font-weight:500;color:var(--text)}
+.roi-table .a{color:var(--green);font-weight:600}
+.roi-table .m{color:var(--amber)}
+.roi-table .b{color:var(--red)}
+
+.entity-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:8px}
+.entity-card .name{font-size:12px;font-weight:600;margin-bottom:2px}
+.entity-card .desc{font-size:11px;color:var(--text-2);line-height:1.5}
+
+.arch{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin:24px 0}
+.arch .box{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;text-align:center;font-size:11px}
+.arch .box.highlight{border-color:var(--accent);background:rgba(99,102,241,.05)}
+.arch .box .sub{font-size:9px;color:var(--text-3)}
+.arch .arrow{color:var(--text-3);font-size:14px}
+
+.verdict-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin:16px 0}
+.verdict-box .q{font-size:14px;font-weight:600;margin-bottom:8px}
+.verdict-box .a{font-size:12px;color:var(--text-2);line-height:1.7}
+
+.principle{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;margin:6px 0;font-size:12px;color:var(--text-2);line-height:1.6}
+.principle strong{color:var(--text)}
+
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Player Narratives <span>Layer</span></h1>
+  <p>20 jogadores. 5 fatos cada. Zero NLP. Máximo impacto editorial.</p>
+</section>
+
+<!-- TAREFA 1 — Catálogo -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Catálogo de Histórias de Jogadores</h2>
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">25 tipos, classificados por relevância para o Copa Pulse.</p>
+
+  <table class="roi-table">
+    <tr><th>Tipo</th><th>Exemplo</th><th>Fonte</th><th>ROI</th></tr>
+    <tr><td>1. Lesão de jogador lendário</td><td>Neymar 2022</td><td>API-Football (injuries)</td><td class="a">Altíssimo</td></tr>
+    <tr><td>2. Hat-trick em jogo decisivo</td><td>Mbappé na final</td><td>API-Football (events)</td><td class="a">Altíssimo</td></tr>
+    <tr><td>3. Última Copa do ídolo</td><td>Messi, CR7, Modric</td><td>Player dataset (idade)</td><td class="a">Altíssimo</td></tr>
+    <tr><td>4. Jogador conquista título que faltava</td><td>Messi 2022</td><td>Player dataset (legado)</td><td class="a">Altíssimo</td></tr>
+    <tr><td>5. Capitão levanta a taça</td><td>Messi 2022</td><td>API-Football + final stage</td><td class="a">Altíssimo</td></tr>
+    <tr><td>6. Artilheiro do torneio</td><td>Mbappé 2022 (8 gols)</td><td>API-Football (goals)</td><td class="a">Alto</td></tr>
+    <tr><td>7. Jogador decisivo em jogo eliminatório</td><td>Richarlison 2022</td><td>API-Football (events)</td><td class="a">Alto</td></tr>
+    <tr><td>8. Recorde de gols em Copas</td><td>Messi ultrapassa Maradona</td><td>Player dataset + goals</td><td class="a">Alto</td></tr>
+    <tr><td>9. Jovem revelação</td><td>Enzo Fernández 2022</td><td>Player dataset (idade)</td><td class="m">Médio</td></tr>
+    <tr><td>10. Jogador mais velho a jogar</td><td>—</td><td>Player dataset (idade)</td><td class="m">Médio</td></tr>
+    <tr><td>11. Jogador mais jovem a marcar</td><td>—</td><td>Player dataset (idade)</td><td class="m">Médio</td></tr>
+    <tr><td>12. Recorde de partidas</td><td>Messi mais jogos em Copas</td><td>Player dataset + matches</td><td class="a">Alto</td></tr>
+    <tr><td>13. Retorno após lesão</td><td>—</td><td>API-Football (injuries)</td><td class="m">Médio</td></tr>
+    <tr><td>14. Herói improvável</td><td>Jogador pouco conhecido decide</td><td>API-Football (goals)</td><td class="m">Médio</td></tr>
+    <tr><td>15. Jogador eliminado nas quartas (despedida)</td><td>CR7 2022</td><td>Player dataset + stage</td><td class="a">Alto</td></tr>
+    <tr><td>16. Defensor com mais clean sheets</td><td>—</td><td>API-Football</td><td class="b">Baixo</td></tr>
+    <tr><td>17. Goleiro pega pênalti decisivo</td><td>Livakovic 2022</td><td>API-Football (events)</td><td class="m">Médio</td></tr>
+    <tr><td>18. Jogador mais vezes campeão</td><td>—</td><td>Player dataset</td><td class="b">Baixo</td></tr>
+    <tr><td>19. Declaração polêmica</td><td>—</td><td>NLP/News — NÃO FAZER</td><td class="b">Não agora</td></tr>
+    <tr><td>20. Conflito interno</td><td>—</td><td>NLP/News — NÃO FAZER</td><td class="b">Não agora</td></tr>
+  </table>
+</section>
+
+<!-- TAREFA 2 — ROI -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Classificação por ROI</h2>
+
+  <div class="grid-3">
+    <div class="card" style="border-left:3px solid var(--green);">
+      <h4 style="color:var(--green);">✅ IMPLEMENTAR AGORA (5)</h4>
+      <ul>
+        <li>Lesão de lendário</li>
+        <li>Hat-trick em jogo grande</li>
+        <li>Última Copa do ídolo</li>
+        <li>Título que faltava</li>
+        <li>Capitão levanta taça</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <h4 style="color:var(--amber);">⏰ IMPLEMENTAR DEPOIS (8)</h4>
+      <ul>
+        <li>Artilheiro do torneio</li>
+        <li>Recorde de gols</li>
+        <li>Jogador decisivo</li>
+        <li>Recorde de partidas</li>
+        <li>Jovem revelação</li>
+        <li>Herói improvável</li>
+        <li>Goleiro pega pênalti</li>
+        <li>Retorno após lesão</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <h4 style="color:var(--red);">❌ NÃO IMPLEMENTAR (7)</h4>
+      <ul>
+        <li>Declaração polêmica</li>
+        <li>Conflito interno</li>
+        <li>Análise de imprensa</li>
+        <li>Redes sociais</li>
+        <li>Rumores</li>
+        <li>Negociações</li>
+        <li>Salários</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 3 — Entidade -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Entidade Player Narrative</h2>
+
+  <div class="entity-card" style="border-color:var(--accent);">
+    <div class="name">PlayerFact</div>
+    <div class="desc">
+      <code style="font-size:11px;color:var(--accent);">
+        {<br>
+        &nbsp;&nbsp;id: "messi_hat_trick"<br>
+        &nbsp;&nbsp;playerId: "messi"<br>
+        &nbsp;&nbsp;playerName: "Lionel Messi"<br>
+        &nbsp;&nbsp;type: "legacy_complete" | "last_dance" | "hat_trick" | "injury" | "captain_title" | "goal_record" | "golden_boot" | "breakthrough"<br>
+        &nbsp;&nbsp;team: "Argentina"<br>
+        &nbsp;&nbsp;confidence: number  // 0-1<br>
+        &nbsp;&nbsp;editorialWeight: number  // 0-100<br>
+        &nbsp;&nbsp;description: string  // texto legível<br>
+        &nbsp;&nbsp;triggerMatchId: string | null<br>
+        }
+      </code>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--text-2);margin-top:8px;">
+    A entidade é quase idêntica a <code>HistoricalFact</code>. A diferença: <code>PlayerFact</code> tem <code>playerName</code> e <code>playerId</code>, e pode ser vinculada a um jogo específico. Ela entra no EditorialStoryEngine exatamente como um HistoricalFact — como evidência que aumenta o confidence do story.
+  </p>
+</section>
+
+<!-- TAREFA 4 — Fontes -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Fontes de Dados</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>✅ Dados estruturados (API-Football)</h4>
+        <ul>
+          <li><strong>Escalação:</strong> Saber se um jogador está em campo → essencial para "última Copa"</li>
+          <li><strong>Eventos:</strong> Gols, assistências, cartões, substituições → detectar hat-tricks, herói improvável, goleiro pegando pênalti</li>
+          <li><strong>Lesões:</strong> API-Football tem endpoint de lesões → detectar Neymar 2022</li>
+          <li><strong>Estatísticas:</strong> Artilharia, assistências, clean sheets → detectar artilheiro do torneio</li>
+        </ul>
+        <p style="font-size:11px;color:var(--text-3);margin-top:6px;">Usando apenas dados que a API-Football já retorna. Zero custo adicional.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>⏰ Dataset curado (player-roster.json)</h4>
+        <ul>
+          <li><strong>20-30 jogadores lendários ativos</strong> — Messi, CR7, Neymar, Mbappé, Modric, Lewandowski, De Bruyne, etc.</li>
+          <li><strong>Fatos fixos por jogador:</strong> idade, última Copa, títulos que faltam, recordes que possui</li>
+          <li><strong>Narrativa principal:</strong> "last_dance", "legacy_complete", "breakthrough"</li>
+        </ul>
+        <p style="font-size:11px;color:var(--text-3);margin-top:6px;">Dataset manual de ~100 linhas. Atualizado a cada Copa.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--red);" style="margin-top:8px;">
+        <h4>❌ Não usar agora</h4>
+        <ul>
+          <li><strong>NLP de notícias:</strong> Para declarações, polêmicas, conflitos. Exige redação, não algoritmo.</li>
+          <li><strong>Redes sociais:</strong> Volume alto demais, ruído excessivo para um MVP.</li>
+          <li><strong>Sportmonks / TheSportsDB:</strong> APIs adicionais com sobreposição à API-Football.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 5 — Combinação -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Team Stories + Player Stories</h2>
+
+  <div class="principle"><strong>Regra de combinação:</strong> Player Stories NUNCA substituem Team Stories. Elas apenas adicionam evidência. Uma Team Story sem Player Story funciona. Uma Player Story sem Team Story não existe.</div>
+
+  <div class="arch">
+    <div class="box">Team Story<br><span class="sub">Argentina campeã</span></div>
+    <span class="arrow">+</span>
+    <div class="box highlight">Player Fact<br><span class="sub">Messi última Copa</span></div>
+    <span class="arrow">→</span>
+    <div class="box">EditorialStory<br><span class="sub">Argentina campeã + Messi legado</span></div>
+  </div>
+
+  <p style="font-size:13px;color:var(--text-2);margin-top:12px;">
+    <strong>Exemplo concreto:</strong> A Team Story "Argentina campeã" já existe com confidence 0.97. Ao adicionar <code>playerFact: "Messi conquista o único título que faltava" (editorialWeight: 98)</code>, o confidence sobe para 0.99 e o <code>evidence[]</code> ganha "Messi, o maior jogador da história, finalmente tem a Copa que merecia." — mas a headline continua sendo "Argentina campeã", não "Messi campeão". O time ainda é a história principal. O jogador é a camada de profundidade.
+  </p>
+</section>
+
+<!-- TAREFA 6 — MVP -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Arquitetura Mínima — MVP</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    Os 5 PlayerFacts que geram 80% do valor editorial com 20% do esforço.
+  </p>
+
+  <div class="card" style="border-color:var(--accent);">
+    <table style="width:100%;font-size:12px;border-collapse:collapse;">
+      <tr><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);">#</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);">PlayerFact</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);">Detecção</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);">Linhas</th></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">1</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);"><strong>last_dance</strong> — jogador com 34+ anos jogando sua última Copa</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Idade no dataset + escalação no jogo</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">10</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">2</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);"><strong>legacy_complete</strong> — jogador conquista título que faltava</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Winner === player.team && player.missingTitle === "World Cup"</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">5</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">3</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);"><strong>hat_trick</strong> — jogador marca 3+ gols em um jogo</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">API-Football events (goal count)</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">8</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">4</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);"><strong>injury</strong> — jogador lendário se lesiona e desfalca</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">API-Football injuries endpoint + player dataset</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">10</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">5</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);"><strong>golden_boot</strong> — líder em gols no torneio</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">API-Football top scorers endpoint</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">8</td></tr>
+    </table>
+    <p style="font-size:11px;color:var(--text-3);margin-top:8px;">Total: ~41 linhas de código novo. 1 dataset (player-roster.json, ~100 linhas). Nenhuma dependência externa nova.</p>
+  </div>
+
+  <div style="margin-top:16px;padding:16px;background:var(--surface-2);border-radius:8px;">
+    <h4 style="font-size:12px;font-weight:600;margin-bottom:6px;">📦 player-roster.json (MVP)</h4>
+    <pre style="font-size:10px;color:var(--text-2);line-height:1.5;overflow-x:auto;">
+[
+  { "id": "messi", "name": "Lionel Messi", "team": "Argentina", "age": 35, "lastWorldCup": true, "legacy": "greatest ever", "missingTitle": "World Cup", "narrative": "last_dance", "goalsInTournament": 0 },
+  { "id": "cr7", "name": "Cristiano Ronaldo", "team": "Portugal", "age": 37, "lastWorldCup": true, "legacy": "all-time top scorer", "missingTitle": "World Cup", "narrative": "last_dance", "goalsInTournament": 0 },
+  { "id": "neymar", "name": "Neymar Jr", "team": "Brazil", "age": 30, "lastWorldCup": false, "legacy": "heir to Pelé", "missingTitle": "World Cup", "narrative": "legacy", "goalsInTournament": 0 },
+  { "id": "mbappe", "name": "Kylian Mbappé", "team": "France", "age": 23, "lastWorldCup": false, "legacy": "best in the world", "missingTitle": null, "narrative": "dominant", "goalsInTournament": 0 },
+  { "id": "modric", "name": "Luka Modrić", "team": "Croatia", "age": 37, "lastWorldCup": true, "legacy": "midfield maestro", "missingTitle": "World Cup", "narrative": "last_dance", "goalsInTournament": 0 }
+]
+</pre>
+  </div>
+</section>
+
+<!-- TAREFA 7 — Exercício -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Exercício Mental — Copa 2022</h2>
+
+  <div class="card" style="border-left:3px solid var(--accent);">
+    <h4>🇦🇷 Argentina 3–3 (4–2) França — Final</h4>
+    <p style="margin-top:4px;">
+      <strong>Hero atual:</strong> "Argentina supera início turbulento e conquista o tri mundial" (confidence: 0.97)<br>
+      <strong>Evidence:</strong> redemption_journey, years_since_last_title, final_match, defending_champion_down<br><br>
+      <strong>Com PlayerFacts:</strong> +Messi (legacy_complete: 98), +Messi (last_dance: 85), +Mbappé (hat_trick: 90), +Messi (captain_title: 80)<br>
+      <strong>Nova confiança:</strong> 1.0<br>
+      <strong>Nova evidence:</strong> "Messi conquista o único título que faltava. Mbappé faz hat-trick na final, o primeiro desde 1966."<br>
+      <strong>Headline muda?</strong> ❌ Não. "Argentina campeã" continua sendo a história principal. O Why It Matters fica ENRIQUECIDO, não substituído.
+    </p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--amber);">
+    <h4>🇧🇷 Brasil 1–1 (2–4) Croácia — Quartas</h4>
+    <p style="margin-top:4px;">
+      <strong>Hero atual:</strong> "Brasil, pentacampeão, é eliminado nos pênaltis pela Croácia" (confidence: 0.91)<br>
+      <strong>Evidence:</strong> traditional_power_eliminated, isPopular, penalty_drama<br><br>
+      <strong>Com PlayerFacts:</strong> +Neymar (injury: 95) — Neymar estava lesionado e não jogou, ou jogou limitado<br>
+      <strong>Nova confiança:</strong> 0.95<br>
+      <strong>Headline muda?</strong> ❌ Não. "Brasil eliminado" continua hero. Mas o Why It Matters pode mencionar "Neymar, principal estrela, viu do banco a eliminação."<br>
+      <strong>Nota:</strong> Se a lesão do Neymar tivesse ocorrido ANTES da Copa, o PlayerFact "injury" teria disparado com weight altíssimo — possivelmente virando hero do dia.
+    </p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--green);">
+    <h4>🇲🇦 Marrocos 1–0 Portugal — Quartas</h4>
+    <p style="margin-top:4px;">
+      <strong>Hero atual:</strong> "Marrocos faz história como primeira seleção africana a chegar à semifinal" (confidence: 0.95)<br>
+      <strong>Evidence:</strong> first_african_semifinalist, cinderella_progression, giant_slayer<br><br>
+      <strong>Com PlayerFacts:</strong> +CR7 (last_dance: 90) — Cristiano Ronaldo, 37 anos, é eliminado em sua última Copa<br>
+      <strong>Nova confiança:</strong> 0.97<br>
+      <strong>Headline muda?</strong> ⚠️ Quase. Marrocos na semi ainda é maior que a despedida do CR7. Mas em um dia mais fraco, "CR7 se despede da Copa" poderia ser o gancho do Why It Matters.
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 8 — Relatório -->
+<section style="border:none;">
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">Relatório Final</h2>
+
+  <div class="verdict-box">
+    <div class="q">1. Vale a pena construir Player Narratives agora?</div>
+    <div class="a"><strong>Sim, mas com escopo mínimo.</strong> O maior ponto cego do sistema atual (Princípio 6: Pessoa > Time) é resolvido com ~100 linhas de dataset + ~40 linhas de código. O retorno editorial é desproporcional ao investimento.</div>
+  </div>
+
+  <div class="verdict-box">
+    <div class="q">2. Quanto valor editorial isso adiciona?</div>
+    <div class="a"><strong>+15-20% na qualidade do Why It Matters.</strong> Em 3 dos 3 casos testados, o hero não muda — mas o Why It Matters ganha profundidade. O ganho real está em dias onde o time story é fraco e o player story é forte. Exemplo: "Neymar lesionado" sem um jogo grande no mesmo dia viraria hero — hoje o sistema não teria hero nenhum.</div>
+  </div>
+
+  <div class="verdict-box">
+    <div class="q">3. Qual o MVP mínimo?</div>
+    <div class="a"><strong>5 jogadores + 4 tipos de PlayerFact (41 linhas).</strong> Um dataset de 5-10 jogadores lendários (Messi, CR7, Neymar, Mbappé, Modric), com 4 detectores: last_dance, legacy_complete, hat_trick, injury. Integração direta no HistoricalContextBuilder como mais uma fonte de fatos. Zero arquitetura nova.</div>
+  </div>
+
+  <div class="verdict-box">
+    <div class="q">4. Qual a menor arquitetura possível?</div>
+    <div class="a">
+      <pre style="font-size:11px;color:var(--text-2);line-height:1.5;">
+lib/
+  player-roster.ts     → 5-10 jogadores lendários + dados básicos
+  player-facts.ts      → detecta last_dance, legacy_complete, hat_trick, injury
+  historical-context-builder.ts → +1 linha: import playerFacts; adiciona ao array
+      </pre>
+      <p style="margin-top:8px;">A mesma arquitetura de <code>historical-context-builder.ts</code>. PlayerFacts entram como <code>HistoricalFact[]</code> no mesmo array. Zero mudança no EditorialStoryEngine. Zero mudança nos componentes.</p>
+    </div>
+  </div>
+
+  <div class="verdict-box">
+    <div class="q">5. O que NÃO devemos construir ainda?</div>
+    <div class="a">
+      <ul style="padding-left:16px;font-size:12px;color:var(--text-2);line-height:1.8;">
+        <li><strong>Não criar banco de jogadores completo</strong> (não precisamos de todos os 736 jogadores da Copa)</li>
+        <li><strong>Não criar NLP para declarações</strong> (exige redação, não algoritmo)</li>
+        <li><strong>Não criar monitoramento de lesões em tempo real</strong> (API-Football já fornece)</li>
+        <li><strong>Não criar tracking de recordes históricos completo</strong> (apenas os top 5 mais relevantes)</li>
+        <li><strong>Não criar golden_boot tracking em tempo real</strong> (pode ser diário, não em tempo real)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="verdict-box">
+    <div class="q">Resumo da arquitetura MVP</div>
+    <div class="a">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;">
+        <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">Fixture Data</span>
+        <span style="color:var(--text-3);font-size:14px;">→</span>
+        <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">Player Roster<br><span style="font-size:9px;color:var(--text-3);">5-10 jogadores</span></span>
+        <span style="color:var(--text-3);font-size:14px;">→</span>
+        <span style="background:var(--accent);padding:6px 12px;border-radius:6px;font-size:11px;color:#fff;">Player Facts<br><span style="font-size:9px;color:rgba(255,255,255,.7);">4 detectores</span></span>
+        <span style="color:var(--text-3);font-size:14px;">→</span>
+        <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">HistoricalFacts[]<br><span style="font-size:9px;color:var(--text-3);">mesmo array</span></span>
+        <span style="color:var(--text-3);font-size:14px;">→</span>
+        <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">EditorialStory<br><span style="font-size:9px;color:var(--text-3);">engine inalterado</span></span>
+      </div>
+      <p style="font-size:11px;color:var(--text-3);margin-top:12px;">Total: ~50 linhas de código novo. Nenhuma arquitetura nova. Integração por array.</p>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:32px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Player Narratives Layer • 5 jogadores. 4 detectores. ~50 linhas. Máximo impacto.</p>
+</footer>
+
+</main>
+</body>
+</html>

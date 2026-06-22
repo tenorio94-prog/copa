@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — Player Facts Refinement</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:960px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:60px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:8px}
+.sec-title{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.5px;margin-bottom:16px}
+.doc-hero{padding:80px 0 40px;text-align:center}
+.doc-hero h1{font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:14px;color:var(--text-2);max-width:500px;margin:8px auto 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:12px}
+.card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.card p,.card li{font-size:12px;color:var(--text-2);line-height:1.6}
+.card ul{padding-left:16px}
+.card ul li{padding:3px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.fact-card{padding:16px 20px;border-radius:10px;margin-bottom:8px}
+.fact-card h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.fact-card .wt{font-size:10px;color:var(--text-3);margin-bottom:4px}
+.fact-card .desc{font-size:12px;color:var(--text-2);line-height:1.5}
+.fact-card .verdict{font-size:11px;font-weight:600;margin-top:6px}
+.roi-table{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0}
+.roi-table th{padding:6px 8px;text-align:left;border-bottom:2px solid var(--border);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3)}
+.roi-table td{padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-2)}
+.roi-table td:first-child{font-weight:500;color:var(--text)}
+.principle{background:var(--surface-2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;margin:6px 0;font-size:12px;color:var(--text-2);line-height:1.6}
+.principle strong{color:var(--text)}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.comparison .col{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+.comparison .col h4{font-size:12px;font-weight:600;margin-bottom:6px}
+.comparison .col p{font-size:11px;color:var(--text-2);line-height:1.6}
+.comparison .col .badge{display:inline-block;font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:3px;margin-bottom:6px}
+@media(max-width:768px){.grid-2,.comparison{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Player Facts <span>Refinement</span></h1>
+  <p>4 fatos. Não 5. hero_performance entra. golden_boot sai. Simplicidade vence.</p>
+</section>
+
+<!-- TAREFA 1 — Análise de cada PlayerFact -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Análise de cada PlayerFact</h2>
+
+  <div class="fact-card" style="background:rgba(244,63,94,.06);border:1px solid rgba(244,63,94,.15);">
+    <div class="wt">Peso editorial: 90</div>
+    <h4 style="color:var(--rose);">last_dance</h4>
+    <div class="desc">Jogador 34+ anos provavelmente jogando sua última Copa. Ex: Messi 2022, CR7 2022, Modric 2022.</div>
+    <div class="verdict" style="color:var(--green);">Classificação: A — Muda a história principal. "Messi se despede da Copa" pode ser o hero em dias sem resultado grande.</div>
+  </div>
+
+  <div class="fact-card" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);">
+    <div class="wt">Peso editorial: 98</div>
+    <h4 style="color:var(--amber);">legacy_complete</h4>
+    <div class="desc">Jogador lendário conquista o único título importante que faltava. Ex: Messi 2022 (Copa), Modric (nunca ganhou).</div>
+    <div class="verdict" style="color:var(--green);">Classificação: A — Muda a história principal. "Messi finalmente tem a Copa" é narrativa que rivaliza com qualquer time story.</div>
+  </div>
+
+  <div class="fact-card" style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);">
+    <div class="wt">Peso editorial: 95</div>
+    <h4 style="color:var(--red);">injury</h4>
+    <div class="desc">Jogador lendário se lesiona durante o torneio. Ex: Neymar 2022 (entorse no tornozelo contra Sérvia).</div>
+    <div class="verdict" style="color:var(--green);">Classificação: A — Muda a história principal. Em dia sem jogos grandes, "Neymar fora da Copa" vira hero sozinho.</div>
+  </div>
+
+  <div class="fact-card" style="background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.15);">
+    <div class="wt">Peso editorial: 85</div>
+    <h4 style="color:var(--accent);">hat_trick</h4>
+    <div class="desc">Jogador marca 3+ gols em uma partida. Ex: Mbappé na final 2022 (hat-trick perfeito).</div>
+    <div class="verdict" style="color:var(--green);">Classificação: A — Muda a história principal. Hat-trick em final de Copa é uma das maiores histórias possíveis. O problema: é raro. Mas quando acontece, é enorme.</div>
+  </div>
+
+  <div class="fact-card" style="background:rgba(113,113,122,.06);border:1px solid rgba(113,113,122,.15);">
+    <div class="wt">Peso editorial: 60</div>
+    <h4 style="color:var(--text-3);">golden_boot</h4>
+    <div class="desc">Jogador lidera a artilharia do torneio. Ex: Mbappé 2022 (8 gols).</div>
+    <div class="verdict" style="color:var(--rose);">Classificação: C — Apenas adiciona detalhe. Ninguém abre um site no dia seguinte para saber quem lidera a artilharia. É uma estatística acumulada, não uma história do dia.</div>
+  </div>
+
+  <div class="fact-card" style="background:rgba(34,197,55,.06);border:1px solid rgba(34,197,55,.15);border:2px solid rgba(34,197,55,.3);">
+    <div class="wt">Peso editorial: 92 (projetado)</div>
+    <h4 style="color:var(--green);">hero_performance ★ NOVO</h4>
+    <div class="desc">Jogador tem atuação decisiva em jogo de mata-mata. 2+ gols, gol da vitória, ou defesa decisiva.</div>
+    <div class="verdict" style="color:var(--green);">Classificação: A — Enriquece a história. "Mbappé decide mais uma" é tão forte quanto "França na final".</div>
+  </div>
+</section>
+
+<!-- TAREFA 2 — hero_performance -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">hero_performance — Regras de Detecção</h2>
+
+  <p style="font-size:13px;color:var(--text-2);margin-bottom:12px;">
+    Diferente de hat_trick (3+ gols), hero_performance captura ATUAÇÕES DECISIVAS que não necessariamente são hat-tricks. Isso cobre muito mais casos.
+  </p>
+
+  <div class="principle"><strong>Regra 1 — Gol decisivo em mata-mata:</strong> Jogador do time vencedor marca o gol da vitória ou o gol de empate que leva à prorrogação em partidas de quartas+.</div>
+  <div class="principle"><strong>Regra 2 — Dois ou mais gols em mata-mata:</strong> Jogador marca 2+ gols em qualquer partida eliminatória (oitavas, quartas, semi ou final).</div>
+  <div class="principle"><strong>Regra 3 — Goleiro decisivo em pênaltis:</strong> Goleiro defende 2+ pênaltis em uma disputa. Ex: Livakovic (Croácia × Brasil, 4 pênaltis defendidos na Copa).</div>
+  <div class="principle"><strong>Regra 4 — Assistência decisiva em final:</strong> Jogador dá assistência para gol em final de Copa.</div>
+  <div class="principle"><strong>Regra 5 — MVP da partida (futuro):</strong> Se API-Football fornecer man of the match, capturar automaticamente. Ex: Richarlison (Brasil × Coreia, 2 gols).</div>
+
+  <div style="margin-top:16px;padding:16px;background:var(--surface-2);border-radius:8px;">
+    <h4 style="font-size:12px;font-weight:600;margin-bottom:6px;">Exemplos reais que hero_performance capturaria na Copa 2022</h4>
+    <table style="width:100%;font-size:11px;border-collapse:collapse;">
+      <tr><th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--border);color:var(--text-3);">Jogo</th><th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--border);color:var(--text-3);">Jogador</th><th style="text-align:left;padding:4px 6px;border-bottom:1px solid var(--border);color:var(--text-3);">Regra</th></tr>
+      <tr><td style="padding:4px 6px;border-bottom:1px solid var(--border);">França × Argentina (final)</td><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Mbappé (3 gols)</td><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Regra 2 (2+ gols em final)</td></tr>
+      <tr><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Croácia × Brasil (quartas)</td><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Livakovic (4 defesas em pênaltis)</td><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Regra 3 (goleiro decisivo)</td></tr>
+      <tr><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Brasil × Coreia (oitavas)</td><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Richarlison (2 gols)</td><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Regra 2 (2+ gols)</td></tr>
+      <tr><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Argentina × Holanda (quartas)</td><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Messi (1 gol + 1 assistência)</td><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Regra 1 + Regra 4</td></tr>
+      <tr><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Marrocos × Portugal (quartas)</td><td style="padding:4px 6px;border-bottom:1px solid var(--border);">En-Nesyri (gol da vitória)</td><td style="padding:4px 6px;border-bottom:1px solid var(--border);">Regra 1 (gol decisivo)</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- TAREFA 3 — golden_boot vs hero_performance -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">golden_boot vs hero_performance</h2>
+
+  <div class="comparison">
+    <div class="col" style="border-left:3px solid var(--text-3);">
+      <span class="badge" style="background:rgba(113,113,122,.1);color:var(--text-3);">Remover</span>
+      <h4>golden_boot</h4>
+      <p><strong>O que detecta:</strong> Líder da artilharia no torneio.<br><br>
+         <strong>Frequência:</strong> Uma vez a cada 4 anos.<br><br>
+         <strong>Exemplo real:</strong> Mbappé 8 gols em 2022.<br><br>
+         <strong>Problema:</strong> É uma tabela, não uma história. "Mbappé é o artilheiro" interessa no FIM do torneio, não no dia a dia. O Copa Pulse precisa da história de HOJE, não do ranking acumulado.<br><br>
+         <strong>Quando seria hero?</strong> No último dia, após a final. Só.</p>
+    </div>
+    <div class="col" style="border-left:3px solid var(--green);">
+      <span class="badge" style="background:rgba(34,197,55,.1);color:var(--green);">Adicionar</span>
+      <h4>hero_performance</h4>
+      <p><strong>O que detecta:</strong> Atuação decisiva em jogo de mata-mata.<br><br>
+         <strong>Frequência:</strong> Várias vezes por torneio (5+ na Copa 2022).<br><br>
+         <strong>Exemplo real:</strong> Mbappé na final, Livakovic nos pênaltis, Richarlison, En-Nesyri.<br><br>
+         <strong>Valor:</strong> "Richarlison decide com dois gols" é uma história do dia. "Mbappé lidera artilharia" é uma nota estatística.<br><br>
+         <strong>Quando seria hero?</strong> Em dias com jogos de mata-mata — que são os dias MAIS IMPORTANTES do torneio.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:8px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+      <strong style="color:var(--text);">Veredito:</strong> <code>hero_performance</code> gera valor editorial em 5+ dias da Copa. <code>golden_boot</code> gera valor em 1 dia (o último). Ambos são detectáveis com dados estruturados. Mas o ROI de hero_performance é 5x maior.
+    </p>
+  </div>
+</section>
+
+<!-- TAREFA 4 — Lista MVP revisada -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Lista MVP Otimizada</h2>
+
+  <div style="display:flex;flex-direction:column;gap:8px;">
+    <div style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;">
+      <span style="font-size:20px;">🔥</span>
+      <div><strong style="font-size:13px;">last_dance</strong><br><span style="font-size:11px;color:var(--text-2);">EditorialWeight: 90. Mensagem: "{player} joga sua última Copa."</span></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;">
+      <span style="font-size:20px;">🏆</span>
+      <div><strong style="font-size:13px;">legacy_complete</strong><br><span style="font-size:11px;color:var(--text-2);">EditorialWeight: 98. Mensagem: "{player} conquista o título que faltava."</span></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;">
+      <span style="font-size:20px;">🩹</span>
+      <div><strong style="font-size:13px;">injury</strong><br><span style="font-size:11px;color:var(--text-2);">EditorialWeight: 95. Mensagem: "{player} está fora da Copa por lesão."</span></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;border-color:var(--green);">
+      <span style="font-size:20px;">⭐</span>
+      <div><strong style="font-size:13px;">hero_performance</strong><br><span style="font-size:11px;color:var(--text-2);">EditorialWeight: 92. Mensagem: "{player} decide o jogo com {feito}."</span></div>
+    </div>
+  </div>
+
+  <p style="font-size:12px;color:var(--text-2);margin-top:12px;">
+    <strong style="color:var(--rose);">Removido:</strong> golden_boot (ROI baixo, 1 dia útil por torneio).<br>
+    <strong style="color:var(--green);">Adicionado:</strong> hero_performance (ROI alto, 5+ dias úteis por torneio).<br>
+    <strong style="color:var(--accent);">Total:</strong> 4 fatos. 3 herdados + 1 novo. Nenhum aumento de complexidade.
+  </p>
+</section>
+
+<!-- TAREFA 5 — Integração -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Integração Arquitetural</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;">Como PlayerFacts entram no sistema</h4>
+
+    <pre style="font-size:11px;color:var(--text-2);line-height:1.7;background:var(--surface-2);padding:12px;border-radius:8px;">
+// 1. player-roster.ts — dataset curado
+export const ROSTER = [
+  { id: "messi", name: "Lionel Messi", team: "Argentina",
+    age: 35, lastWorldCup: true, missingTitle: "World Cup" },
+  // ... 5-10 jogadores
+]
+
+// 2. player-facts.ts — detectores puros
+export function detectPlayerFacts(match, allMatches, players): PlayerFact[] {
+  // each detector returns a fact or null
+  // facts are plain HistoricalFact[] objects
+
+  return [
+    detectLastDance(match, players),
+    detectLegacyComplete(match, players),
+    detectInjury(match, players),
+    detectHeroPerformance(match, allMatches, players),
+  ].filter(Boolean)
+}
+
+// 3. historical-context-builder.ts — 1 nova linha
+// ANTES:
+facts.push(...buildHistoricalFacts(match, memory))
+
+// DEPOIS:
+facts.push(...buildHistoricalFacts(match, memory))
+facts.push(...detectPlayerFacts(match, allMatches, ROSTER))  // ← nova linha
+
+// 4. EditorialStoryEngine — 0 alterações
+// PlayerFacts entram como HistoricalFact[].
+// O engine já sabe processar: evidence[] + confidence boost.
+</pre>
+
+    <div style="margin-top:12px;padding:12px;background:rgba(99,102,241,.05);border-radius:8px;border-left:3px solid var(--accent);">
+      <p style="font-size:12px;color:var(--text-2);line-height:1.6;">
+        <strong style="color:var(--accent);">🚀 Integração mínima:</strong> Um arquivo novo (<code>player-facts.ts</code>) + um dataset (<code>player-roster.ts</code>). Uma linha alterada no <code>historical-context-builder.ts</code>. Zero alteração no EditorialStoryEngine. PlayerFacts são HistoricalFacts com um campo a mais (<code>player</code>).
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 6 — Exercício mental -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Exercício Mental — Antes e Depois</h2>
+
+  <div class="grid-2">
+    <div>
+      <h4 style="font-size:12px;font-weight:600;margin-bottom:8px;">🇦🇷 Argentina 3–3 França</h4>
+      <div class="card" style="background:rgba(239,68,68,.03);border-color:var(--red);">
+        <p style="font-size:11px;">
+          <strong style="color:var(--text);">ANTES:</strong> "Argentina supera início turbulento e conquista o tri mundial"
+        </p>
+        <p style="font-size:11px;margin-top:4px;">
+          <strong style="color:var(--text);">DEPOIS:</strong> "Messi conquista o título que faltava e se consagra como o maior da história"
+        </p>
+        <p style="font-size:10px;color:var(--text-3);margin-top:4px;">
+          Hero muda? ⚠️ Quase. Depende do dia. Se só houve a final, "Argentina campeã" é hero e PlayerFact enriquece. Se o usuário conhece Messi (e conhece), o PlayerFact pode virar a headline — mas o sistema mantém time como priority 1 por segurança editorial.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h4 style="font-size:12px;font-weight:600;margin-bottom:8px;">🇧🇷 Brasil 1–1 Croácia</h4>
+      <div class="card" style="background:rgba(239,68,68,.03);border-color:var(--amber);">
+        <p style="font-size:11px;">
+          <strong style="color:var(--text);">ANTES:</strong> "Brasil, pentacampeão, é eliminado nos pênaltis"
+        </p>
+        <p style="font-size:11px;margin-top:4px;">
+          <strong style="color:var(--text);">DEPOIS:</strong> "Brasil eliminado nos pênaltis. Livakovic, o herói improvável, defendeu 4 cobranças"
+        </p>
+        <p style="font-size:10px;color:var(--text-3);margin-top:4px;">
+          Hero muda? ❌ Não. "Brasil eliminado" continua hero. Mas o Why It Matters ganha profundidade com o nome do goleiro que decidiu.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h4 style="font-size:12px;font-weight:600;margin-bottom:8px;">🇲🇦 Marrocos 1–0 Portugal</h4>
+      <div class="card" style="background:rgba(239,68,68,.03);border-color:var(--green);">
+        <p style="font-size:11px;">
+          <strong style="color:var(--text);">ANTES:</strong> "Marrocos faz história como primeira seleção africana na semi"
+        </p>
+        <p style="font-size:11px;margin-top:4px;">
+          <strong style="color:var(--text);">DEPOIS:</strong> "Marrocos faz história. CR7 se despede da Copa aos 37 anos"
+        </p>
+        <p style="font-size:10px;color:var(--text-3);margin-top:4px;">
+          Hero muda? ✅ SIM. <strong>Este é o caso onde PlayerFact vence.</strong> Marrocos na semi é enorme. Mas "CR7 se despede da Copa" é a história MAIOR para o público global. O sistema atual não enxerga CR7. Com PlayerFact, o último_dance (weight 90) combinado com a eliminação de Portugal pode fazer o hero mudar para "CR7 joga sua última Copa".
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <h4 style="font-size:12px;font-weight:600;margin-bottom:8px;">🇧🇷 Brasil 4–1 Coreia</h4>
+      <div class="card" style="background:rgba(239,68,68,.03);border-color:var(--accent);">
+        <p style="font-size:11px;">
+          <strong style="color:var(--text);">ANTES:</strong> "Brasil goleia Coreia e avança" (confidence baixo, sem arco)
+        </p>
+        <p style="font-size:11px;margin-top:4px;">
+          <strong style="color:var(--text);">DEPOIS:</strong> "Richarlison decide com dois gols e Brasil goleia Coreia"
+        </p>
+        <p style="font-size:10px;color:var(--text-3);margin-top:4px;">
+          Hero muda? ❌ Não. Mas o confidence sobe de ~0.4 para ~0.6 porque hero_performance (weight 92) adiciona evidência. Em dia sem outras histórias, isso pode determinar o hero.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TAREFA 7 — Decisão final -->
+<section style="border:none;">
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Decisão Final</h2>
+
+  <div class="card" style="border-color:var(--accent);">
+    <h4>✅ MVP final — 4 PlayerFacts</h4>
+    <table class="roi-table">
+      <tr><th>#</th><th>PlayerFact</th><th>Peso</th><th>Mensagem</th><th>Linhas</th></tr>
+      <tr><td>1</td><td>last_dance</td><td>90</td><td>"{player} joga sua última Copa"</td><td>6</td></tr>
+      <tr><td>2</td><td>legacy_complete</td><td>98</td><td>"{player} conquista o título que faltava"</td><td>5</td></tr>
+      <tr><td>3</td><td>injury</td><td>95</td><td>"{player} está fora da Copa por lesão"</td><td>8</td></tr>
+      <tr><td>4</td><td>hero_performance</td><td>92</td><td>"{player} decide o jogo com {feito}"</td><td>15</td></tr>
+    </table>
+    <p style="font-size:11px;color:var(--text-3);">Total de código novo: ~35 linhas + 1 dataset de 40 linhas. Uma linha alterada no histórico-context-builder.</p>
+  </div>
+
+  <div style="margin-top:16px;">
+    <div class="principle"><strong>Fica para Sprint 2.6:</strong> hat_trick (raro, mas quando acontece é enorme). Detectável com as mesmas regras de hero_performance (2+ gols em qualquer fase). Pode ser adicionado depois sem refatoração.</div>
+    <div class="principle"><strong>Descartado:</strong> golden_boot. ROI baixo. Útil apenas no último dia. Pode ser implementado como um fato único de fim de torneio, sem necessidade de sistema de tracking contínuo.</div>
+    <div class="principle"><strong>Não fazer agora:</strong> recorde de partidas, jogador mais jovem, jogador mais velho, clean sheets. Todos são tabelas, não histórias.</div>
+  </div>
+
+  <div style="margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;">
+    <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;">📋 Resumo da Decisão</h4>
+
+    <table style="width:100%;font-size:12px;border-collapse:collapse;">
+      <tr><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);"></th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text-3);">Valor</th></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Quais PlayerFacts entram no MVP?</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);color:var(--green);">last_dance, legacy_complete, injury, hero_performance</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Quais ficam para Sprint 2.6?</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);color:var(--amber);">hat_trick (fácil de adicionar depois)</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Quais descartar?</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);color:var(--red);">golden_boot (ranking, não história)</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Linhas de código adiciona?</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">~35 + dataset 40 linhas</td></tr>
+      <tr><td style="padding:6px 8px;border-bottom:1px solid var(--border);">Ganho editorial esperado?</td><td style="padding:6px 8px;border-bottom:1px solid var(--border);">+15-20% no Why It Matters. Hero muda apenas em dias específicos (ex: CRT despedida).</td></tr>
+    </table>
+  </div>
+</section>
+
+<footer style="padding:32px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Player Facts Refinement • 4 fatos. ~75 linhas. 1 linha alterada. Zero complexidade nova.</p>
+</footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — Historical Intelligence v1</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:1000px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:40px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:4px}
+.sec-title{font-size:clamp(20px,2.5vw,28px);font-weight:700;letter-spacing:-.5px;margin-bottom:12px}
+.doc-hero{padding:60px 0 30px;text-align:center}
+.doc-hero h1{font-size:clamp(24px,3vw,36px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:13px;color:var(--text-2);max-width:550px;margin:6px auto 0;line-height:1.5}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:8px}
+.card h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.card p,.card li{font-size:11px;color:var(--text-2);line-height:1.5}
+.card ul{padding-left:14px}
+.card ul li{padding:2px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+table{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0}
+th,td{padding:4px 8px;text-align:left;border-bottom:1px solid var(--border)}
+th{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3)}
+td{color:var(--text-2)}
+td:first-child{color:var(--text);font-weight:500}
+.tag{display:inline-block;font-size:8px;padding:1px 5px;border-radius:3px;margin:0 2px}
+.tag.a{background:rgba(34,197,55,.1);color:var(--green)}
+.tag.b{background:rgba(99,102,241,.1);color:var(--accent)}
+.tag.c{background:rgba(245,158,11,.1);color:var(--amber)}
+pre{font-size:10px;color:var(--text-2);line-height:1.5;background:var(--surface-2);padding:12px;border-radius:8px;overflow-x:auto;font-family:monospace;margin:8px 0}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Historical Intelligence <span>v1</span></h1>
+  <p>5 datasets. ~230 linhas. Zero APIs externas. Destrava 20+ fatos históricos e 10+ arcos narrativos.</p>
+</section>
+
+<!-- ENTREGÁVEL 1 — Datasets -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Estrutura dos Datasets</h2>
+
+  <h4 style="font-size:13px;font-weight:600;margin-bottom:4px;">1. world-cup-history.json — Todas as 22 edições</h4>
+  <pre>[
+  { "year": 2022, "host": "Qatar", "champion": "Argentina", "runnerUp": "France",
+    "third": "Croatia", "topScorer": { "name": "Kylian Mbappé", "goals": 8 },
+    "teams": 32, "matches": 64, "goals": 172,
+    "note": "Argentina quebra jejum de 36 anos. Messi completa legado." },
+  { "year": 2018, "host": "Russia", "champion": "France", "runnerUp": "Croatia",
+    "third": "Belgium", "topScorer": { "name": "Harry Kane", "goals": 6 },
+    "teams": 32, "matches": 64, "goals": 169,
+    "note": "França bicampeã. Modric leva Bola de Ouro." }
+]</pre>
+<p style="font-size:10px;color:var(--text-3);margin-bottom:12px;">22 edições (1930-2022). ~70 linhas. Cada edição tem ano, sede, campeão, vice, terceiro, artilheiro, número de times, jogos, gols, nota editorial.</p>
+
+  <h4 style="font-size:13px;font-weight:600;margin-bottom:4px;">2. teams.json — Perfil das seleções</h4>
+  <pre>{
+  "Brazil": { "continent": "CONMEBOL", "titles": 5, "finals": 7, "semifinals": 11,
+    "firstWorldCup": 1930, "lastWorldCup": 2022, "lastTitle": 2002,
+    "bestResult": "Champion", "fifaRank": 1, "isTraditional": true },
+  "Morocco": { "continent": "CAF", "titles": 0, "finals": 0, "semifinals": 1,
+    "firstWorldCup": 1970, "lastWorldCup": 2022, "lastTitle": null,
+    "bestResult": "Semifinals", "fifaRank": 22, "isTraditional": false }
+}</pre>
+<p style="font-size:10px;color:var(--text-3);margin-bottom:12px;">~40 seleções. ~80 linhas. Cada seleção tem continente, títulos, finais, semis, estreia, última participação, último título, melhor resultado, ranking, flag tradicional.</p>
+
+  <h4 style="font-size:13px;font-weight:600;margin-bottom:4px;">3. rivalries.json — Rivalidades históricas</h4>
+  <pre>[
+  { "teamA": "Argentina", "teamB": "Brazil", "level": 10,
+    "worldCupMeetings": 5, "notableMatch": "Argentina 1-0 Brazil (1990)" },
+  { "teamA": "Germany", "teamB": "Netherlands", "level": 9,
+    "worldCupMeetings": 5, "notableMatch": "Germany 2-1 Netherlands (1974)" }
+]</pre>
+<p style="font-size:10px;color:var(--text-3);margin-bottom:12px;">~20 rivalidades. ~25 linhas. Pares de seleções com nível (1-10), número de confrontos em Copas, jogo marcante.</p>
+
+  <h4 style="font-size:13px;font-weight:600;margin-bottom:4px;">4. milestones.json — Marcos detectáveis</h4>
+  <pre>{
+  "firstAfricanSemifinalist": {
+    "description": "Primeira seleção africana na semifinal",
+    "achievedBy": "Morocco",
+    "year": 2022,
+    "editorialWeight": 95,
+    "active": true
+  },
+  "mostTitlesByNation": {
+    "description": "Seleção com mais títulos mundiais",
+    "holder": "Brazil",
+    "titles": 5,
+    "editorialWeight": 80,
+    "active": true
+  }
+}</pre>
+<p style="font-size:10px;color:var(--text-3);margin-bottom:12px;">~25 marcos históricos. ~60 linhas. Marcos com descrição, detentor, ano, peso editorial. Podem ser "active" (ainda válidos) ou "inactive" (superados).</p>
+
+  <h4 style="font-size:13px;font-weight:600;margin-bottom:4px;">5. historical-events.json — Eventos únicos</h4>
+  <pre>[
+  { "id": "maracanazo", "year": 1950, "match": "Uruguay 2-1 Brazil",
+    "description": "Uruguai vence Brasil no Maracanã e cala 200 mil torcedores",
+    "editorialWeight": 90, "teams": ["Brazil", "Uruguay"], "type": "upset" },
+  { "id": "germany_7x1_brazil", "year": 2014, "match": "Germany 7-1 Brazil",
+    "description": "Maior goleada da história das semifinais",
+    "editorialWeight": 95, "teams": ["Brazil", "Germany"], "type": "blowout" }
+]</pre>
+<p style="font-size:10px;color:var(--text-3);">~15 eventos. ~30 linhas. Cada evento tem id, ano, partida, descrição, peso editorial, times envolvidos, tipo.</p>
+</section>
+
+<!-- ENTREGÁVEL 2 — Consumo -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Finalidade Editorial de Cada Dataset</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>🌍 world-cup-history.json</h4>
+        <p><strong>Finalidade:</strong> Saber o que aconteceu em todas as Copas passadas. A base para qualquer comparação histórica.</p>
+        <p><strong>Consumidores:</strong> historical-context-builder, editorial-story-engine, prompt da LLM.</p>
+        <p><strong>Habilita fatos:</strong> repeat_final, back_to_back_final, threepeat_attempt, revenge_match, first_title_ever, host_nation_champion.</p>
+        <p><strong>Habilita arcos:</strong> dynasty_attempt, repeat_final_arc, host_nation_dream.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>🏆 teams.json</h4>
+        <p><strong>Finalidade:</strong> Perfil completo de cada seleção. Saber se é tradicional, quantos títulos tem, quando foi a última vez que ganhou.</p>
+        <p><strong>Consumidores:</strong> knowledge.ts (substitui/expande), historical-context-builder, editorial-story-engine.</p>
+        <p><strong>Habilita fatos:</strong> years_since_last_title (já existe, mas agora com dados corretos), traditional_power_eliminated, first_title_possible, continental_first.</p>
+        <p><strong>Habilita arcos:</strong> legacy_nation, generational_change.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>⚔️ rivalries.json</h4>
+        <p><strong>Finalidade:</strong> Saber quais confrontos têm história prévia. Transformar "Argentina vs Brasil" em "o maior clássico do mundo".</p>
+        <p><strong>Consumidores:</strong> historical-context-builder, editorial-story-engine, prompt da LLM.</p>
+        <p><strong>Habilita fatos:</strong> classic_rivalry, revenge_match, rematch_previous_knockout.</p>
+        <p><strong>Habilita arcos:</strong> rivalry_renewed, historic_rematch.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--rose);">
+        <h4>📜 milestones.json + historical-events.json</h4>
+        <p><strong>Finalidade:</strong> Saber o que já é "história" antes do torneio começar. Comparar o que está acontecendo AGORA com o que já aconteceu.</p>
+        <p><strong>Consumidores:</strong> historical-context-builder, LLM prompt (contexto histórico), EditorialStory evidence[].</p>
+        <p><strong>Habilita fatos:</strong> historic_event_referenced, milestone_approached, record_broken.</p>
+        <p><strong>Habilita arcos:</strong> historical_callback, legacy_moment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTREGÁVEL 3 — 20 Fatos por ROI -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">20 Historical Facts por ROI</h2>
+
+  <table>
+    <tr><th>#</th><th>Fato</th><th>Dataset</th><th>Complexidade</th><th>Impacto</th><th>ROI</th></tr>
+    <tr><td>1</td><td><strong>years_since_last_title</strong> (melhorado)</td><td>teams.json</td><td>1 — já existe</td><td>95</td><td><span class="tag a">Altíssimo</span></td></tr>
+    <tr><td>2</td><td><strong>repeat_final</strong> — mesma final de Copa anterior</td><td>world-cup-history</td><td>2 — comparar final atual com históricas</td><td>90</td><td><span class="tag a">Altíssimo</span></td></tr>
+    <tr><td>3</td><td><strong>first_title_ever</strong> — time busca/ conquista primeira Copa</td><td>teams.json</td><td>1 — titles === 0 && stage === Final</td><td>90</td><td><span class="tag a">Altíssimo</span></td></tr>
+    <tr><td>4</td><td><strong>traditional_power_eliminated</strong> (melhorado)</td><td>teams.json</td><td>1 — isTraditional && eliminated</td><td>90</td><td><span class="tag a">Altíssimo</span></td></tr>
+    <tr><td>5</td><td><strong>back_to_back_final</strong> — mesma seleção, 2 finais consecutivas</td><td>world-cup-history</td><td>3 — comparar finalista atual com edição anterior</td><td>85</td><td><span class="tag a">Altíssimo</span></td></tr>
+    <tr><td>6</td><td><strong>revenge_match</strong> — time A eliminou time B em Copa anterior</td><td>world-cup-history + rivalries</td><td>3 — cruzar confronto atual com histórico</td><td>85</td><td><span class="tag a">Alto</span></td></tr>
+    <tr><td>7</td><td><strong>historic_event_referenced</strong> — jogo atual lembra evento histórico</td><td>historical-events</td><td>3 — match similar (times + fase) com evento passado</td><td>85</td><td><span class="tag a">Alto</span></td></tr>
+    <tr><td>8</td><td><strong>classic_rivalry</strong> — confronto entre rivais históricos</td><td>rivalries.json</td><td>1 — lookup por pares</td><td>80</td><td><span class="tag a">Alto</span></td></tr>
+    <tr><td>9</td><td><strong>threepeat_attempt</strong> — time tenta tri consecutivo</td><td>world-cup-history</td><td>3 — campeão 2 edições anteriores + na final</td><td>80</td><td><span class="tag a">Alto</span></td></tr>
+    <tr><td>10</td><td><strong>host_nation_champion</strong> — país-sede campeão</td><td>world-cup-history + teams</td><td>1 — host === champion</td><td>80</td><td><span class="tag a">Alto</span></td></tr>
+    <tr><td>11</td><td><strong>rematch_previous_knockout</strong> — mesmo confronto de mata-mata anterior</td><td>world-cup-history</td><td>3 — mesmo par em mesma fase em edições diferentes</td><td>75</td><td><span class="tag b">Médio</span></td></tr>
+    <tr><td>12</td><td><strong>host_nation_eliminated_early</strong> — sede cai cedo</td><td>teams.json + stage</td><td>1 — host eliminado antes das quartas</td><td>75</td><td><span class="tag b">Médio</span></td></tr>
+    <tr><td>13</td><td><strong>best_result_equaled</strong> — time iguala melhor resultado histórico</td><td>teams.json</td><td>2 — stage === bestResult</td><td>70</td><td><span class="tag b">Médio</span></td></tr>
+    <tr><td>14</td><td><strong>best_result_surpassed</strong> — time supera melhor resultado</td><td>teams.json</td><td>2 — stage > bestResult (por ordem)</td><td>75</td><td><span class="tag b">Médio</span></td></tr>
+    <tr><td>15</td><td><strong>continental_first</strong> — primeiro time do continente a atingir X</td><td>teams.json</td><td>3 — cruzar continente com marcos históricos</td><td>85</td><td><span class="tag a">Alto</span></td></tr>
+    <tr><td>16</td><td><strong>title_drought_ended</strong> — jejum de título encerrado</td><td>teams.json</td><td>1 — champion && yearsSinceLastTitle > 0</td><td>90</td><td><span class="tag a">Alto</span></td></tr>
+    <tr><td>17</td><td><strong>top_scorer_record</strong> — artilheiro se aproxima de recorde</td><td>world-cup-history</td><td>4 — comparar gols com artilheiros históricos</td><td>60</td><td><span class="tag c">Médio-baixo</span></td></tr>
+    <tr><td>18</td><td><strong>most_goals_edition</strong> — edição com mais gols da história</td><td>world-cup-history</td><td>3 — comparar total de gols com edições anteriores</td><td>50</td><td><span class="tag c">Médio-baixo</span></td></tr>
+    <tr><td>19</td><td><strong>generation_gap</strong> — time volta à final após X anos</td><td>teams.json</td><td>2 — última final vs final atual</td><td>70</td><td><span class="tag b">Médio</span></td></tr>
+    <tr><td>20</td><td><strong>notable_reference</strong> — jogo referenciado em historical-events</td><td>historical-events</td><td>2 — match atual evoca evento específico</td><td>80</td><td><span class="tag a">Alto</span></td></tr>
+  </table>
+</section>
+
+<!-- ENTREGÁVEL 4 — 10 Narrative Arcs Históricos -->
+<section style="border:none;">
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">10 Narrative Arcs Históricos</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>1. 🏆 dynasty_attempt</h4>
+        <p><strong>O que é:</strong> Time tenta o tri consecutivo ou o bi após ser campeão da edição anterior.</p>
+        <p><strong>Detecção:</strong> champion[year-4] === team || champion[year-8] === team.</p>
+        <p><strong>Dataset:</strong> world-cup-history.json.</p>
+        <p><strong>Exemplo:</strong> França 2022 tentando o bi após 2018.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>2. 🔄 repeat_final_arc</h4>
+        <p><strong>O que é:</strong> Mesmo confronto de final de Copa anterior.</p>
+        <p><strong>Detecção:</strong> Final atual === final de edição anterior (mesmo par).</p>
+        <p><strong>Dataset:</strong> world-cup-history.json.</p>
+        <p><strong>Exemplo:</strong> Argentina vs França 2022 (não foi repeat, mas se fosse em 2026 seria).</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>3. 🏠 host_nation_dream</h4>
+        <p><strong>O que é:</strong> País-sede faz campanha histórica (título ou final).</p>
+        <p><strong>Detecção:</strong> team === host && stage >= Semifinal.</p>
+        <p><strong>Dataset:</strong> world-cup-history.json + teams.json.</p>
+        <p><strong>Exemplo:</strong> França 1998 (campeã em casa).</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--rose);">
+        <h4>4. ⚔️ historic_rematch</h4>
+        <p><strong>O que é:</strong> Confronto revive jogo marcante do passado.</p>
+        <p><strong>Detecção:</strong> Teams combinam com algum historical-events.json.</p>
+        <p><strong>Dataset:</strong> historical-events.json + rivalries.json.</p>
+        <p><strong>Exemplo:</strong> Brasil vs Alemanha (7-1) em qualquer edição futura.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>5. 🌍 continental_breakthrough</h4>
+        <p><strong>O que é:</strong> Time de continente sem tradição quebra barreira histórica.</p>
+        <p><strong>Detecção:</strong> team.continent não tem semifinalista anterior + stage === Semifinal.</p>
+        <p><strong>Dataset:</strong> teams.json (semifinals por continente).</p>
+        <p><strong>Exemplo:</strong> Marrocos 2022 (primeiro africano na semi).</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>6. 🏅 legacy_coronation</h4>
+        <p><strong>O que é:</strong> Geração lendária finalmente conquista o título.</p>
+        <p><strong>Detecção:</strong> team com finals === 0 ou 1 e títulos === 0 que chega à final.</p>
+        <p><strong>Dataset:</strong> teams.json (finals + titles).</p>
+        <p><strong>Exemplo:</strong> Croácia 2018 (primeira final), Holanda 1974 (geração Cruyff).</p>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>7. 📉 traditional_power_decline</h4>
+        <p><strong>O que é:</strong> Potência tradicional acumula eliminações precoces consecutivas.</p>
+        <p><strong>Detecção:</strong> isTraditional && eliminado na groups em 2+ edições consecutivas.</p>
+        <p><strong>Dataset:</strong> world-cup-history.json + teams.json.</p>
+        <p><strong>Exemplo:</strong> Alemanha eliminada na grupos em 2018 e 2022.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--rose);">
+        <h4>8. 🆕 first_time_journey</h4>
+        <p><strong>O que é:</strong> Time que nunca passou de fase chega longe.</p>
+        <p><strong>Detecção:</strong> bestResult <= "Round of 16" && stage >= Quarterfinals.</p>
+        <p><strong>Dataset:</strong> teams.json (bestResult).</p>
+        <p><strong>Exemplo:</strong> Costa Rica 2014 (quartas pela primeira vez).</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--accent);">
+        <h4>9. ⏰ generational_farewell</h4>
+        <p><strong>O que é:</strong> Geração lendária se despede sem título.</p>
+        <p><strong>Detecção:</strong> isTraditional && eliminação && vários jogadores com lastWorldCup.</p>
+        <p><strong>Dataset:</strong> teams.json + player-roster (planejado).</p>
+        <p><strong>Exemplo:</strong> Bélgica 2022 (geração de ouro elimina na grupos).</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--green);">
+        <h4>10. 🔥 revenge_arc</h4>
+        <p><strong>O que é:</strong> Time busca vingança por eliminação em Copa anterior.</p>
+        <p><strong>Detecção:</strong> time A eliminou time B em edição anterior e se enfrentam novamente.</p>
+        <p><strong>Dataset:</strong> world-cup-history.json (confrontos anteriores em mata-mata).</p>
+        <p><strong>Exemplo:</strong> França vs Argentina em 2022 — Argentina perdeu para França nas oitavas de 2018.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:24px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Historical Intelligence v1 • ~230 linhas de dataset • 20 fatos • 10 arcos</p>
+</footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — U1 Validation Execution Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:880px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:32px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:4px}
+.sec-title{font-size:20px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px}
+.doc-hero{padding:48px 0 24px;text-align:center}
+.doc-hero h1{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:13px;color:var(--text-2);max-width:550px;margin:6px auto 0;line-height:1.5}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:8px}
+.card h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.card p,.card li{font-size:11px;color:var(--text-2);line-height:1.5}
+.card ul{padding-left:14px}
+.card ul li{padding:2px 0}
+.card ol{padding-left:16px}
+.card ol li{padding:2px 0;font-size:11px;color:var(--text-2)}
+table{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0}
+th,td{padding:4px 8px;text-align:left;border-bottom:1px solid var(--border)}
+th{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3)}
+td{color:var(--text-2)}
+td:first-child{color:var(--text);font-weight:500}
+.verdict{border:1px solid;border-radius:8px;padding:14px 16px;margin:8px 0}
+.verdict h4{font-size:12px;font-weight:600;margin-bottom:4px}
+.verdict p{font-size:11px;color:var(--text-2);line-height:1.5}
+pre{font-size:11px;color:var(--text-2);line-height:1.5;background:var(--surface-2);padding:12px;border-radius:8px;margin:6px 0;font-family:monospace}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>U1 Validation — <span>Execution Plan</span></h1>
+  <p>10 usuários. 15 minutos cada. 1 resposta.</p>
+</section>
+
+<!-- Parte 1 — Recrutamento -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Recrutamento — Quem testar</h2>
+
+  <table>
+    <tr><th>Perfil</th><th>Qtd</th><th>Critério</th><th>Motivo</th></tr>
+    <tr><td><strong>⚽ Acompanha só a Copa</strong></td><td style="text-align:center;">5</td><td>Não vê futebol no dia a dia, mas para tudo para ver a Copa</td><td><strong>Público-alvo principal.</strong> Se esse perfil não validar, o produto não tem mercado.</td></tr>
+    <tr><td><strong>📱 Fanático por futebol</strong></td><td style="text-align:center;">3</td><td>Assiste rodadas inteiras, sabe escalações, acompanha ligas</td><td>Grupo de controle. Eles podem achar o produto raso demais. Se aprovarem, é um sinal fortíssimo.</td></tr>
+    <tr><td><strong>🎲 Não acompanha futebol</strong></td><td style="text-align:center;">2</td><td>Não saberia dizer quem é favorito ao título</td><td>Teste de clareza. Se esse perfil entender o produto, qualquer entende.</td></tr>
+  </table>
+
+  <div class="card">
+    <h4>📋 Critérios de exclusão</h4>
+    <ul>
+      <li><strong>Não recrutar:</strong> designers, PMs, founders, devs — pessoas que avaliam produtos profissionalmente. Elas não representam o público.</li>
+      <li><strong>Não recrutar:</strong> amigos próximos que podem dar feedback enviesado ("tá lindo, parceiro").</li>
+      <li><strong>Preferir:</strong> pessoas que você conhece mas não são do meio tech. Tios, primos, vizinhos, amigos da faculdade em outras áreas.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Parte 2 — Convite -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Mensagem de Convite (WhatsApp)</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;max-width:500px;margin:0 auto;">
+    <div style="font-size:10px;color:var(--text-3);margin-bottom:6px;">📱 ENVIAR IGUALZINHO:</div>
+    <div style="background:rgba(34,197,55,.05);border-left:3px solid var(--green);padding:12px;border-radius:4px;font-size:13px;line-height:1.5;color:var(--text-2);">
+      "Fala, [nome]! Tô criando um negócio e preciso de 15 minutos da sua opinião. Não precisa saber de tecnologia nem de futebol — é sobre como as pessoas acompanham a Copa. Você pode me ajudar? É só abrir um link no celular e me dizer o que achou. Bora?"
+    </div>
+    <div style="margin-top:8px;padding:10px;background:rgba(239,68,68,.05);border-radius:6px;">
+      <p style="font-size:11px;color:var(--red);line-height:1.4;">
+        <strong>Não escrever:</strong> "resumo diário", "narrativas", "editorial", "IA", "produto", "startup".<br>
+        <strong>Não escrever:</strong> "Você gostou?" antecipadamente.<br>
+        <strong>Escrever:</strong> "preciso da sua opinião" — isso gera feedback honesto, não aprovação.
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-top:8px;padding:12px;background:var(--surface-2);border-radius:8px;">
+    <h4 style="font-size:11px;font-weight:600;margin-bottom:4px;">📅 Agendamento</h4>
+    <p style="font-size:11px;color:var(--text-2);">"Segunda ou terça à noite? 15 minutos, prometo. Pode ser chamada de vídeo rápida ou presencial se você estiver perto." — <strong>Sessões remotas são melhores:</strong> a pessoa usa o celular dela, no ambiente dela, sem você influenciando.</p>
+  </div>
+</section>
+
+<!-- Parte 3 — Roteiro da Sessão -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Sessão de Teste — 15 Minutos</h2>
+
+  <div class="card">
+    <h4>⏱ 0:00 — Abertura (1 min)</h4>
+    <p style="font-size:11px;color:var(--text-2);">"Vou te mandar um link. Abre no seu celular. Não vou te explicar nada antes — quero que você descubra sozinho. Fala em voz alta tudo que você pensa, mesmo que pareça bobo. Pode ser?" — Enviar o link. A pessoa abre. <strong>Ficar em silêncio absoluto.</strong></p>
+  </div>
+
+  <div class="card">
+    <h4>⏱ 0:01 — Primeiros 15 segundos (2 min)</h4>
+    <p style="font-size:11px;color:var(--text-2);">A pessoa está olhando a tela. <strong>Não falar nada.</strong> Observar:<br>
+    • Onde o olhar dela para primeiro?<br>
+    • Ela está rolando ou parou no topo?<br>
+    • Ela franze a testa (confusão) ou relaxa (entendimento)?</p>
+  </div>
+
+  <div class="card">
+    <h4>⏱ 0:03 — Perguntas abertas (5 min)</h4>
+    <p style="font-size:11px;color:var(--text-2);">Após 15 segundos de silêncio, perguntar:<br>
+    1. "O que você está vendo aqui?"<br>
+    2. "O que aconteceu hoje na Copa, pelo que você entendeu?"<br>
+    3. "Qual é a história mais importante?"</p>
+  </div>
+
+  <div class="card">
+    <h4>⏱ 0:08 — Perguntas específicas (4 min)</h4>
+    <p style="font-size:11px;color:var(--text-2);">Avisar a pessoa para rolar a página inteira primeiro. Depois perguntar:<br>
+    4. "O que acontece amanhã?"<br>
+    5. "Você entendeu o que significa 'Capítulo 4 de 6'?"<br>
+    6. "Você voltaria amanhã no seu próprio celular para ver de novo?"</p>
+  </div>
+
+  <div class="card">
+    <h4>⏱ 0:12 — Exploração livre (2 min)</h4>
+    <p style="font-size:11px;color:var(--text-2);">"Agora me mostra o que mais você encontrou. Clica em qualquer coisa que chamar atenção." — Observar o que é ignorado.</p>
+  </div>
+
+  <div class="card">
+    <h4>⏱ 0:14 — Fechamento (1 min)</h4>
+    <p style="font-size:11px;color:var(--text-2);">"Se isso existisse na Copa de verdade, você usaria? Quanto tempo por dia?" — Agradecer. <strong>Não perguntar "o que você melhoraria?"</strong> — isso gera sugestões de features que a pessoa nunca usaria. A pergunta correta é "o que te fez não entender alguma coisa?"</p>
+  </div>
+</section>
+
+<!-- Parte 4 — Perguntas -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Perguntas: Abertas, Fechadas e Proibidas</h2>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--green);">
+      <h4>✅ Perguntas abertas (obrigatórias)</h4>
+      <ol>
+        <li>"O que você está vendo aqui?"</li>
+        <li>"O que aconteceu hoje na Copa?"</li>
+        <li>"Qual é a história mais importante?"</li>
+        <li>"O que acontece amanhã?"</li>
+        <li>"O que significa 'Capítulo 4 de 6'?"</li>
+        <li>"Você voltaria amanhã para ver de novo?"</li>
+      </ol>
+    </div>
+
+    <div>
+      <div class="card" style="border-left:3px solid var(--amber);">
+        <h4>🔵 Perguntas fechadas (coleta)</h4>
+        <ol>
+          <li>"Você usaria isso durante a Copa? Sim / Talvez / Não"</li>
+          <li>"Quanto tempo por dia? &lt;1min / 1-3min / 3-5min / &gt;5min"</li>
+          <li>"O que chamou mais atenção? (listagem)"</li>
+          <li>"O que você ignorou? (listagem)"</li>
+        </ol>
+      </div>
+      <div class="card" style="border-left:3px solid var(--red);">
+        <h4>❌ Perguntas proibidas</h4>
+        <ol>
+          <li>"Você gostou?" — gera resposta educada</li>
+          <li>"O que você melhoraria?" — gera sugestão de feature</li>
+          <li>"Você pagaria por isso?" — ninguém sabe ainda</li>
+          <li>"Isso é melhor que ESPN?" — comparação injusta</li>
+          <li>"O que está faltando?" — induz a pensar em falta</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Parte 5 — Planilha -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Planilha de Resultados</h2>
+
+  <table>
+    <tr><th>Usuário</th><th>Perfil</th><th>Entendeu o produto?</th><th>Entendeu história principal?</th><th>Entendeu NextChapter?</th><th>Entendeu "Cap X/Y"?</th><th>Voltaria amanhã?</th><th>Usaria na Copa?</th><th>Comentário principal</th></tr>
+    <tr><td>#1</td><td>Casual</td><td>✅ Sim</td><td>✅ Marrocos</td><td>🟡 Parcial</td><td>❌ Não</td><td>Sim</td><td>Sim</td><td>"Gostei que é rápido"</td></tr>
+    <tr><td>#2</td><td>Fanático</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+    <tr><td>#3</td><td>Não acompanha</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+    <tr><td colspan="9" style="text-align:center;font-size:10px;color:var(--text-3);">... até #10</td></tr>
+  </table>
+
+  <div class="card">
+    <h4>📋 Critérios de preenchimento</h4>
+    <ul>
+      <li><strong>Entendeu o produto?</strong> "É um resumo do dia da Copa" — sim. "É um site de notícias" — sim. "É um placar" — não.</li>
+      <li><strong>Entendeu história principal?</strong> O usuário identifica o QuickRead bullet 1 como a manchete principal.</li>
+      <li><strong>Entendeu NextChapter?</strong> "Amanhã tem Marrocos contra França" — sim.</li>
+      <li><strong>Entendeu "Capítulo 4 de 6"?</strong> O usuário associou com "a história ainda não acabou" — sim. "Não sei" — não.</li>
+      <li><strong>Voltaria amanhã?</strong> Resposta espontânea, sem incentivo.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Parte 6 — Critérios de Decisão -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Critérios de Decisão</h2>
+
+  <div class="grid-2">
+    <div>
+      <div class="verdict" style="border-color:rgba(34,197,55,.2);background:rgba(34,197,55,.03);">
+        <h4 style="color:var(--green);">✅ CONTINUAR</h4>
+        <p>Se 4/5 métricas obrigatórias baterem target:<br>
+        • ≥ 8/10 entenderam história principal<br>
+        • ≥ 7/10 entenderam NextChapter<br>
+        • ≥ 6/10 voltariam amanhã<br>
+        • ≥ 6/10 entenderam Capítulo X/Y<br>
+        • ≥ 7/10 usariam na Copa</p>
+        <p style="margin-top:4px;"><strong>Ação:</strong> Montar operação. API-Football. VPS. 100 usuários.</p>
+      </div>
+      <div class="verdict" style="border-color:rgba(239,68,68,.2);background:rgba(239,68,68,.03);">
+        <h4 style="color:var(--red);">🔴 ENCERRAR</h4>
+        <p>Se &lt; 5/10 entenderam o propósito OU &lt; 3/10 voltariam amanhã OU "não entendi pra que serve isso" for a frase mais repetida.</p>
+        <p style="margin-top:4px;"><strong>Ação:</strong> Arquivar. Tentar outra ideia. Aprender e seguir em frente.</p>
+      </div>
+    </div>
+    <div>
+      <div class="verdict" style="border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.03);">
+        <h4 style="color:var(--amber);">🟡 CONTINUAR COM AJUSTES</h4>
+        <p>Se 3/5 métricas baterem target, MAS houver um problema claro e recorrente:</p>
+        <ul style="font-size:11px;color:var(--text-2);line-height:1.6;padding-left:14px;">
+          <li>Ninguém entendeu o NarrativeTracker (revisar ou remover)</li>
+          <li>NextChapter não foi visto (mudar posição)</li>
+          <li>QuickRead e HeroMini se confundiram (reduzir mais)</li>
+        </ul>
+        <p style="margin-top:4px;"><strong>Ação:</strong> Corrigir o problema específico em 1 semana. Re-testar com 5 usuários.</p>
+      </div>
+      <div class="verdict" style="border-color:rgba(99,102,241,.2);background:rgba(99,102,241,.03);">
+        <h4 style="color:var(--accent);">🔄 PIVOTAR</h4>
+        <p>Se o produto for compreendido mas ninguém sentir necessidade: "É legal, mas não usaria."</p>
+        <p style="margin-top:4px;"><strong>Ação:</strong> Mudar formato (ex: newsletter em vez de site?) ou mudar público (ex: criadores de conteúdo em vez de fãs casuais?).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Parte 7 — Pós-Teste -->
+<section style="border:none;">
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Pós-Teste — Decisões Imediatas vs Adiadas</h2>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4>⚡ Decisões IMEDIATAS (após último usuário)</h4>
+      <ol style="font-size:11px;color:var(--text-2);line-height:1.7;">
+        <li>Publicar resultados em uma página (para referência futura)</li>
+        <li>Decidir: continuar, ajustar, pivotar ou encerrar</li>
+        <li>Se continuar: configurar API-Football + cron + VPS</li>
+        <li>Se continuar: corrigir os problemas mais gritantes apontados nos testes</li>
+        <li>Se continuar: recrutar mais 10 usuários para a segunda rodada</li>
+        <li>Se encerrar: documentar aprendizados. O projeto não foi um fracasso — foi um experimento.</li>
+      </ol>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <h4>⏰ Decisões ADIADAS (para depois do segundo teste)</h4>
+      <ol style="font-size:11px;color:var(--text-2);line-height:1.7;">
+        <li>Áudio diário</li>
+        <li>Player Facts</li>
+        <li>Newsletter</li>
+        <li>Social cards</li>
+        <li>Novos datasets históricos</li>
+        <li>Player Facts</li>
+        <li>Modo claro</li>
+        <li>Google Analytics</li>
+        <li>Qualquer feature que não mude a resposta para "você voltaria amanhã?"</li>
+      </ol>
+    </div>
+  </div>
+
+  <div style="margin-top:8px;padding:14px;background:rgba(34,197,55,.05);border:1px solid rgba(34,197,55,.15);border-radius:8px;">
+    <p style="font-size:12px;color:var(--text-2);line-height:1.5;">
+      <strong style="color:var(--green);">Regra de ouro pós-teste:</strong> Se 6 dos 10 usuários disseram que voltariam, o produto merece continuar. Se não disseram, nenhuma feature vai fazer eles voltarem. O problema não é de funcionalidade — é de proposta de valor. <strong>Não adicionar features para resolver falta de demanda.</strong>
+    </p>
+  </div>
+</section>
+
+<footer style="padding:20px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — U1 Validation Execution Plan • 10 usuários. 15 minutos. 1 resposta.</p>
+</footer>
+
+</main>
+</body>
+</html>

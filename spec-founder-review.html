@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Copa Pulse — Founder Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:800px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:28px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:4px}
+.sec-title{font-size:18px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px}
+.doc-hero{padding:40px 0 20px;text-align:center}
+.doc-hero h1{font-size:clamp(24px,3vw,32px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:13px;color:var(--text-2);max-width:500px;margin:6px auto 0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:6px}
+.card h4{font-size:12px;font-weight:600;margin-bottom:3px}
+.card p,.card li{font-size:11px;color:var(--text-2);line-height:1.5}
+.card ul{padding-left:14px}
+.card ul li{padding:1px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{text-align:center;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+.stat .num{font-size:28px;font-weight:800;color:var(--accent)}
+.stat .label{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.verdict{border:1px solid;border-radius:10px;padding:20px;margin:12px 0}
+.verdict h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.verdict p{font-size:12px;color:var(--text-2);line-height:1.5}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Founder <span>Review</span></h1>
+  <p>Construir é mais confortável do que validar. Este documento existe para tornar o desconforto inevitável.</p>
+</section>
+
+<!-- Pergunta 1 -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">O que já foi construído</h2>
+
+  <div class="grid-2">
+    <div class="stat"><div class="num">25+</div><div class="label">Módulos</div></div>
+    <div class="stat"><div class="num">~3000</div><div class="label">Linhas de código</div></div>
+    <div class="stat"><div class="num">15+</div><div class="label">Sprints</div></div>
+    <div class="stat"><div class="num">0</div><div class="label">Usuários reais</div></div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--accent);">
+    <h4>📦 Produto (pronto)</h4>
+    <p>QuickRead, HeroMini, ContinuityBar, NextChapter, Matches, Standings, NarrativeTracker — homepage funcional com 7 componentes, dark mode, mobile-first, 81.6kB de JS.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--green);">
+    <h4>🧠 Inteligência editorial (pronta)</h4>
+    <p>Editorial Story Engine, Historical Facts, Narrative Arcs, Tournament Memory, Historical Intelligence (world-cup-history.json + teams.json). 5 fatos históricos detectados, 4 arcos narrativos, confidence score, evidence tracking.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--amber);">
+    <h4>🔧 Infraestrutura (pronta)</h4>
+    <p>Next.js 13 + Tailwind v3 + DeepSeek + API-Footwall client. Deployável na Vercel em 30 minutos. Operação por cron documentada.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--text-3);">
+    <h4>🔬 Experimentos (não testados)</h4>
+    <p>Player Facts (especificado), Áudio (especificado), Social Cards (especificado), Newsletter (especificado). Specs prontas, código zero. A decisão correta — testar antes de construir.</p>
+  </div>
+</section>
+
+<!-- Pergunta 2 -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">O que ainda não sabemos (maiores incertezas)</h2>
+
+  <div class="card" style="border-left:3px solid var(--red);">
+    <h4 style="color:var(--red);">🔴 Incerteza 1 — Alguém quer isso?</h4>
+    <p>Nós construímos um resumo diário premium da Copa. Mas NENHUMA pessoa de fora do projeto viu isso. A hipótese pode estar completamente errada. Podemos ter construído algo que ninguém quer.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--red);">
+    <h4 style="color:var(--red);">🔴 Incerteza 2 — O usuário entende em 15 segundos?</h4>
+    <p>Acreditamos que QuickRead entrega o valor em 15s. Mas nunca testamos. O usuário pode olhar para a tela e pensar "é um site de placar" e sair. Ou "não entendi nada" e sair.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--red);">
+    <h4 style="color:var(--red);">🔴 Incerteza 3 — O usuário volta amanhã?</h4>
+    <p>NextChapter foi criado para isso. Mas pode ser que resumo diário simplesmente não crie hábito. O usuário abre uma vez, acha legal, e nunca mais volta. Sem retenção, não há produto.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--amber);">
+    <h4 style="color:var(--amber);">🟡 Incerteza 4 — O usuário compartilha?</h4>
+    <p>Se ninguém compartilhar, não há crescimento orgânico. O produto morre na primeira rodada de usuários.</p>
+  </div>
+  <div class="card" style="border-left:3px solid var(--amber);">
+    <h4 style="color:var(--amber);">🟡 Incerteza 5 — O preço (futuro) é aceitável?</h4>
+    <p>Irrelevante agora. Primeiro validar demanda, depois discutir monetização.</p>
+  </div>
+</section>
+
+<!-- Pergunta 3 -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Perguntas que NENHUMA LLM responde</h2>
+
+  <div class="card" style="border-left:3px solid var(--red);">
+    <ul style="font-size:12px;color:var(--text-2);line-height:2;">
+      <li><strong>Você abriria isso todo dia?</strong> — Nenhum modelo de linguagem sabe a resposta. Só um usuário real.</li>
+      <li><strong>Você entendeu o que é "Capítulo 4 de 6"?</strong> — Pode ser intuitivo para quem criou. Pode ser confuso para quem vê pela primeira vez.</li>
+      <li><strong>Isso te ajuda a acompanhar a Copa melhor que seu método atual?</strong> — O usuário hoje usa Grupo de WhatsApp + ESPN + Instagram. Isso é melhor? Pior? Diferente?</li>
+      <li><strong>Você compartilharia isso com um amigo?</strong> — Não dá para simular orgulho de compartilhar.</li>
+      <li><strong>O que você NÃO entendeu?</strong> — O LLM pode tentar prever, mas só o usuário real mostrando onde travou revela o problema.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Pergunta 4 -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Se construirmos por mais 30 dias sem testar</h2>
+
+  <div class="card" style="border-left:3px solid var(--red);">
+    <ul style="font-size:12px;color:var(--text-2);line-height:1.8;">
+      <li><strong>Risco 1 — Construir o produto errado com mais qualidade.</strong> Player Facts, Áudio, Newsletters — tudo isso pode ser irrelevante se ninguém quiser o conceito básico. 30 dias de trabalho para aprender 0.</li>
+      <li><strong>Risco 2 — Perder o timing da Copa.</strong> Se o teste mostrar que funciona, ainda precisamos de tempo para operacionalizar. A Copa não espera.</li>
+      <li><strong>Risco 3 — Acumular dívida emocional.</strong> Quanto mais tempo investido, mais difícil é aceitar que a hipótese pode estar errada. O custo de pivotar ou encerrar fica maior a cada sprint.</li>
+      <li><strong>Risco 4 — Ficar preso em um loop de "só mais uma feature".</strong> "Depois que eu adicionar o áudio, aí eu testo." — Isso nunca termina. Áudio vira Player Facts, que vira Newsletter, que vira Push.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Pergunta 5 -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">A hipótese principal (em uma frase)</h2>
+
+  <div style="background:var(--surface);border:2px solid var(--accent);border-radius:12px;padding:24px;text-align:center;max-width:600px;margin:0 auto;">
+    <p style="font-size:15px;font-weight:700;line-height:1.4;color:var(--text);">
+      "Fãs casuais da Copa preferem um resumo narrativo de 15 segundos a um portal de placares tradicional."
+    </p>
+  </div>
+</section>
+
+<!-- Pergunta 6 -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Fracasso útil vs Fracasso inútil</h2>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--green);">
+      <h4 style="color:var(--green);">✅ Fracasso útil</h4>
+      <ul style="font-size:11px;line-height:1.7;">
+        <li>"Entendi o produto, mas não voltaria amanhã." → Aprendizado: resumo diário não cria hábito. Talvez o formato precise ser diferente (áudio? notificação?).</li>
+        <li>"Não entendi nada." → Aprendizado: a homepage não comunica o valor. Precisamos de um onboarding ou redesign.</li>
+        <li>"Isso é igual ao Google Notícias." → Aprendizado: não conseguimos nos diferenciar. Precisamos de um posicionamento mais claro.</li>
+      </ul>
+      <p style="margin-top:4px;font-size:10px;color:var(--green);">Todos esses geram aprendizados acionáveis. O projeto avança.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <h4 style="color:var(--red);">❌ Fracasso inútil</h4>
+      <ul style="font-size:11px;line-height:1.7;">
+        <li>"Nunca testei. Nunca soube se alguém queria. Construí até a Copa acabar." → Aprendizado: zero. O tempo foi gasto e não gerou informação. O fracasso inútil é construir sem aprender.</li>
+      </ul>
+      <p style="margin-top:4px;font-size:10px;color:var(--red);">Este é o único fracasso que deveria ser evitado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pergunta 7 -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Menor experimento possível</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:12px;">
+      <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">Vercel (grátis)</span>
+      <span style="color:var(--text-3);font-size:14px;">+</span>
+      <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">Dados mockados</span>
+      <span style="color:var(--text-3);font-size:14px;">+</span>
+      <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">DeepSeek</span>
+      <span style="color:var(--text-3);font-size:14px;">+</span>
+      <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">10 pessoas no WhatsApp</span>
+      <span style="color:var(--text-3);font-size:14px;">=</span>
+      <span style="background:var(--accent);padding:6px 12px;border-radius:6px;font-size:11px;color:#fff;">3 horas de setup</span>
+    </div>
+    <ol style="padding-left:16px;font-size:11px;color:var(--text-2);line-height:1.8;">
+      <li>Fazer deploy na Vercel com dados mockados da Copa 2022</li>
+      <li>Atualizar fallback data para simular 3 dias consecutivos</li>
+      <li>DeepSeek já configurado — gera conteúdo editorial real</li>
+      <li>Convidar 10 pessoas no WhatsApp (mensagem pronta no spec-u1-execution.html)</li>
+      <li>Seguir roteiro de 15 minutos (pronto no spec-u1-execution.html)</li>
+      <li>Preencher planilha (pronta no spec-u1-execution.html)</li>
+      <li>Decidir em 7 dias</li>
+    </ol>
+    <p style="font-size:10px;color:var(--text-3);margin-top:6px;">Custo total: R$ 0,00. Tempo total: 3 horas de setup + 2 dias de entrevistas.</p>
+  </div>
+</section>
+
+<!-- Pergunta 8 e 9 -->
+<section>
+  <div class="sec-label">● 8-9</div>
+  <h2 class="sec-title">Se positivo / Se negativo</h2>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--green);">
+      <h4 style="color:var(--green);">✅ Se positivo</h4>
+      <p>Objetivo da próxima fase não é "adicionar Player Facts". É:</p>
+      <ul style="font-size:11px;line-height:1.6;margin-top:4px;">
+        <li><strong>Operacionalizar:</strong> API-Football + cron + dados reais</li>
+        <li><strong>Escalar para 100 usuários:</strong> compartilhamento, SEO, boca a boca</li>
+        <li><strong>Medir retenção real:</strong> quantos voltam nos dias seguintes</li>
+        <li><strong>Só então:</strong> decidir quais features construir com base em evidência de uso</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--red);">
+      <h4 style="color:var(--red);">❌ Se negativo</h4>
+      <p>Decisão racional:</p>
+      <ul style="font-size:11px;line-height:1.6;margin-top:4px;">
+        <li><strong>Não insistir.</strong> Se 10 pessoas testaram e ninguém voltaria, o formato não funciona</li>
+        <li><strong>Documentar aprendizados.</strong> O que funciona: QuickRead, editorial. O que não funciona: resumo diário como produto standalone</li>
+        <li><strong>Pivotar ou arquivar.</strong> Procurar outro problema para resolver com as mesmas habilidades</li>
+        <li><strong>Não culpar falta de features.</strong> O problema não é que faltava áudio — é que a proposta de valor não ressoou</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Pergunta 10 -->
+<section style="border:none;">
+  <div class="sec-label">● 10</div>
+  <h2 class="sec-title">Veredito Final</h2>
+
+  <div style="background:var(--surface);border:2px solid var(--accent);border-radius:14px;padding:28px;text-align:center;">
+    <div style="font-size:48px;margin-bottom:8px;">🛑</div>
+    <h3 style="font-size:24px;font-weight:800;color:var(--accent);">PARAR DE CONSTRUIR E TESTAR</h3>
+
+    <div style="max-width:500px;margin:12px auto 0;font-size:13px;color:var(--text-2);line-height:1.6;">
+      <p>O Copa Pulse já tem inteligência editorial, datasets históricos, mecanismos de retenção e uma homepage funcional.</p>
+      <p style="margin-top:8px;">O que falta não é código. É resposta.</p>
+      <p style="margin-top:8px;">10 usuários. 15 minutos cada. 7 dias. O custo de fazer o teste é menor que o custo de uma sprint de features que ninguém pediu.</p>
+      <p style="margin-top:8px;font-weight:600;color:var(--text);">Construir é mais confortável que validar. Mas conforto não é o objetivo. Descobrir se existe demanda é o objetivo.</p>
+    </div>
+
+    <div style="margin-top:16px;padding:12px;background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2);border-radius:8px;">
+      <p style="font-size:12px;color:var(--red);line-height:1.5;">
+        A próxima linha de código que você escrever tem 80% de chance de ser irrelevante se você não falar com um usuário antes.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:16px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:10px;color:var(--text-3);">Copa Pulse — Founder Review • 7 dias. 10 usuários. 1 resposta. O resto é ruído.</p>
+</footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copa Pulse — Audio Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0b;--surface:#121214;--surface-2:#1a1a1e;--border:#222226;--text:#f4f4f5;--text-2:#a1a1aa;--text-3:#71717a;--accent:#6366f1;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--rose:#f43f5e}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(99,102,241,.03) 1px, transparent 1px),linear-gradient(90deg,rgba(99,102,241,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.wrapper{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:60px 0;border-bottom:1px solid var(--border)}
+.sec-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:8px}
+.sec-title{font-size:clamp(24px,3vw,32px);font-weight:700;letter-spacing:-.5px;margin-bottom:24px}
+.doc-hero{padding:100px 0 40px;text-align:center}
+.doc-hero h1{font-size:clamp(32px,5vw,48px);font-weight:800;letter-spacing:-1.5px}
+.doc-hero h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.doc-hero p{font-size:14px;color:var(--text-2);max-width:500px;margin:8px auto 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+.card h4{font-size:13px;font-weight:600;margin-bottom:6px}
+.card p,.card li{font-size:12px;color:var(--text-2);line-height:1.6}
+.card ul{padding-left:16px}
+.card ul li{padding:2px 0}
+
+/* Script card */
+.script-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;max-width:600px;margin:24px auto;font-size:14px;line-height:1.8}
+.script-card .label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3);margin-bottom:12px}
+.script-card .cue{color:var(--accent);font-weight:600;font-size:12px;margin-top:16px;margin-bottom:4px}
+.script-card .cue:first-child{margin-top:0}
+.script-card .text{color:var(--text-2);padding-left:12px;border-left:2px solid var(--border)}
+.script-card .text .hl{color:var(--text);font-weight:500}
+
+/* Audio player mock */
+.player-mock{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;max-width:480px;margin:24px auto}
+.player-mock .top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.player-mock .play-btn{width:48px;height:48px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;cursor:pointer}
+.player-mock .info{flex:1}
+.player-mock .info .t{font-size:14px;font-weight:600}
+.player-mock .info .sub{font-size:11px;color:var(--text-3)}
+.player-mock .progress{height:4px;background:var(--surface-2);border-radius:2px;margin-bottom:6px;position:relative}
+.player-mock .progress .bar{width:65%;height:100%;background:var(--accent);border-radius:2px}
+.player-mock .time-row{display:flex;justify-content:space-between;font-size:10px;color:var(--text-3)}
+.player-mock .chapters{display:flex;gap:4px;flex-wrap:wrap;margin-top:12px}
+.player-mock .chapters .chip{font-size:9px;padding:3px 8px;border-radius:4px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;gap:4px}
+.player-mock .chapters .chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Timeline */
+.tl{display:flex;flex-direction:column;gap:0;margin-top:24px}
+.tl-item{display:flex;gap:16px;padding:10px 0;border-left:2px solid var(--border);padding-left:16px;position:relative}
+.tl-item::before{content:'';position:absolute;left:-5px;top:14px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.tl-item .dur{font-size:10px;font-weight:600;color:var(--text-3);white-space:nowrap;min-width:40px;padding-top:1px}
+.tl-item .desc{font-size:12px;color:var(--text-2)}
+.tl-item .desc strong{color:var(--text)}
+
+/* Comparison table */
+.comp-table{width:100%;border-collapse:collapse;font-size:12px;margin:16px 0}
+.comp-table th{padding:8px 12px;text-align:left;border-bottom:2px solid var(--border);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-3)}
+.comp-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text-2)}
+.comp-table td:first-child{font-weight:500;color:var(--text)}
+.comp-table .winner{color:var(--green);font-weight:600}
+.comp-table tr:hover td{background:rgba(255,255,255,.015)}
+
+/* Voice card */
+.voice-card{text-align:center;padding:24px}
+.voice-card .emoji{font-size:32px;margin-bottom:8px}
+.voice-card h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.voice-card p{font-size:12px;color:var(--text-2);max-width:300px;margin:0 auto}
+
+@media(max-width:768px){
+  .grid-2,.grid-3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<main class="wrapper">
+
+<section class="doc-hero" style="border:none;">
+  <h1>Copa Pulse — <span>Áudio</span></h1>
+  <p>60 segundos. Um boletim premium que você escuta enquanto toma café.</p>
+</section>
+
+<!-- 1. Duration -->
+<section>
+  <div class="sec-label">● 1</div>
+  <h2 class="sec-title">Duração Ideal</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h4>⏱️ 60 segundos — MVP</h4>
+      <p>Uma história principal + fechamento. Suficiente para o usuário entender o dia sem compromisso. 60s é o "pitch": se o usuário gostar, ele volta amanhã para ouvir mais.</p>
+    </div>
+    <div class="card">
+      <h4>🎯 90 segundos — V2</h4>
+      <p>Hero + Secondary + Emerging. Completo. Comparável a um mini-podcast. 90s é a duração ideal porque cabe em qualquer momento do dia sem parecer "compromisso".</p>
+    </div>
+  </div>
+  <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <p style="font-size:13px;color:var(--text-2);line-height:1.7;">
+      <strong style="color:var(--text);">Recomendação:</strong> 90 segundos. 60s é pouco para construir contexto → história → consequência. 90s permite: abertura (5s) + hero (30s) + secondary (20s) + emerging (20s) + fechamento (5s) + pausas naturais. Cabe em "3 minutos" — o usuário abre o site, escuta em 90s, lê tabela em 30s, compartilha em 30s. 3 minutos fecham.
+    </p>
+  </div>
+</section>
+
+<!-- 2. Structure -->
+<section>
+  <div class="sec-label">● 2</div>
+  <h2 class="sec-title">Estrutura do Boletim</h2>
+  <div class="tl">
+    <div class="tl-item"><span class="dur">5s</span><div class="desc"><strong>Abertura</strong> — "Hoje na Copa Pulse..." + gancho da história principal</div></div>
+    <div class="tl-item"><span class="dur">25s</span><div class="desc"><strong>Hero Story</strong> — Headline editorial + contexto + why it matters. A história mais importante do dia.</div></div>
+    <div class="tl-item"><span class="dur">2s</span><div class="desc">Transição — "Enquanto isso..."</div></div>
+    <div class="tl-item"><span class="dur">18s</span><div class="desc"><strong>Secondary Story</strong> — Segunda história + por que importa.</div></div>
+    <div class="tl-item"><span class="dur">2s</span><div class="desc">Transição — "E fique de olho..."</div></div>
+    <div class="tl-item"><span class="dur">18s</span><div class="desc"><strong>Emerging Story</strong> — O que está acontecendo agora + o que esperar.</div></div>
+    <div class="tl-item"><span class="dur">3s</span><div class="desc">Transição — "Fechamento"</div></div>
+    <div class="tl-item"><span class="dur">5s</span><div class="desc"><strong>Fechamento</strong> — "Amanhã tem mais. Copa Pulse."</div></div>
+  </div>
+  <p style="font-size:11px;color:var(--text-3);margin-top:16px;">Total: ~78 segundos. Com pausas naturais entre blocos: ~90 segundos.</p>
+</section>
+
+<!-- 3. Script template -->
+<section>
+  <div class="sec-label">● 3</div>
+  <h2 class="sec-title">Estrutura de Roteiro</h2>
+  <div class="script-card">
+    <div class="label">🎙️ COPACAST — Boletim Diário</div>
+
+    <div class="cue">[ABERTURA — 5s ♪]</div>
+    <div class="text">"Hoje na Copa Pulse: <span class="hl">{headline_hero}</span>."</div>
+
+    <div class="cue">[HERO STORY — 25s]</div>
+    <div class="text">
+      "<span class="hl">{time}</span>. <span class="hl">{team_a}</span> <span class="hl">{resultado}</span> <span class="hl">{team_b}</span>.<br>
+      {contexto_editorial}.<br>
+      {why_it_matters}.<br>
+      {consequencia_no_torneio}."
+    </div>
+
+    <div class="cue">[TRANSIÇÃO — 2s]</div>
+    <div class="text">"Enquanto isso..."</div>
+
+    <div class="cue">[SECONDARY STORY — 18s]</div>
+    <div class="text">
+      "<span class="hl">{time}</span>. <span class="hl">{team_a}</span> <span class="hl">{resultado}</span> <span class="hl">{team_b}</span>.<br>
+      {contexto}.<br>
+      {why_it_matters}."
+    </div>
+
+    <div class="cue">[TRANSIÇÃO — 2s]</div>
+    <div class="text">"E fique de olho..."</div>
+
+    <div class="cue">[EMERGING STORY — 18s]</div>
+    <div class="text">
+      "{o_que_esta_acontecendo_agora}.<br>
+      {o_que_esperar}.<br>
+      {por_que_isso_pode_mudar_o_torneio}."
+    </div>
+
+    <div class="cue">[FECHAMENTO — 5s ♪]</div>
+    <div class="text">"Amanhã tem mais. Essa foi a Copa Pulse."</div>
+  </div>
+  <p style="font-size:11px;color:var(--text-3);margin-top:8px;text-align:center;">Template de roteiro. Cada bloco é gerado automaticamente pelo motor editorial.</p>
+</section>
+
+<!-- 4. Voice -->
+<section>
+  <div class="sec-label">● 4</div>
+  <h2 class="sec-title">Voz Editorial</h2>
+  <div class="grid-3">
+    <div class="card voice-card">
+      <div class="emoji">🎙️</div>
+      <h4>Jornalista esportivo</h4>
+      <p>Tom formal, terceira pessoa, estatísticas. "A seleção brasileira foi eliminada nos pênaltis pela Croácia." — Distante. Impessoal.</p>
+    </div>
+    <div class="card voice-card" style="border-color:var(--accent);">
+      <div class="emoji">🗣️</div>
+      <h4>Amigo que entende</h4>
+      <p style="color:var(--text);">Tom conversacional, primeira pessoa, entusiasmo genuíno. "O Brasil caiu. Pois é, a Croácia de novo. Nos pênaltis, claro." — Próximo. Humano.</p>
+    </div>
+    <div class="card voice-card">
+      <div class="emoji">📻</div>
+      <h4>Locutor de rádio</h4>
+      <p>Tom energético, impostação, locução. "E A CROÁCIA ELIMINA O BRASIL! QUE JOGO!" — Alto. Cansativo para consumo diário.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+    <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;">🗣️ Voz escolhida: "Amigo que entende de futebol"</h4>
+    <p style="font-size:12px;color:var(--text-2);line-height:1.7;">
+      <strong style="color:var(--text);">Tom:</strong> Conversacional, não professoral. Como alguém no bar explicando o jogo do dia anterior para um amigo que não viu.<br>
+      <strong style="color:var(--text);">Ritmo:</strong> Médio. Pausas naturais entre blocos. Sem pressa. 90 segundos não é corrido.<br>
+      <strong style="color:var(--text);">Energia:</strong> Moderada. Entusiasmado quando a história permite (Marrocos na semi), contido quando o evento é pesado (Brasil eliminado). A energia segue a emoção da história.<br>
+      <strong style="color:var(--text);">Formalidade:</strong> Baixa. "Pois é", "olha", "sabe o que aconteceu?" — muletas naturais da conversa.<br>
+    </p>
+  </div>
+</section>
+
+<!-- 5. Audio UX -->
+<section>
+  <div class="sec-label">● 5</div>
+  <h2 class="sec-title">Player UX</h2>
+
+  <div class="player-mock">
+    <div class="top">
+      <div class="play-btn">▶</div>
+      <div class="info">
+        <div class="t">Resumo do dia • 13 Dez 2026</div>
+        <div class="sub">Argentina elimina Croácia e vai à final</div>
+      </div>
+    </div>
+    <div class="progress"><div class="bar"></div></div>
+    <div class="time-row"><span>0:00</span><span>1:30</span></div>
+    <div class="chapters">
+      <span class="chip active">▶ Abertura</span>
+      <span class="chip">Hero</span>
+      <span class="chip">Secondary</span>
+      <span class="chip">Emerging</span>
+      <span class="chip">Fechamento</span>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px;">
+    <div class="card">
+      <h4>✅ Faz</h4>
+      <ul>
+        <li>Botão play grande e visível (48px)</li>
+        <li>Barra de progresso com tempo decorrido / total</li>
+        <li>Capítulos clicáveis (navegação dentro do áudio)</li>
+        <li>Título dinâmico: "Resumo do dia • {data}"</li>
+        <li>Subtítulo: headline da Hero Story</li>
+        <li>Autoplay <strong>desligado</strong> — o usuário escolhe ouvir</li>
+        <li>Background playback (fechar o site e continuar ouvindo)</li>
+        <li>Transcrição disponível com um tap</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>❌ Não faz</h4>
+      <ul>
+        <li>Autoplay ao abrir a página (nunca)</li>
+        <li>Player automático sem interação</li>
+        <li>Música de fundo (apenas voz + pausas)</li>
+        <li>Efeitos sonoros (apito, torcida, etc.)</li>
+        <li>Comerciais ou vinheta longa</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Script example -->
+<section>
+  <div class="sec-label">● 6</div>
+  <h2 class="sec-title">Roteiro Exemplo — 90 segundos</h2>
+
+  <div class="script-card">
+    <div class="label">🎙️ COPACAST • Edição 10 Dez 2026 • ~90s</div>
+
+    <div class="cue">[ABERTURA — ♪ fade in]</div>
+    <div class="text">
+      "Hoje na Copa Pulse: Marrocos faz história.<br>
+      É a primeira vez que uma seleção africana chega na semifinal de uma Copa do Mundo."
+    </div>
+
+    <div class="cue">[HERO STORY — 25s]</div>
+    <div class="text">
+      "Quartas de final. Marrocos 1 a 0 em Portugal.<br>
+      Gol de En-Nesyri. Primeiro tempo. Depois foi só defesa.<br>
+      <span class="hl">Pois é: Marrocos não tomou gol da Espanha nas oitavas. Não tomou de Portugal agora.</span><br>
+      Três jogos sem sofrer gol contra europeus. Isso não é sorte. É sistema.<br>
+      Agora eles enfrentam a França na semifinal. O continente africano inteiro vai estar torcendo."
+    </div>
+
+    <div class="cue">[TRANSIÇÃO — 2s]</div>
+    <div class="text">"Enquanto isso..."</div>
+
+    <div class="cue">[SECONDARY — 18s]</div>
+    <div class="text">
+      "França 2 a 1 na Inglaterra. Jogo duro.<br>
+      A Inglaterra pressionou, perdeu pênalti no fim. A França segurou.<br>
+      <span class="hl">Mbappé ainda não desencantou, mas a França está na semi de novo.</span><br>
+      Bicampeã consecutiva? É o que eles buscam."
+    </div>
+
+    <div class="cue">[TRANSIÇÃO — 2s]</div>
+    <div class="text">"E fique de olho..."</div>
+
+    <div class="cue">[EMERGING — 18s]</div>
+    <div class="text">
+      "Amanhã é Argentina contra Croácia.<br>
+      A Argentina vem de virada contra Holanda nos pênaltis. A Croácia eliminou o Brasil.<br>
+      <span class="hl">Messi contra Modric. Dois veteranos. Pode ser a última chance de ambos.</span><br>
+      É o tipo de jogo que você não pode perder."
+    </div>
+
+    <div class="cue">[FECHAMENTO — ♪ fade out]</div>
+    <div class="text">
+      "Amanhã tem mais. Essa foi a Copa Pulse."
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--text-3);margin-top:8px;text-align:center;">
+    84 segundos de fala. Com pausas naturais: ~90 segundos. Tom conversacional, energia moderada, informação prioritária.
+  </p>
+</section>
+
+<!-- 7. Generation -->
+<section>
+  <div class="sec-label">● 7</div>
+  <h2 class="sec-title">Geração Automática de Roteiro</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;">
+    <h4 style="font-size:13px;font-weight:600;margin-bottom:12px;">Pipeline de áudio</h4>
+
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;">
+      <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">Story Selection</span>
+      <span style="color:var(--text-3);font-size:16px;">→</span>
+      <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">Script Generator</span>
+      <span style="color:var(--text-3);font-size:16px;">→</span>
+      <span style="background:var(--accent);padding:6px 12px;border-radius:6px;font-size:11px;color:#fff;">TTS Engine</span>
+      <span style="color:var(--text-3);font-size:16px;">→</span>
+      <span style="background:var(--surface-2);padding:6px 12px;border-radius:6px;font-size:11px;border:1px solid var(--border);">Audio File</span>
+    </div>
+
+    <h4 style="font-size:13px;font-weight:600;margin-bottom:8px;">Script Generator — Regras</h4>
+    <div class="grid-2">
+      <div>
+        <p style="font-size:12px;color:var(--text-2);margin-bottom:8px;"><strong style="color:var(--text);">Abertura:</strong> Usa `heroHeadline` do Story Selection. Sempre presente.</p>
+        <p style="font-size:12px;color:var(--text-2);margin-bottom:8px;"><strong style="color:var(--text);">Hero:</strong> Story Selection + Why It Matters + consequência. 2-3 frases.</p>
+        <p style="font-size:12px;color:var(--text-2);margin-bottom:8px;"><strong style="color:var(--text);">Secondary:</strong> Se houver Secondary Story. 1-2 frases.</p>
+      </div>
+      <div>
+        <p style="font-size:12px;color:var(--text-2);margin-bottom:8px;"><strong style="color:var(--text);">Emerging:</strong> Se houver Emerging Story. 1-2 frases. Foco em "o que esperar".</p>
+        <p style="font-size:12px;color:var(--text-2);margin-bottom:8px;"><strong style="color:var(--text);">Fechamento:</strong> Sempre "Amanhã tem mais. Essa foi a Copa Pulse."</p>
+        <p style="font-size:12px;color:var(--text-2);margin-bottom:8px;"><strong style="color:var(--text);">Estilo:</strong> Narrativa, não informativa. Frases curtas. Voz ativa. Tom conversacional.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;padding:12px;background:var(--surface-2);border-radius:8px;">
+      <p style="font-size:11px;color:var(--text-2);line-height:1.6;">
+        <strong style="color:var(--text);">Prompt para o Script Generator:</strong><br>
+        Você é o roteirista do Copa Pulse. Gere um roteiro de áudio de 60-90 segundos no formato abaixo. Tom conversacional. Voz ativa. Frases curtas. Use transições naturais ("enquanto isso", "agora", "pois é").<br>
+        Hero: {heroHeadline}. Why: {heroWhy}.<br>
+        Secondary: {secondaryHeadline}. Why: {secondaryWhy}.<br>
+        Emerging: {emergingHeadline}. Context: {emergingContext}.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 8. TTS Comparison -->
+<section>
+  <div class="sec-label">● 8</div>
+  <h2 class="sec-title">Tecnologia de Áudio</h2>
+
+  <table class="comp-table">
+    <tr><th>Critério</th><th>OpenAI TTS</th><th>ElevenLabs</th><th>NotebookLM</th></tr>
+    <tr><td>Naturalidade PT-BR</td><td>7/10 — Boa, leve roboticidade</td><td class="winner">9/10 — Quase humana</td><td>6/10 — Experimental</td></tr>
+    <tr><td>Custo por áudio (90s)</td><td class="winner">~$0.04</td><td>~$0.50</td><td class="winner">Grátis</td></tr>
+    <tr><td>Controle de tom</td><td>Básico (velocidade)</td><td class="winner">Avançado (tom, ênfase, pausas)</td><td>Nenhum</td></tr>
+    <tr><td>Consistência diária</td><td class="winner">Alta</td><td>Alta</td><td>Baixa (experimental)</td></tr>
+    <tr><td>API confiável</td><td class="winner">✅</td><td class="winner">✅</td><td>❌</td></tr>
+    <tr><td>Custo mensal (30 dias)</td><td class="winner">~$1.20</td><td>~$15.00</td><td>$0</td></tr>
+    <tr><td>Voz recomendada</td><td>Nova (PT-BR, feminina)</td><td>Marina (PT-BR)</td><td>—</td></tr>
+  </table>
+
+  <div class="grid-2" style="margin-top:16px;">
+    <div class="card" style="border-left:3px solid var(--accent);">
+      <h4 style="color:var(--accent);">✅ MVP — OpenAI TTS</h4>
+      <p>Custo irrisório ($1.20/mês). Qualidade boa o suficiente. API madura. Voz "Nova" em PT-BR é natural para um boletim de 90s.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <h4 style="color:var(--amber);">📈 V2 — ElevenLabs</h4>
+      <p>Qualidade superior para quando o produto estiver validado. Voz "Marina" é quase indistinguível de humana. Custo 10x maior.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Differentiation -->
+<section style="border:none;">
+  <div class="sec-label">● 9</div>
+  <h2 class="sec-title">Por que apertar PLAY?</h2>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;max-width:700px;margin:0 auto;">
+    <p style="font-size:14px;color:var(--text-2);line-height:1.8;">
+      <strong style="color:var(--text);">O texto informa. O áudio emociona.</strong><br><br>
+      A leitura de "Marrocos faz história, primeira seleção africana na semifinal" é informação.<br>
+      Ouvir a mesma frase com a entonação certa — <em>pausa antes de "primeira seleção africana", ênfase em "história"</em> — é <strong>emoção</strong>.<br><br>
+      O áudio entrega o que o texto não consegue:
+    </p>
+    <ul style="font-size:13px;color:var(--text-2);line-height:2;padding-left:20px;margin-top:12px;">
+      <li><strong>Ênfase:</strong> A voz destaca o que é importante. O leitor pode pular linhas. O ouvinte não.</li>
+      <li><strong>Ritmo:</strong> Uma zebra tem ritmo acelerado. Uma despedida tem ritmo lento. O texto é plano. O áudio é cinema.</li>
+      <li><strong>Conexão:</strong> Voz humana gera confiança. Um boletim lido por IA ainda soa estranho, mas um boletim bem roteirizado e bem entonado soa como um amigo atualizando outro.</li>
+      <li><strong>Contexto:</strong> 90 segundos de áudio entregam mais contexto que 90 segundos de leitura. O usuário pode fazer outra coisa enquanto escuta.</li>
+    </ul>
+    <p style="font-size:13px;color:var(--text-2);line-height:1.7;margin-top:12px;">
+      <strong style="color:var(--text);">A pergunta que o áudio responde:</strong> "Por que eu deveria me importar com isso?"<br>
+      A leitura responde "o que aconteceu". O áudio responde "por que isso é grande".
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="padding:32px 0;text-align:center;border-top:1px solid var(--border);margin-top:0;">
+  <p style="font-size:11px;color:var(--text-3);">
+    Copa Pulse — Audio Experience • Sprint 2.1<br>
+    90 segundos. Tom conversacional. Sempre a história mais importante primeiro.
+  </p>
+</footer>
+
+</main>
+</body>
+</html>
