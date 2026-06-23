@@ -38,8 +38,8 @@ function findYesterday(memory?: TournamentMemory): string {
   return lines.length > 0 ? lines[lines.length - 1] : "—"
 }
 
-function findToday(): string {
-  return "Argentina vs França"
+function findToday(upcomingLabel?: string): string {
+  return upcomingLabel || "Argentina vs França"
 }
 
 function makeBullet(hero: EditorialStory): string {
@@ -54,9 +54,9 @@ function makeSecondaryBullet(secondary: EditorialStory | null): string {
   return `📰 ${secondary.headline}`
 }
 
-function makeEmergingBullet(emerging: EditorialStory | null, hero: EditorialStory): string {
+function makeEmergingBullet(emerging: EditorialStory | null, hero: EditorialStory, todayLabel?: string): string {
   if (emerging) return `⚽ ${emerging.headline}`
-  return `⚽ Amanhã: ${findToday()}`
+  return `⚽ Amanhã: ${findToday(todayLabel)}`
 }
 
 function buildShareText(headline: string, stories: EditorialStory[]): string | null {
@@ -67,7 +67,8 @@ function buildShareText(headline: string, stories: EditorialStory[]): string | n
 
 export function buildBrief(
   stories: EditorialStory[],
-  memory?: TournamentMemory
+  memory?: TournamentMemory,
+  currentStage?: string
 ): StoryBrief {
   const sorted = [...stories].sort((a, b) => a.priority - b.priority)
   const hero = sorted[0] || stories[0]
@@ -75,11 +76,15 @@ export function buildBrief(
   const emerging = sorted[2] || null
 
   const headline = hero?.headline ?? "Aguardando jogos da Copa"
+
+  const todayMatch = stories.length > 0 ? stories[0].headline : undefined
   const bullets: [string, string, string] = [
     makeBullet(hero),
     makeSecondaryBullet(secondary),
-    makeEmergingBullet(emerging, hero),
+    makeEmergingBullet(emerging, hero, todayMatch),
   ]
+
+  const phase = currentStage ?? calcPhase(memory)
 
   return {
     id: `brief-${new Date().toISOString().split("T")[0]}`,
@@ -88,11 +93,11 @@ export function buildBrief(
     bullets,
     continuity: {
       day: calcDay(memory),
-      phase: calcPhase(memory),
-      phaseProgress: calcPhase(memory),
+      phase,
+      phaseProgress: phase,
       matchCount: calcMatchCount(memory),
       yesterday: findYesterday(memory),
-      today: findToday(),
+      today: findToday(todayMatch),
     },
     storyType: hero?.storyType ?? "historical",
     tag: hero?.tag ?? "📅 Copa",

@@ -9,7 +9,7 @@ import { fetchDashboardData } from "@/lib/mock-data"
 import { getHeroStory } from "@/lib/editorial-story-engine"
 
 export default async function Home() {
-  const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings } = await fetchDashboardData()
+  const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = await fetchDashboardData()
   const liveMatches = matches.filter((m) => m.status === "live")
   const upcomingMatches = matches.filter((m) => m.status !== "live" && m.status !== "finished")
   const hero = getHeroStory(stories)
@@ -66,7 +66,7 @@ export default async function Home() {
               {isGroupStage && (
                 <section>
                   <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
-                    📊 Tabela • Grupo C
+                    📊 Tabela • {standingsGroupName || "Grupo C"}
                   </h2>
                   <div className="rounded-xl border border-[#222226] bg-[#121214] p-3">
                     <div className="flex flex-col gap-1">
@@ -107,7 +107,7 @@ export default async function Home() {
             {isGroupStage && (
               <section className="mb-6">
                 <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
-                  📊 Tabela • Grupo C
+                  📊 Tabela • {standingsGroupName || "Grupo C"}
                 </h2>
                 <div className="rounded-xl border border-[#222226] bg-[#121214] p-3">
                   <div className="flex flex-col gap-1">
