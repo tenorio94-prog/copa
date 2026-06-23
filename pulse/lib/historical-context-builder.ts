@@ -179,11 +179,17 @@ function detectBackToBackFinal(match: EnrichedMatch): HistoricalFact | null {
 }
 
 const STAGE_ORDER: Record<string, number> = {
+  "Pré-Copa": 0,
+  "Torneio": 0,
   "Group stage": 0,
   "Fase de grupos": 0,
   "Round of 16": 1,
   "Quarter-finals": 2,
+  "Quartas de final": 2,
   "Mata-mata": 2,
+  "Third place": 3,
+  "Fourth place": 3,
+  "Disputa de 3º lugar": 3,
   "Semifinals": 3,
   "Semifinal": 3,
   "Runner-up": 4,
@@ -197,6 +203,7 @@ function stageValue(s: string): number {
 
 function detectBestResultSurpassed(match: EnrichedMatch): HistoricalFact | null {
   if (!match.winner && !match.loser) return null
+  if (match.stage === "Fase de grupos") return null
   for (const team of [match.winner, match.loser].filter(Boolean) as string[]) {
     const info = getTeamInfo(team)
     if (!info) continue
