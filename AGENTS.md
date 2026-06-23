@@ -43,6 +43,9 @@ copa/
 | `node scripts/test-deepseek.mjs` | Test DeepSeek LLM | Needs env var on Windows |
 | `$env:DEEPSEEK_API_KEY='...'; node scripts/score-facts.mjs` | Test with real LLM | Env must be set inline |
 | `node scripts/test-arcs.mjs` | Test narrative arcs | Sprint 1.7; needs `DEEPSEEK_API_KEY` |
+| `node scripts/test-sprint2.mjs` | Test narrative memory + penalties | Compara antes/depois |
+| `node scripts/test-sprint3.mjs` | Test optimized context | Needs `DEEPSEEK_API_KEY` |
+| `node scripts/test-sprint4.mjs` | Test HistoricalContextBuilder | Needs `DEEPSEEK_API_KEY` |
 
 ## Build cache quirk (Windows)
 
@@ -114,10 +117,10 @@ API_FOOTBALL_LEAGUE_ID=1
 
 - **Tailwind CSS v3** (not v4). Config is `tailwind.config.js` (CommonJS).
 - **PostCSS** is `postcss.config.js` (CommonJS).
-- **Node.js 18.14.0**, Next.js 13.5, React 18. Config is `next.config.mjs`.
+- **Next.js 13.5**, React 18. Config is `next.config.mjs` (ESM).
 - **Import alias**: `@/*` maps to `pulse/` root (e.g. `@/lib/mock-data` → `pulse/lib/mock-data.ts`). Defined in `tsconfig.json`.
 - `.env.local` is read by Next.js automatically. **Standalone scripts do NOT read it** — pass vars inline on Windows: `$env:VAR=value node script.mjs`
 - `lib/mock-data.ts` is the orchestration hub. Tries API-Football, falls back to hardcoded fallback data.
+- `.next/` is NOT in `.gitignore` — the EPERM workaround (delete cache) is safe because it's ephemeral.
 - **`spec-*.html` files** are product design docs (read-only). The app is in `pulse/`.
-- `restore-optimization.ps1`, `Bacalhau à Martelo.pdf`, `Capa_Bacalhau_a_Martelo.docx` are unrelated to the project.
 - **API-Football key is NOT configured.** For U1 validation, mock data is sufficient. If real data needed before paying, use `football-data.org` (free).
