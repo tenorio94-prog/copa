@@ -166,7 +166,14 @@ function buildTeamForm(m: Match, allMatches: Match[]): TeamFormEntry {
 export function enrichMatches(matches: Match[], allMatches?: Match[]): EnrichedMatch[] {
   const pool = allMatches || matches
   return matches
-    .filter((m) => m.status === "finished" && m.importanceScore > 0)
+    .filter((m) => {
+      if (m.status === "finished") return m.importanceScore > 0
+      if (m.status === "live") {
+        const hasScore = m.homeScore !== null && m.awayScore !== null && (m.homeScore > 0 || m.awayScore > 0)
+        return hasScore
+      }
+      return false
+    })
     .map((m) => {
       const flags = detectFlags(m)
       const winner = m.homeScore !== null && m.awayScore !== null
