@@ -54,10 +54,14 @@ export async function fetchDashboardData(targetDay: number = 0): Promise<Dashboa
     // competition code and works on football-data.org free tier.
     // The probe is only useful as a one-time diagnostic via scripts/probe-fd.mjs.
 
+    const WC_START = new Date("2026-06-11")
+    const todayDate = new Date()
+    const currentDay = Math.floor((todayDate.getTime() - WC_START.getTime()) / 86400000) + 1
+
     let dateForFixtures = new Date()
     if (targetDay > 0) {
-      const targetDate = new Date()
-      targetDate.setDate(targetDate.getDate() + (targetDay - 13))
+      const offset = targetDay - currentDay
+      const targetDate = new Date(todayDate.getTime() + offset * 86400000)
       dateForFixtures = targetDate
     }
     const dateStr = dateForFixtures.toISOString().split("T")[0]
@@ -84,14 +88,15 @@ export async function fetchDashboardData(targetDay: number = 0): Promise<Dashboa
     })
 
     if (unique.length === 0) {
-      return dashboardWithNoGamesToday(upcomingResult.items, fdStandings)
+      return dashboardWithNoGamesToday(upcomingResult.items, fdStandings, targetDay)
     }
 
     return buildDashboardFromFixtures(
       unique,
       upcomingResult.items,
       fdStandings,
-      todayResult.currentMatchday
+      todayResult.currentMatchday,
+      targetDay
     )
   } catch (err) {
     console.error("[real-data]", err)
@@ -103,7 +108,8 @@ function buildDashboardFromFixtures(
   fixtures: FDMatch[],
   upcoming: FDMatch[],
   fdStandings: FDStandingsGroupType[],
-  currentMatchday: number = 1
+  currentMatchday: number = 1,
+  targetDay: number = 0
 ): DashboardData {
   const matches = fixtures.map(fromFDMatch)
   const eligibleForStory = matches.filter(m => {
@@ -147,9 +153,9 @@ function buildDashboardFromFixtures(
 
   const brief = buildBrief(stories, memory, {
     currentStage,
-    currentMatchday: effectiveDay,
+    currentMatchday: targetDay > 0 ? targetDay : effectiveDay,
     matchesTodayCount: fixtures.length,
-    upcomingLabel,
+    upcomingLabel: targetDay > 0 ? undefined : upcomingLabel,
     todayLabel,
   })
   const nextChapter = buildNextChapter(brief, memoryWithArcs.narrativeArcs, memory)
@@ -173,7 +179,8 @@ function buildDashboardFromFixtures(
 
 function dashboardWithNoGamesToday(
   upcoming: FDMatch[],
-  fdStandings: FDStandingsGroupType[]
+  fdStandings: FDStandingsGroupType[],
+  targetDay: number = 0
 ): DashboardData {
   const upcomingMatches = upcoming.map(fromFDMatch)
 
@@ -205,7 +212,7 @@ function dashboardWithNoGamesToday(
     headline,
     bullets,
     continuity: {
-      day: 0,
+      day: targetDay > 0 ? targetDay : 0,
       phase: "Copa do Mundo",
       phaseProgress: "Copa do Mundo",
       matchCount: 0,

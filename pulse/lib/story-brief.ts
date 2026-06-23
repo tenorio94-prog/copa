@@ -3,7 +3,8 @@ import type { EditorialStory, TournamentMemory, StoryBrief } from "./types"
 const WC_START_DATE = "2026-06-11"
 export const TOURNAMENT_LABEL = "Copa do Mundo 2026"
 
-function calcDay(): number {
+function calcDay(overrideDay?: number): number {
+  if (overrideDay && overrideDay > 0) return overrideDay
   const today = new Date()
   const start = new Date(WC_START_DATE)
   const dayDiff = Math.floor((today.getTime() - start.getTime()) / 86400000) + 1
@@ -123,7 +124,7 @@ export function buildBrief(
   ]
 
   const phase = currentStage ?? calcPhase(memory)
-  const day = calcDay()
+  const day = calcDay(currentMatchday)
   const matchCount = matchesTodayCount ?? calcMatchCount(memory)
 
   return {
