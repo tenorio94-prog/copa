@@ -44,6 +44,41 @@ function importanceRank(arc: NarrativeArc, status: ActiveNarrative["status"]): n
   return base
 }
 
+export function buildGroupSummary(memory?: TournamentMemory): ActiveNarrative[] {
+  if (!memory?.teamForm) return []
+  const entries: ActiveNarrative[] = []
+  const seen = new Set<string>()
+
+  for (const [team, form] of Object.entries(memory.teamForm)) {
+    if (seen.has(team)) continue
+    seen.add(team)
+    const journey = memory.teamJourneys?.[team] || []
+    const lastMatch = journey[journey.length - 1] || ""
+
+    let status: ActiveNarrative["status"] = "active"
+
+    const narrativeType = form.momentum === "dominant" ? "redemption_journey"
+      : form.momentum === "recovering" ? "cinderella_progression"
+      : form.momentum === "struggling" ? "giant_slayer"
+      : "redemption_journey"
+
+    entries.push({
+      id: `group-${team}`,
+      title: team,
+      narrativeType,
+      team,
+      currentChapter: form.current_streak,
+      totalChaptersKnown: Math.max(3, form.current_streak + 2),
+      status,
+      nextChapter: form.momentum === "dominant" ? "Líder do grupo" : "Busca recuperação",
+      importance: form.lost_opener ? 25 : form.current_streak >= 2 ? 20 : 15,
+      journey: journey.slice(-2),
+    })
+  }
+
+  return entries.sort((a, b) => b.importance - a.importance).slice(0, 3)
+}
+
 export function buildNarratives(
   arcs: NarrativeArc[],
   memory?: TournamentMemory

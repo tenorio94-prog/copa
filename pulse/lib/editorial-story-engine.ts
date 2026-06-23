@@ -18,8 +18,6 @@ function isPopular(name: string): boolean {
   return POPULAR.some((t) => name.toLowerCase().includes(t))
 }
 
-// ─── Story type mapping ───────────────────────────────────
-
 function classifyStoryType(
   match: EnrichedMatch,
   arcs: NarrativeArc[],
@@ -49,29 +47,23 @@ function classifyStoryType(
   return "historical"
 }
 
-// ─── Confidence calculation ────────────────────────────────
-
 function calcConfidence(
   match: EnrichedMatch,
   arcs: NarrativeArc[],
   facts: HistoricalFact[],
   isLive?: boolean
 ): number {
-  let c = 0.1 // base
+  let c = 0.1
 
-  // Editorial events (highest impact)
   const eventFacts = facts.filter((f) =>
     ["traditional_power_eliminated", "defending_champion_eliminated", "title_favorite_eliminated_early"].includes(f.id)
   )
   for (const f of eventFacts) c += f.editorialWeight / 100
 
-  // Narrative arcs
   for (const a of arcs) c += a.editorialWeight / 100
 
-  // Historical facts
   for (const f of facts) c += f.editorialWeight / 500
 
-  // Specific historical fact bonuses
   const factIds = facts.map((f) => f.id)
   if (factIds.includes("first_title_ever")) c += 0.15
   if (factIds.includes("title_drought_ended")) c += 0.10
@@ -79,21 +71,15 @@ function calcConfidence(
   if (factIds.includes("back_to_back_final")) c += 0.08
   if (factIds.includes("best_result_surpassed")) c += 0.12
 
-  // Tournament stage
   if (match.stage === "Final") c += 0.5
   else if (match.stage === "Semifinal") c += 0.3
   else if (match.stage === "Mata-mata") c += 0.2
 
-  // Popular team eliminated
   if (match.competitionImpact.eliminated && isPopular(match.loser || "")) c += 0.3
 
-  // Penalty drama
   if (match.narrativeFlags.includes("penalty_drama")) c += 0.15
-
-  // Upset
   if (match.narrativeFlags.includes("upset")) c += 0.15
 
-  // Group stage boost — policy table
   const isGroupsStage = match.stage === "Fase de grupos"
   const isPopularHome = isPopular(match.homeTeam)
   const isPopularAway = isPopular(match.awayTeam)
@@ -113,8 +99,6 @@ function calcConfidence(
   return Math.min(c, 1.0)
 }
 
-// ─── Evidence builder ─────────────────────────────────────
-
 function buildEvidence(
   match: EnrichedMatch,
   arcs: NarrativeArc[],
@@ -130,19 +114,34 @@ function buildEvidence(
   if (match.narrativeFlags.includes("upset"))
     ev.push("Resultado surpreendente que contrariou as expectativas")
 
-  // Group stage evidence
   if (match.stage === "Fase de grupos" && match.winner) {
     const info = getTeamInfo(match.winner)
     if (info) {
-      if (info.firstWorldCup === 2026) ev.push(`${match.winner} faz sua estreia em Copas do Mundo`)
-      else if (info.continent === "CAF") ev.push(`${match.winner} representa o continente africano`)
-      else if (info.continent === "AFC") ev.push(`${match.winner} representa a Ásia na Copa`)
-      if (info.isTraditional) ev.push(`${match.winner} é uma potência tradicional`)
+      if (info.firstWorldCup === 2026) {
+        ev.push(`${match.winner} faz sua estreia em Copas do Mundo`)
+      } else {
+        const participations = (2026 - info.firstWorldCup) / 4 + 1
+        if (info.isTraditional) {
+          ev.push(`${match.winner} é uma das seleções mais tradicionais do mundo`)
+        } else if (info.continent === "CAF") {
+          ev.push(`${match.winner} representa o continente africano`)
+        } else if (info.continent === "AFC") {
+          ev.push(`${match.winner} representa a Ásia na Copa`)
+        } else if (info.bestResult && info.bestResult !== "Group stage") {
+          ev.push(`${match.winner} busca repetir seu melhor resultado: ${info.bestResult}`)
+        } else if (match.matchday && match.matchday >= 2 && match.teamForm.lost_opener) {
+          ev.push(`${match.winner} se recupera após derrota na estreia`)
+        } else if (match.teamForm.current_streak >= 2) {
+          ev.push(`${match.winner} não perde há ${match.teamForm.current_streak} jogos na Copa`)
+        } else {
+          ev.push(`${match.winner} busca classificação rumo às oitavas de final`)
+        }
+      }
+    } else if (ev.length === 0) {
+      ev.push(`${match.winner} busca classificação rumo às oitavas de final`)
     }
-    if (ev.length === 0) ev.push(`${match.winner} busca classificação rumo às oitavas de final`)
   }
 
-  // Evidence from historical facts
   for (const f of facts) {
     if (f.id === "first_title_ever") ev.push(`Pode conquistar seu primeiro título mundial`)
     else if (f.id === "title_drought_ended") ev.push(`Pode encerrar jejum de ${f.description.match(/\d+/)?.[0] || "longos"} anos sem título`)
@@ -156,20 +155,35 @@ function buildEvidence(
   return ev
 }
 
-// ─── Headline builder ─────────────────────────────────────
+function extractGroupLabel(round: string): string | null {
+  const m = round.match(/Grupo ([A-L])/)
+  return m ? `Grupo ${m[1]}` : null
+}
 
 function buildHeadline(match: EnrichedMatch, storyType: EditorialStoryType): string {
-  // Live matches with score
+  const md = match.matchday
+  const isFirstMd = md === 1
+  const isSecondMd = md === 2
+  const isFinalMd = md === 3
+  const winnerInfo = match.winner ? getTeamInfo(match.winner) : null
+  const isWinnerPopular = match.winner ? isPopular(match.winner) : false
+  const isWinnerDebutant = winnerInfo?.firstWorldCup === 2026
+  const hasStreak = match.teamForm.current_streak >= 2
+  const isRecovering = match.teamForm.lost_opener
+  const groupLabel = extractGroupLabel(match.round)
+
+  // ─── Live matches ──────────────────────────────────────
   if (match.isLive && match.winner) {
-    if (isPopular(match.winner)) {
-      if ((match.homeScore ?? 0) >= 3 && (match.awayScore ?? 0) === 0) {
-        return `${match.winner} atropela ${match.loser} ao vivo e assume liderança do grupo`
-      }
+    if (match.homeScore !== null && match.awayScore !== null && match.homeScore + match.awayScore >= 4) {
+      return `${match.winner} ao vivo: ${match.homeScore}–${match.awayScore} e mantém grupo aberto`
+    }
+    if (isWinnerPopular) {
       return `${match.winner} ao vivo: vence e dá passo firme rumo à próxima fase`
     }
     return `${match.winner} ao vivo: vence provisoriamente contra ${match.loser}`
   }
 
+  // ─── Special stages ────────────────────────────────────
   if (match.stage === "Final" && match.winner)
     return `${match.winner} é campeão mundial`
   if (match.penaltyScore && match.winner && match.loser)
@@ -179,50 +193,78 @@ function buildHeadline(match: EnrichedMatch, storyType: EditorialStoryType): str
   if (match.winner && match.loser && match.stage !== "Fase de grupos")
     return `${match.winner} elimina ${match.loser} e avança`
 
-  // Group stage headlines
+  // ─── Group stage ───────────────────────────────────────
   if (match.winner && match.loser && match.stage === "Fase de grupos") {
-    const winnerInfo = getTeamInfo(match.winner)
-    const groupLabel = extractGroupLabel(match.round)
-
-    if (winnerInfo?.firstWorldCup === 2026 && match.winner) {
-      return `${match.winner} estreia vencendo${groupLabel ? ` no ${groupLabel}` : ""}`
-    }
     if (match.narrativeFlags.includes("comeback")) {
-      return `${match.winner} vira ${match.loser} e segura primeira vitória`
+      return isRecovering
+        ? `${match.winner} reage e vira ${match.loser} no grupo`
+        : `${match.winner} vira ${match.loser} e segura primeira vitória`
     }
+
     if (match.narrativeFlags.includes("blowout")) {
-      const isPopularWinner = isPopular(match.winner)
       const homeScore = match.homeScore ?? 0
       const awayScore = match.awayScore ?? 0
       const goalDiff = Math.abs(homeScore - awayScore)
       const cleanSheet = homeScore === 0 || awayScore === 0
+
       if (cleanSheet && goalDiff >= 4) {
-        return isPopularWinner
-          ? `${match.winner} impõe autoridade e goleia ${match.loser} sem sofrer gols`
-          : `${match.winner} apresenta campanha sólida e goleia ${match.loser}`
+        return isWinnerPopular
+          ? `${match.winner} aplica goleada e mostra força no grupo`
+          : `${match.winner} surpreende com goleada histórica`
       }
       if (goalDiff >= 3) {
-        return `${match.winner} vence ${match.loser} com autoridade no grupo`
+        return isWinnerPopular
+          ? `${match.winner} domina e vence com autoridade`
+          : `${match.winner} vence com folga e ganha destaque`
       }
-      return isPopularWinner
+      return isWinnerPopular
         ? `${match.winner} atropela ${match.loser} e assume liderança`
         : `${match.winner} domina ${match.loser} em partida equilibrada`
     }
+
     if (match.narrativeFlags.includes("upset")) {
       return `${match.winner} surpreende ${match.loser} e equilibra o grupo`
     }
-    if (isPopular(match.winner)) {
+
+    // Matchday-based headlines
+    if (isFinalMd && isWinnerPopular) {
+      return `${match.winner} carimba vaga nas oitavas de final`
+    }
+    if (isFinalMd) {
+      return `${match.winner} decide vaga na última rodada`
+    }
+    if (isSecondMd && isRecovering) {
+      return `${match.winner} reage após tropeço inicial`
+    }
+    if (isSecondMd && hasStreak) {
+      return `${match.winner} confirma na segunda rodada`
+    }
+    if (isSecondMd) {
+      return isWinnerPopular
+        ? `${match.winner} embala com mais uma vitória`
+        : `${match.winner} busca recuperação no grupo`
+    }
+    if (isWinnerDebutant) {
+      return `${match.winner} estreia vencendo${groupLabel ? ` no ${groupLabel}` : ""}`
+    }
+    if (isFirstMd && isWinnerPopular) {
+      return `${match.winner} estreia com vitória no grupo`
+    }
+    if (isFirstMd) {
+      return `${match.winner} abre campanha vencendo ${match.loser}`
+    }
+
+    // Fallback by popularity
+    if (isWinnerPopular) {
       return `${match.winner} vence ${match.loser} e assume liderança do grupo`
     }
-    return `${match.winner} abre com vitória sobre ${match.loser}`
+    return `${match.winner} vence ${match.loser}`
   }
 
   if (match.winner && match.loser)
     return `${match.winner} vence ${match.loser}`
   return `${match.homeTeam} vs ${match.awayTeam}`
 }
-
-// ─── Hook builder ─────────────────────────────────────────
 
 function buildHook(match: EnrichedMatch, arcs: NarrativeArc[], facts: HistoricalFact[]): string {
   const eventFacts = facts.filter((f) =>
@@ -255,13 +297,13 @@ function buildHook(match: EnrichedMatch, arcs: NarrativeArc[], facts: Historical
   }
 
   if (match.stage === "Fase de grupos" && facts.length === 0 && arcs.length === 0) {
-    return "Os primeiros contornos dos grupos começam a aparecer."
+    if (match.matchday === 1) return "Os primeiros capítulos da Copa começam a ser escritos."
+    if (match.matchday === 3) return "Definições começam a acontecer na reta final dos grupos."
+    return "Os contornos dos grupos começam a se definir."
   }
 
   return "O resultado do dia:"
 }
-
-// ─── Why it matters ───────────────────────────────────────
 
 function buildWhyItMatters(match: EnrichedMatch, arcs: NarrativeArc[]): string {
   // Live matches
@@ -283,14 +325,49 @@ function buildWhyItMatters(match: EnrichedMatch, arcs: NarrativeArc[]): string {
 
   // Group stage
   if (match.stage === "Fase de grupos") {
-    if (match.winner && isPopular(match.winner)) {
-      return `${match.winner} assume a liderança do grupo. Vitória deixa time tradicional perto da classificação.`
+    const md = match.matchday
+    const isWinnerPopular = match.winner ? isPopular(match.winner) : false
+    const winnerInfo = match.winner ? getTeamInfo(match.winner) : null
+    const opponent = match.winner ? (match.winner === match.homeTeam ? match.awayTeam : match.homeTeam) : null
+    const opponentInfo = opponent ? getTeamInfo(opponent) : null
+
+    // Debutant won or lost
+    if (winnerInfo?.firstWorldCup === 2026) {
+      return `${match.winner} conquista primeira vitória em Copas. Estreia histórica para o país.`
+    }
+    if (opponentInfo?.firstWorldCup === 2026 && match.winner) {
+      return `${opponent} estreia em Copas e já enfrentou um favorito. Experiência valiosa.`
+    }
+
+    // Matchday context
+    if (md === 1 && isWinnerPopular) {
+      return "Primeira impressão positiva no grupo. Favorito confirma expectativa inicial."
+    }
+    if (md === 1) {
+      return "Campanha começa com vitória. Primeiro passo em busca da classificação."
+    }
+    if (md === 3 && isWinnerPopular) {
+      return "Classificação encaminhada. Time tradicional confirma favoritismo na reta final."
+    }
+    if (md === 3) {
+      return "Rodada decisiva. Resultado pode definir o futuro do time no torneio."
+    }
+
+    // Recovery
+    if (match.teamForm.lost_opener && match.winner) {
+      return "Recuperação importante após derrota na estreia. Grupo segue aberto."
+    }
+
+    // Streak
+    if (match.teamForm.current_streak >= 2 && match.winner) {
+      return "Sequência positiva aproxima o time da classificação às oitavas de final."
+    }
+
+    // Generic fallback
+    if (match.winner && isWinnerPopular) {
+      return `${match.winner} assume a liderança. Vitória deixa classificação perto de ser confirmada.`
     }
     if (match.winner) {
-      const info = getTeamInfo(match.winner)
-      if (info?.firstWorldCup === 2026) {
-        return `${match.winner} conquista primeira vitória em Copas. Estreia histórica para o país.`
-      }
       return `${match.winner} dá primeiro passo rumo à classificação no grupo.`
     }
     if (isPopular(match.homeTeam)) {
@@ -300,8 +377,6 @@ function buildWhyItMatters(match: EnrichedMatch, arcs: NarrativeArc[]): string {
 
   return `Partida válida pela ${match.round}.`
 }
-
-// ─── Tag ──────────────────────────────────────────────────
 
 function buildTag(storyType: EditorialStoryType): string {
   const tags: Record<EditorialStoryType, string> = {
@@ -317,8 +392,6 @@ function buildTag(storyType: EditorialStoryType): string {
   return tags[storyType]
 }
 
-// ─── Match arcs lookup ────────────────────────────────────
-
 function arcsForMatch(match: EnrichedMatch, allArcs: NarrativeArc[]): NarrativeArc[] {
   return allArcs.filter(
     (a) => a.team === match.winner || a.team === match.loser || a.team === match.homeTeam
@@ -331,17 +404,10 @@ function factsForMatch(match: EnrichedMatch, allFacts: HistoricalFact[]): Histor
   )
 }
 
-// ─── Main engine ──────────────────────────────────────────
-
 function isMatchLive(matchId: string, rawMatches?: Match[]): boolean {
   if (!rawMatches) return false
   const raw = rawMatches.find((m) => m.id === matchId)
   return raw?.status === "live" || false
-}
-
-function extractGroupLabel(round: string): string | null {
-  const m = round.match(/Grupo ([A-L])/)
-  return m ? `Grupo ${m[1]}` : null
 }
 
 export function selectStories(
@@ -365,7 +431,6 @@ export function selectStories(
     const narrativeHook = buildHook(match, arcs, facts)
     const whyItMatters = buildWhyItMatters(match, arcs)
 
-    // Ensure minimum quality
     if (confidence < 0.05) continue
 
     stories.push({
@@ -382,15 +447,9 @@ export function selectStories(
     })
   }
 
-  // Sort by confidence descending
   stories.sort((a, b) => b.confidence - a.confidence)
 
-  // Assign priority
-  stories.forEach((s, i) => {
-    s.priority = i + 1
-  })
-
-  // Rename for clarity
+  stories.forEach((s, i) => { s.priority = i + 1 })
   if (stories.length > 0) stories[0].priority = 1
   if (stories.length > 1) stories[1].priority = 2
   if (stories.length > 2) stories[2].priority = 3

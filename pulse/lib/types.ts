@@ -19,6 +19,7 @@ export interface Match {
   stage: string
   importanceScore: number
   whyItMatters: string | null
+  matchday?: number
 }
 
 export interface BulletinItem {
@@ -97,6 +98,7 @@ export interface EnrichedMatch {
     tournamentEffect: string
   }
   storyCandidates: StoryCandidate[]
+  matchday?: number
   isLive?: boolean
   historicalContext: HistoricalContext
   teamForm: TeamFormEntry

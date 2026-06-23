@@ -34,7 +34,7 @@ import { buildHistoricalFacts } from "./historical-context-builder"
 import { selectStories, getHeroStory } from "./editorial-story-engine"
 import { buildBrief } from "./story-brief"
 import { buildNextChapter } from "./next-chapter"
-import { buildNarratives } from "./narrative-tracker"
+import { buildNarratives, buildGroupSummary } from "./narrative-tracker"
 import { templateHeadline, templateSummary, templateWhyItMatters, templateTag } from "./templates"
 
 const today = new Date().toISOString().split("T")[0]
@@ -155,7 +155,10 @@ function buildDashboardFromFixtures(
     todayLabel,
   })
   const nextChapter = buildNextChapter(brief, memoryWithArcs.narrativeArcs, memory)
-  const activeNarratives = buildNarratives(memoryWithArcs.narrativeArcs, memory)
+  let activeNarratives = buildNarratives(memoryWithArcs.narrativeArcs, memory)
+  if (activeNarratives.length === 0) {
+    activeNarratives = buildGroupSummary(memory)
+  }
 
   const standingsGroups = fromFDStandingsGroups(fdStandings)
   const { group: selectedGroup, standings: flatStandings } = pickBestGroup(standingsGroups)
@@ -349,7 +352,10 @@ async function mockDashboardData(): Promise<DashboardData> {
   const flatStandings = toStandings(standingsData)
   const brief = buildBrief(stories, memory)
   const nextChapter = buildNextChapter(brief, memoryWithArcs.narrativeArcs, memory)
-  const activeNarratives = buildNarratives(memoryWithArcs.narrativeArcs, memory)
+  let activeNarratives = buildNarratives(memoryWithArcs.narrativeArcs, memory)
+  if (activeNarratives.length === 0) {
+    activeNarratives = buildGroupSummary(memory)
+  }
 
   return {
     matches,

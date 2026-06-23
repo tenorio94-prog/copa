@@ -250,6 +250,7 @@ export function fromFDMatch(m: FDMatch): Match {
     homeScore: score.home,
     awayScore: score.away,
     penaltyScore: score.penaltyScore,
+    matchday: m.matchday,
     status,
     minute: status === "live" ? undefined : undefined,
     scheduledAt: m.utcDate,

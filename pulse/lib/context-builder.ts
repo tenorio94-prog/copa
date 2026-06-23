@@ -191,6 +191,7 @@ export function enrichMatches(matches: Match[], allMatches?: Match[]): EnrichedM
 
       return {
         matchId: m.id,
+        matchday: m.matchday,
         isLive: m.status === "live",
         winner: m.penaltyScore ? penaltyWinner : winner,
         loser: m.penaltyScore ? (penaltyWinner === m.homeTeam.name ? m.awayTeam.name : m.homeTeam.name) : loser,
