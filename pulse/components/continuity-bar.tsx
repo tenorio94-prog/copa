@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useRef } from "react"
 import type { StoryBrief } from "@/lib/types"
 import { TOURNAMENT_LABEL } from "@/lib/story-brief"
 import { useRouter } from "next/navigation"
@@ -79,8 +80,14 @@ function PhaseRail({ phase }: { phase: string }) {
 
 export function ContinuityBar({ continuity, currentDay }: ContinuityBarProps) {
   const router = useRouter()
+  const dayRefs = useRef<(HTMLButtonElement | null)[]>([])
 
   const totalDays = currentDay ?? continuity.day
+
+  useEffect(() => {
+    const idx = continuity.day - 1
+    dayRefs.current[idx]?.scrollIntoView({ behavior: "instant", inline: "center", block: "nearest" })
+  }, [continuity.day])
 
   return (
     <div className="animate-fade-up flex flex-col gap-2">
@@ -97,6 +104,7 @@ export function ContinuityBar({ continuity, currentDay }: ContinuityBarProps) {
           return (
             <button
               key={d}
+              ref={(el) => { dayRefs.current[d - 1] = el }}
               onClick={() => router.push(`/?day=${d}`)}
               className={`snap-center shrink-0 transition-all duration-300 rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-[1px] ${
                 isCurrent

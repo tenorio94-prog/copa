@@ -134,15 +134,11 @@ function buildDashboardFromFixtures(
 
   const currentStage = deriveCurrentStage(fixtures, upcoming)
 
-  const allFixtures = [...fixtures, ...upcoming].filter((f) => f.utcDate)
-  const dates = allFixtures.map((f) => new Date(f.utcDate).getTime()).filter((t) => !isNaN(t))
-  const earliestDate = dates.length > 0 ? Math.min(...dates) : Date.now()
-  const tourneyStart = new Date(earliestDate)
+  const wcStart = new Date("2026-06-11")
   const todayDate = new Date()
-  const dayDiff = Math.floor((todayDate.getTime() - tourneyStart.getTime()) / 86400000) + 1
+  const dayDiff = Math.floor((todayDate.getTime() - wcStart.getTime()) / 86400000) + 1
   const computedDay = Math.max(1, dayDiff)
-  // Prefer API-provided matchday when sensible (more reliable than date math).
-  const effectiveDay = currentMatchday && currentMatchday > 1 ? currentMatchday : computedDay
+
 
   const upcomingLabel = upcoming[0]
     ? `${upcoming[0].homeTeam.name} vs ${upcoming[0].awayTeam.name}`
@@ -153,7 +149,7 @@ function buildDashboardFromFixtures(
 
   const brief = buildBrief(stories, memory, {
     currentStage,
-    currentMatchday: targetDay > 0 ? targetDay : effectiveDay,
+    currentMatchday: targetDay > 0 ? targetDay : computedDay,
     matchesTodayCount: fixtures.length,
     upcomingLabel: targetDay > 0 ? undefined : upcomingLabel,
     todayLabel,
