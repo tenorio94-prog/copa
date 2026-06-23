@@ -1,10 +1,49 @@
 import type { Metadata } from "next"
 import "./globals.css"
 
+const siteUrl = "https://pulse-indol-sigma.vercel.app"
+const siteName = "Copa Pulse"
+const tagline = "O que importa, em 3 minutos"
+
 export const metadata: Metadata = {
-  title: "Copa Pulse — O que importa, em 3 minutos",
-  description:
-    "Resumo diário da Copa do Mundo. O que aconteceu, por que importa e o que vem depois.",
+  title: {
+    default: `${siteName} — ${tagline}`,
+    template: `%s · ${siteName}`,
+  },
+  description: "Resumo diário da Copa do Mundo. O que aconteceu, por que importa e o que vem depois.",
+  keywords: ["Copa do Mundo", "Copa 2026", "resumo", "futebol", "World Cup", "diário"],
+  authors: [{ name: "Copa Pulse" }],
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
+  themeColor: "#0a0a0b",
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: siteUrl,
+    siteName,
+    title: `${siteName} — ${tagline}`,
+    description: "Resumo diário da Copa do Mundo. O que aconteceu, por que importa e o que vem depois.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Copa Pulse — Resumo diário da Copa do Mundo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteName} — ${tagline}`,
+    description: "Resumo diário da Copa do Mundo. O que aconteceu, por que importa e o que vem depois.",
+    images: ["/opengraph-image"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({

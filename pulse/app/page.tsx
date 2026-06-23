@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { NavBar } from "@/components/navbar"
 import { MatchesSection } from "@/components/matches-section"
 import { QuickRead } from "@/components/quick-read"
@@ -6,13 +7,29 @@ import { NextChapterCard } from "@/components/next-chapter-card"
 import { NarrativeTracker } from "@/components/narrative-tracker"
 import { HeroMini } from "@/components/hero-mini"
 import { fetchDashboardData } from "@/lib/mock-data"
-import { getHeroStory } from "@/lib/editorial-story-engine"
+
+function truncateAtWord(text: string, maxChars: number): string {
+  if (text.length <= maxChars) return text
+  const trimmed = text.slice(0, maxChars)
+  const lastSpace = trimmed.lastIndexOf(" ")
+  return lastSpace > 10 ? text.slice(0, lastSpace) : trimmed.trimEnd()
+}
+
+export const metadata: Metadata = {
+  title: "Resumo diário — Copa do Mundo 2026",
+  description: "O que aconteceu hoje, por que importa e o que vem depois. 3 minutos de leitura.",
+}
 
 export default async function Home() {
-  const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings } = await fetchDashboardData()
+  const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = await fetchDashboardData()
   const liveMatches = matches.filter((m) => m.status === "live")
-  const upcomingMatches = matches.filter((m) => m.status !== "live" && m.status !== "finished")
-  const hero = getHeroStory(stories)
+  const finishedMatches = matches.filter((m) => m.status === "finished")
+  const scheduledMatches = matches.filter((m) => m.status === "scheduled")
+  const heroMiniStory = stories.length > 1 ? stories[1] : null
+
+  if (standings.length === 0) {
+    console.warn("[real-data] standings empty for stage:", brief.continuity.phase)
+  }
 
   const isGroupStage = brief.continuity.phase.toLowerCase().includes("grupos")
 
@@ -34,39 +51,41 @@ export default async function Home() {
                 <NextChapterCard chapter={nextChapter} />
               )}
 
-              {/* 4. Hero Mini — compacto, sem redundância */}
-              {hero && (
+              {/* 4. Hero Mini — segunda story do dia (evita duplicar QuickRead) */}
+              {heroMiniStory && (
                 <HeroMini
-                  tag={hero.tag}
-                  headline={hero.headline}
-                  whyItMatters={hero.whyItMatters}
-                  storyType={hero.storyType}
+                  tag={heroMiniStory.tag}
+                  headline={heroMiniStory.headline}
+                  whyItMatters={heroMiniStory.whyItMatters}
+                  storyType={heroMiniStory.storyType}
                 />
               )}
 
-              {/* 5. Narrative Tracker — apenas se relevante */}
+              {/* 5. Narrative Tracker (mobile apenas — desktop tem no sidebar) */}
               {activeNarratives.length > 0 && (
-                <NarrativeTracker narratives={activeNarratives} />
+                <div className="md:hidden">
+                  <NarrativeTracker narratives={activeNarratives} />
+                </div>
               )}
 
               {/* 6. Matches (mobile only) */}
               <div className="md:hidden">
-                <MatchesSection live={liveMatches} upcoming={upcomingMatches} />
+                <MatchesSection live={liveMatches} finished={finishedMatches} scheduled={scheduledMatches} />
               </div>
             </div>
 
             {/* Sidebar — desktop */}
             <div className="hidden md:flex md:flex-col md:gap-5 md:pt-0">
-              <MatchesSection live={liveMatches} upcoming={upcomingMatches} />
+              <MatchesSection live={liveMatches} finished={finishedMatches} scheduled={scheduledMatches} />
 
               {activeNarratives.length > 0 && (
                 <NarrativeTracker narratives={activeNarratives} />
               )}
 
-              {isGroupStage && (
+              {isGroupStage && standings.length > 0 && (
                 <section>
                   <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
-                    📊 Tabela • Grupo C
+                    📊 Tabela • {standingsGroupName || "Grupo A"}
                   </h2>
                   <div className="rounded-xl border border-[#222226] bg-[#121214] p-3">
                     <div className="flex flex-col gap-1">
@@ -96,7 +115,7 @@ export default async function Home() {
                   <button className="transition-colors hover:text-[#f4f4f5]">📋 Link</button>
                 </div>
                 <p className="mt-2 text-[10px] text-[#71717a]">
-                  Copa Pulse • {brief.headline.substring(0, 24)}...
+                  Copa Pulse • {truncateAtWord(brief.headline, 28)}
                 </p>
               </footer>
             </div>
@@ -104,10 +123,10 @@ export default async function Home() {
 
           {/* Mobile footer */}
           <div className="mt-6 md:hidden">
-            {isGroupStage && (
+            {isGroupStage && standings.length > 0 && (
               <section className="mb-6">
                 <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
-                  📊 Tabela • Grupo C
+                  📊 Tabela • {standingsGroupName || "Grupo A"}
                 </h2>
                 <div className="rounded-xl border border-[#222226] bg-[#121214] p-3">
                   <div className="flex flex-col gap-1">
@@ -137,11 +156,31 @@ export default async function Home() {
                 <button className="transition-colors hover:text-[#f4f4f5]">📋 Link</button>
               </div>
               <p className="mt-2 text-[10px] text-[#71717a]">
-                Copa Pulse • {brief.headline.substring(0, 24)}...
+                Copa Pulse • {truncateAtWord(brief.headline, 28)}
               </p>
             </footer>
           </div>
         </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Copa Pulse",
+              "url": "https://pulse-indol-sigma.vercel.app",
+              "description": "Resumo diário da Copa do Mundo. O que aconteceu, por que importa e o que vem depois.",
+              "inLanguage": "pt-BR",
+              "about": {
+                "@type": "SportsEvent",
+                "name": "Copa do Mundo FIFA 2026",
+                "sport": "Soccer",
+                "startDate": "2026-06-11",
+                "url": "https://pulse-indol-sigma.vercel.app",
+              },
+            }),
+          }}
+        />
       </main>
     </>
   )

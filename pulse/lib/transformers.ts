@@ -1,6 +1,8 @@
 import type { Match, Bulletin, BulletinItem } from "./types"
 import type { ApiFixture, ApiStandingEntry } from "./api-football"
+import type { FDMatch, FDStandingsGroup } from "./football-data"
 import { getFixtureId, getFlag } from "./api-football"
+import { getFlagByTla, getFlagByName } from "./football-data"
 
 const POPULAR_TEAMS = [
   "brazil", "argentina", "germany", "france", "england",
@@ -152,5 +154,125 @@ export function toStandings(entries: ApiStandingEntry[]) {
     name: e.team.name,
     pts: e.points,
     gd: e.goalsDiff,
+  }))
+}
+
+export interface StandingsRow {
+  pos: number
+  flag: string
+  name: string
+  pts: number
+  gd: string
+}
+
+export interface StandingsGroup {
+  groupName: string
+  rows: StandingsRow[]
+}
+
+function mapStageFD(stage: string): string {
+  if (stage === "FINAL") return "Final"
+  if (stage === "THIRD_PLACE") return "Disputa de 3º lugar"
+  if (stage === "SEMI_FINALS") return "Semifinal"
+  if (stage === "QUARTER_FINALS") return "Quartas de final"
+  if (stage === "LAST_16" || stage === "LAST_32" || stage === "LAST_64") return "Mata-mata"
+  if (stage === "GROUP_STAGE") return "Fase de grupos"
+  if (stage === "PRELIMINARY_ROUND") return "Pré-Copa"
+  return "Torneio"
+}
+
+function mapStatusFD(status: string): Match["status"] {
+  if (status === "FINISHED" || status === "AWARDED") return "finished"
+  if (status === "IN_PLAY" || status === "PAUSED" || status === "LIVE") return "live"
+  return "scheduled"
+}
+
+function mapScoreFD(score: FDMatch["score"]): { home: number | null; away: number | null; penaltyScore?: string } {
+  let penaltyScore: string | undefined
+  if (score.penalties?.home != null && score.penalties?.away != null) {
+    penaltyScore = `${score.penalties.home}-${score.penalties.away}`
+  }
+  return {
+    home: score.fullTime.home,
+    away: score.fullTime.away,
+    penaltyScore,
+  }
+}
+
+function calcImportanceScoreFD(m: FDMatch): number {
+  let s = 0
+  const st = m.stage
+  if (st === "FINAL") s += 40
+  else if (st === "SEMI_FINALS") s += 35
+  else if (st === "QUARTER_FINALS") s += 30
+  else if (st === "LAST_16" || st === "LAST_32" || st === "LAST_64") s += 25
+  else if (st === "GROUP_STAGE") s += 10
+
+  const POPULAR_TLAS = ["BRA", "ARG", "GER", "FRA", "ENG", "ITA", "NED", "POR", "ESP"]
+  if (POPULAR_TLAS.includes(m.homeTeam.tla) || POPULAR_TLAS.includes(m.awayTeam.tla)) s += 20
+
+  const gh = m.score.fullTime.home
+  const ga = m.score.fullTime.away
+  if (gh !== null && ga !== null && gh + ga >= 5) s += 15
+
+  if (m.score.halfTime.home !== null && m.score.halfTime.away !== null) {
+    const htHome = m.score.halfTime.home
+    const htAway = m.score.halfTime.away
+    if (gh !== null && ga !== null && ((htHome < htAway && gh > ga) || (htAway < htHome && ga > gh))) s += 15
+  }
+
+  return Math.min(s, 100)
+}
+
+function mapTLA(tla: string | undefined): string {
+  return (tla || "???").toUpperCase()
+}
+
+export function fromFDMatch(m: FDMatch): Match {
+  const status = mapStatusFD(m.status)
+  const score = mapScoreFD(m.score)
+  const importance = calcImportanceScoreFD(m)
+
+  return {
+    id: `fd-${m.id}`,
+    homeTeam: {
+      id: String(m.homeTeam.id),
+      name: m.homeTeam.name,
+      code: mapTLA(m.homeTeam.tla),
+      flag: m.homeTeam.tla ? getFlagByTla(m.homeTeam.tla) : getFlagByName(m.homeTeam.name),
+    },
+    awayTeam: {
+      id: String(m.awayTeam.id),
+      name: m.awayTeam.name,
+      code: mapTLA(m.awayTeam.tla),
+      flag: m.awayTeam.tla ? getFlagByTla(m.awayTeam.tla) : getFlagByName(m.awayTeam.name),
+    },
+    homeScore: score.home,
+    awayScore: score.away,
+    penaltyScore: score.penaltyScore,
+    status,
+    minute: status === "live" ? undefined : undefined,
+    scheduledAt: m.utcDate,
+    round: m.group ? `${mapStageFD(m.stage)} • ${m.group.replace("Group ", "Grupo ")}` : mapStageFD(m.stage),
+    stage: mapStageFD(m.stage),
+    importanceScore: importance,
+    whyItMatters: importance >= 50
+      ? `${m.homeTeam.name} vs ${m.awayTeam.name}. Jogo decisivo: o vencedor dá passo forte rumo à classificação.`
+      : importance >= 20
+        ? `${m.homeTeam.name} vs ${m.awayTeam.name}. Resultado impacta classificação do ${m.group?.replace("Group ", "Grupo ") || "grupo"}.`
+        : `${m.homeTeam.name} vs ${m.awayTeam.name}. Primeira rodada do ${m.group?.replace("Group ", "Grupo ") || "grupo"}.`,
+  }
+}
+
+export function fromFDStandingsGroups(groups: FDStandingsGroup[]): StandingsGroup[] {
+  return groups.map((g) => ({
+    groupName: g.group,
+    rows: g.table.map((e) => ({
+      pos: e.position,
+      flag: getFlagByTla(e.team.tla || ""),
+      name: e.team.name,
+      pts: e.points,
+      gd: e.goalDifference > 0 ? `+${e.goalDifference}` : String(e.goalDifference),
+    })),
   }))
 }

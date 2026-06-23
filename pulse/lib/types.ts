@@ -97,6 +97,7 @@ export interface EnrichedMatch {
     tournamentEffect: string
   }
   storyCandidates: StoryCandidate[]
+  isLive?: boolean
   historicalContext: HistoricalContext
   teamForm: TeamFormEntry
 }

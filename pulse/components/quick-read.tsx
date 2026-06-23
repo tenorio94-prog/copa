@@ -13,7 +13,7 @@ export function QuickRead({ brief }: QuickReadProps) {
   return (
     <section className="animate-fade-up w-full">
       <div
-        className="rounded-xl border border-[#222226] bg-[#121214] p-6"
+        className="rounded-xl border border-[#222226] bg-[#121214]/80 backdrop-blur-md p-6"
         style={{ backgroundImage: `linear-gradient(135deg, ${color.hex}0d 0%, transparent 60%)` }}
       >
         <div className="flex items-center justify-between mb-4">
