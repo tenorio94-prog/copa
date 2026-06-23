@@ -182,8 +182,28 @@ const FLAGS_BY_TLA: Record<string, string> = {
   UZB: "🇺🇿", CUW: "🇨🇼",
 }
 
+const FLAGS_BY_NAME: Record<string, string> = {
+  "Uzbekistan": "🇺🇿",
+  "Panama": "🇵🇦",
+  "Jordan": "🇯🇴",
+  "Algeria": "🇩🇿",
+  "Cape Verde Islands": "🇨🇻",
+  "Curaçao": "🇨🇼",
+  "Congo DR": "🇨🇩",
+  "Bosnia-Herzegovina": "🇧🇦",
+  "South Africa": "🇿🇦",
+  "New Zealand": "🇳🇿",
+  "Haiti": "🇭🇹",
+  "Czechia": "🇨🇿",
+  "Iraq": "🇮🇶",
+}
+
 export function getFlagByTla(tla: string): string {
   return FLAGS_BY_TLA[tla.toUpperCase()] ?? "🏳️"
+}
+
+export function getFlagByName(name: string): string {
+  return FLAGS_BY_NAME[name] ?? getFlagByTla(name.substring(0, 3).toUpperCase()) ?? "🏳️"
 }
 
 export function deriveCurrentStage(todayFixtures: FDMatch[], upcoming: FDMatch[]): string {

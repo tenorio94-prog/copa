@@ -6,13 +6,13 @@ import { NextChapterCard } from "@/components/next-chapter-card"
 import { NarrativeTracker } from "@/components/narrative-tracker"
 import { HeroMini } from "@/components/hero-mini"
 import { fetchDashboardData } from "@/lib/mock-data"
-import { getHeroStory } from "@/lib/editorial-story-engine"
 
 export default async function Home() {
   const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = await fetchDashboardData()
   const liveMatches = matches.filter((m) => m.status === "live")
-  const upcomingMatches = matches.filter((m) => m.status !== "live" && m.status !== "finished")
-  const hero = getHeroStory(stories)
+  const finishedMatches = matches.filter((m) => m.status === "finished")
+  const scheduledMatches = matches.filter((m) => m.status === "scheduled")
+  const heroMiniStory = stories.length > 1 ? stories[1] : null
 
   const isGroupStage = brief.continuity.phase.toLowerCase().includes("grupos")
 
@@ -34,13 +34,13 @@ export default async function Home() {
                 <NextChapterCard chapter={nextChapter} />
               )}
 
-              {/* 4. Hero Mini — compacto, sem redundância */}
-              {hero && (
+              {/* 4. Hero Mini — segunda story do dia (evita duplicar QuickRead) */}
+              {heroMiniStory && (
                 <HeroMini
-                  tag={hero.tag}
-                  headline={hero.headline}
-                  whyItMatters={hero.whyItMatters}
-                  storyType={hero.storyType}
+                  tag={heroMiniStory.tag}
+                  headline={heroMiniStory.headline}
+                  whyItMatters={heroMiniStory.whyItMatters}
+                  storyType={heroMiniStory.storyType}
                 />
               )}
 
@@ -53,13 +53,13 @@ export default async function Home() {
 
               {/* 6. Matches (mobile only) */}
               <div className="md:hidden">
-                <MatchesSection live={liveMatches} upcoming={upcomingMatches} />
+                <MatchesSection live={liveMatches} finished={finishedMatches} scheduled={scheduledMatches} />
               </div>
             </div>
 
             {/* Sidebar — desktop */}
             <div className="hidden md:flex md:flex-col md:gap-5 md:pt-0">
-              <MatchesSection live={liveMatches} upcoming={upcomingMatches} />
+              <MatchesSection live={liveMatches} finished={finishedMatches} scheduled={scheduledMatches} />
 
               {activeNarratives.length > 0 && (
                 <NarrativeTracker narratives={activeNarratives} />

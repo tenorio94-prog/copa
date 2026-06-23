@@ -2,7 +2,7 @@ import type { Match, Bulletin, BulletinItem } from "./types"
 import type { ApiFixture, ApiStandingEntry } from "./api-football"
 import type { FDMatch, FDStandingsGroup } from "./football-data"
 import { getFixtureId, getFlag } from "./api-football"
-import { getFlagByTla } from "./football-data"
+import { getFlagByTla, getFlagByName } from "./football-data"
 
 const POPULAR_TEAMS = [
   "brazil", "argentina", "germany", "france", "england",
@@ -239,13 +239,13 @@ export function fromFDMatch(m: FDMatch): Match {
       id: String(m.homeTeam.id),
       name: m.homeTeam.name,
       code: mapTLA(m.homeTeam.tla),
-      flag: getFlagByTla(m.homeTeam.tla || ""),
+      flag: m.homeTeam.tla ? getFlagByTla(m.homeTeam.tla) : getFlagByName(m.homeTeam.name),
     },
     awayTeam: {
       id: String(m.awayTeam.id),
       name: m.awayTeam.name,
       code: mapTLA(m.awayTeam.tla),
-      flag: getFlagByTla(m.awayTeam.tla || ""),
+      flag: m.awayTeam.tla ? getFlagByTla(m.awayTeam.tla) : getFlagByName(m.awayTeam.name),
     },
     homeScore: score.home,
     awayScore: score.away,

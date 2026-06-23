@@ -3,11 +3,12 @@ import { MatchCard } from "./match-card"
 
 interface MatchesSectionProps {
   live: Match[]
-  upcoming: Match[]
+  finished: Match[]
+  scheduled: Match[]
 }
 
-export function MatchesSection({ live, upcoming }: MatchesSectionProps) {
-  if (live.length === 0 && upcoming.length === 0) {
+export function MatchesSection({ live, finished, scheduled }: MatchesSectionProps) {
+  if (live.length === 0 && finished.length === 0 && scheduled.length === 0) {
     return (
       <section>
         <h2 className="mb-3 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
@@ -25,10 +26,40 @@ export function MatchesSection({ live, upcoming }: MatchesSectionProps) {
       <h2 className="mb-3 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
         ⚽ Jogos
       </h2>
-      <div className="flex gap-2">
-        {live.length > 0 && live.map((m) => <MatchCard key={m.id} match={m} />)}
-        {upcoming.length > 0 && upcoming.map((m) => <MatchCard key={m.id} match={m} />)}
-      </div>
+
+      {live.length > 0 && (
+        <div className="mb-3">
+          <span className="mb-1.5 flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[1.2px] text-[#ef4444]">
+            <span className="inline-block h-1.5 w-1.5 animate-pulse-dot rounded-full bg-[#ef4444]" />
+            Ao vivo agora
+          </span>
+          <div className="flex gap-2">
+            {live.map((m) => <MatchCard key={m.id} match={m} />)}
+          </div>
+        </div>
+      )}
+
+      {finished.length > 0 && (
+        <div className="mb-3">
+          <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[1.2px] text-[#71717a]">
+            Encerrados hoje
+          </span>
+          <div className="flex gap-2">
+            {finished.map((m) => <MatchCard key={m.id} match={m} />)}
+          </div>
+        </div>
+      )}
+
+      {scheduled.length > 0 && (
+        <div className="mb-3">
+          <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[1.2px] text-[#71717a]">
+            Ainda vai começar
+          </span>
+          <div className="flex gap-2">
+            {scheduled.map((m) => <MatchCard key={m.id} match={m} />)}
+          </div>
+        </div>
+      )}
     </section>
   )
 }

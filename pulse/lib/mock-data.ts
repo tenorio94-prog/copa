@@ -247,7 +247,7 @@ function buildBulletin(stories: EditorialStory[]): Bulletin {
 }
 
 function pickBestGroup(groups: StandingsGroup[]): { group: string; standings: StandingsRow[] } {
-  if (groups.length === 0) return { group: "Group A", standings: [] }
+  if (groups.length === 0) return { group: "Grupo A", standings: [] }
 
   const TRADITIONAL = ["brazil", "argentina", "germany", "france", "england", "italy", "netherlands", "portugal", "spain", "uruguay"]
 
