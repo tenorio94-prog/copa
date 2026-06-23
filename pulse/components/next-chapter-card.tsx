@@ -1,5 +1,6 @@
 import type { NextChapter } from "@/lib/types"
 import { getNarrativeColor } from "@/lib/story-colors"
+import { getRivalry } from "@/lib/rivalries"
 
 interface NextChapterCardProps {
   chapter: NextChapter
@@ -45,6 +46,7 @@ export function NextChapterCard({ chapter }: NextChapterCardProps) {
   const countdown = chapter.nextEvent
     ? parseNextEvent(chapter.nextEvent.date)
     : null
+  const rivalry = chapter.teams.length >= 2 ? getRivalry(chapter.teams[0], chapter.teams[1]) : null
 
   return (
     <section className="animate-fade-up-delayed w-full">
@@ -66,7 +68,25 @@ export function NextChapterCard({ chapter }: NextChapterCardProps) {
           >
             PRÓXIMO CAPÍTULO
           </span>
+          {rivalry && (
+            <span
+              className="ml-auto text-[9px] font-semibold uppercase tracking-[1px] px-2 py-0.5 rounded"
+              style={{
+                backgroundColor: `${color.hex}15`,
+                color: color.hexLight,
+                border: `1px solid ${color.hex}30`,
+              }}
+            >
+              {rivalry.label}
+            </span>
+          )}
         </div>
+
+        {rivalry && (
+          <p className="text-[10px] italic text-[#71717a] mb-2">
+            {rivalry.description}
+          </p>
+        )}
 
         <h3 className="font-editorial text-[clamp(18px,3vw,22px)] font-bold leading-[1.15] tracking-tight mb-3 text-[#f4f4f5]">
           {chapter.headline}

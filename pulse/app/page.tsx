@@ -6,6 +6,7 @@ import { ContinuityBar } from "@/components/continuity-bar"
 import { NextChapterCard } from "@/components/next-chapter-card"
 import { NarrativeTracker } from "@/components/narrative-tracker"
 import { HeroMini } from "@/components/hero-mini"
+import { ShareButtons } from "@/components/share-buttons"
 import { fetchDashboardData } from "@/lib/mock-data"
 
 function truncateAtWord(text: string, maxChars: number): string {
@@ -20,8 +21,9 @@ export const metadata: Metadata = {
   description: "O que aconteceu hoje, por que importa e o que vem depois. 3 minutos de leitura.",
 }
 
-export default async function Home() {
-  const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = await fetchDashboardData()
+export default async function Home({ searchParams }: { searchParams?: { day?: string } }) {
+  const targetDay = parseInt(searchParams?.day || "0", 10) || 0
+  const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = await fetchDashboardData(targetDay)
   const liveMatches = matches.filter((m) => m.status === "live")
   const finishedMatches = matches.filter((m) => m.status === "finished")
   const scheduledMatches = matches.filter((m) => m.status === "scheduled")
@@ -41,7 +43,7 @@ export default async function Home() {
           <div className="md:grid md:grid-cols-[1.5fr_1fr] md:gap-8">
             <div className="flex flex-col gap-4">
               {/* 1. Continuity Bar — orientação */}
-              <ContinuityBar continuity={brief.continuity} />
+              <ContinuityBar continuity={brief.continuity} currentDay={brief.continuity.day} />
 
               {/* 2. Quick Read — 15s, o produto */}
               <QuickRead brief={brief} />
@@ -108,12 +110,7 @@ export default async function Home() {
               )}
 
               <footer className="mt-auto rounded-xl border border-[#222226] bg-[#121214] p-4 text-center">
-                <div className="flex items-center justify-center gap-4 text-xs text-[#a1a1aa]">
-                  <span>Compartilhe:</span>
-                  <button className="transition-colors hover:text-[#f4f4f5]">X</button>
-                  <button className="transition-colors hover:text-[#f4f4f5]">WhatsApp</button>
-                  <button className="transition-colors hover:text-[#f4f4f5]">📋 Link</button>
-                </div>
+                <ShareButtons text={`${brief.headline} — Copa Pulse`} url="https://pulse-indol-sigma.vercel.app/" />
                 <p className="mt-2 text-[10px] text-[#71717a]">
                   Copa Pulse • {truncateAtWord(brief.headline, 28)}
                 </p>
@@ -149,12 +146,7 @@ export default async function Home() {
             )}
 
             <footer className="rounded-xl border border-[#222226] bg-[#121214] p-4 text-center">
-              <div className="flex items-center justify-center gap-4 text-xs text-[#a1a1aa]">
-                <span>Compartilhe:</span>
-                <button className="transition-colors hover:text-[#f4f4f5]">X</button>
-                <button className="transition-colors hover:text-[#f4f4f5]">WhatsApp</button>
-                <button className="transition-colors hover:text-[#f4f4f5]">📋 Link</button>
-              </div>
+              <ShareButtons text={`${brief.headline} — Copa Pulse`} url="https://pulse-indol-sigma.vercel.app/" />
               <p className="mt-2 text-[10px] text-[#71717a]">
                 Copa Pulse • {truncateAtWord(brief.headline, 28)}
               </p>

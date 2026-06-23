@@ -33,8 +33,12 @@ export function MatchesSection({ live, finished, scheduled }: MatchesSectionProp
             <span className="inline-block h-1.5 w-1.5 animate-pulse-dot rounded-full bg-[#ef4444]" />
             Ao vivo agora
           </span>
-          <div className="flex gap-2">
-            {live.map((m) => <MatchCard key={m.id} match={m} />)}
+          <div className="flex gap-2 overflow-x-auto no-scrollbar snap-x">
+            {live.map((m) => (
+              <div key={m.id} className="snap-start min-w-[160px] sm:min-w-0 sm:flex-1">
+                <MatchCard match={m} />
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -44,8 +48,12 @@ export function MatchesSection({ live, finished, scheduled }: MatchesSectionProp
           <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[1.2px] text-[#71717a]">
             Encerrados hoje
           </span>
-          <div className="flex gap-2">
-            {finished.map((m) => <MatchCard key={m.id} match={m} />)}
+          <div className="flex gap-2 overflow-x-auto no-scrollbar snap-x">
+            {finished.map((m) => (
+              <div key={m.id} className="snap-start min-w-[160px] sm:min-w-0 sm:flex-1">
+                <MatchCard match={m} />
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -55,8 +63,12 @@ export function MatchesSection({ live, finished, scheduled }: MatchesSectionProp
           <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[1.2px] text-[#71717a]">
             Ainda vai começar
           </span>
-          <div className="flex gap-2">
-            {scheduled.map((m) => <MatchCard key={m.id} match={m} />)}
+          <div className="flex gap-2 overflow-x-auto no-scrollbar snap-x">
+            {scheduled.map((m) => (
+              <div key={m.id} className="snap-start min-w-[160px] sm:min-w-0 sm:flex-1">
+                <MatchCard match={m} />
+              </div>
+            ))}
           </div>
         </div>
       )}
