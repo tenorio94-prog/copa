@@ -191,7 +191,22 @@ function buildHeadline(match: EnrichedMatch, storyType: EditorialStoryType): str
       return `${match.winner} vira ${match.loser} e segura primeira vitória`
     }
     if (match.narrativeFlags.includes("blowout")) {
-      return `${match.winner} atropela ${match.loser} e assume liderança`
+      const isPopularWinner = isPopular(match.winner)
+      const homeScore = match.homeScore ?? 0
+      const awayScore = match.awayScore ?? 0
+      const goalDiff = Math.abs(homeScore - awayScore)
+      const cleanSheet = homeScore === 0 || awayScore === 0
+      if (cleanSheet && goalDiff >= 4) {
+        return isPopularWinner
+          ? `${match.winner} impõe autoridade e goleia ${match.loser} sem sofrer gols`
+          : `${match.winner} apresenta campanha sólida e goleia ${match.loser}`
+      }
+      if (goalDiff >= 3) {
+        return `${match.winner} vence ${match.loser} com autoridade no grupo`
+      }
+      return isPopularWinner
+        ? `${match.winner} atropela ${match.loser} e assume liderança`
+        : `${match.winner} domina ${match.loser} em partida equilibrada`
     }
     if (match.narrativeFlags.includes("upset")) {
       return `${match.winner} surpreende ${match.loser} e equilibra o grupo`

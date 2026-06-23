@@ -8,6 +8,13 @@ import { NarrativeTracker } from "@/components/narrative-tracker"
 import { HeroMini } from "@/components/hero-mini"
 import { fetchDashboardData } from "@/lib/mock-data"
 
+function truncateAtWord(text: string, maxChars: number): string {
+  if (text.length <= maxChars) return text
+  const trimmed = text.slice(0, maxChars)
+  const lastSpace = trimmed.lastIndexOf(" ")
+  return lastSpace > 10 ? text.slice(0, lastSpace) : trimmed.trimEnd()
+}
+
 export const metadata: Metadata = {
   title: "Resumo diário — Copa do Mundo 2026",
   description: "O que aconteceu hoje, por que importa e o que vem depois. 3 minutos de leitura.",
@@ -19,6 +26,10 @@ export default async function Home() {
   const finishedMatches = matches.filter((m) => m.status === "finished")
   const scheduledMatches = matches.filter((m) => m.status === "scheduled")
   const heroMiniStory = stories.length > 1 ? stories[1] : null
+
+  if (standings.length === 0) {
+    console.warn("[real-data] standings empty for stage:", brief.continuity.phase)
+  }
 
   const isGroupStage = brief.continuity.phase.toLowerCase().includes("grupos")
 
@@ -71,7 +82,7 @@ export default async function Home() {
                 <NarrativeTracker narratives={activeNarratives} />
               )}
 
-              {isGroupStage && (
+              {isGroupStage && standings.length > 0 && (
                 <section>
                   <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
                     📊 Tabela • {standingsGroupName || "Grupo A"}
@@ -104,7 +115,7 @@ export default async function Home() {
                   <button className="transition-colors hover:text-[#f4f4f5]">📋 Link</button>
                 </div>
                 <p className="mt-2 text-[10px] text-[#71717a]">
-                  Copa Pulse • {brief.headline.substring(0, 24)}...
+                  Copa Pulse • {truncateAtWord(brief.headline, 28)}
                 </p>
               </footer>
             </div>
@@ -112,7 +123,7 @@ export default async function Home() {
 
           {/* Mobile footer */}
           <div className="mt-6 md:hidden">
-            {isGroupStage && (
+            {isGroupStage && standings.length > 0 && (
               <section className="mb-6">
                 <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
                   📊 Tabela • {standingsGroupName || "Grupo A"}
@@ -145,7 +156,7 @@ export default async function Home() {
                 <button className="transition-colors hover:text-[#f4f4f5]">📋 Link</button>
               </div>
               <p className="mt-2 text-[10px] text-[#71717a]">
-                Copa Pulse • {brief.headline.substring(0, 24)}...
+                Copa Pulse • {truncateAtWord(brief.headline, 28)}
               </p>
             </footer>
           </div>

@@ -36,7 +36,8 @@ function findYesterday(memory?: TournamentMemory): string {
   for (const [team, steps] of Object.entries(memory.teamJourneys)) {
     const last = steps[steps.length - 1]
     if (last && (last.includes("Eliminou") || last.includes("Venceu"))) {
-      lines.push(`${team}: ${last}`)
+      const lower = last.charAt(0).toLowerCase() + last.slice(1)
+      lines.push(`${team} ${lower}`)
     }
   }
   return lines.length > 0 ? lines[lines.length - 1] : "—"
