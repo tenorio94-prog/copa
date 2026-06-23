@@ -66,15 +66,17 @@ function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms))
 }
 
-async function fetchApi<T>(path: string, revalidateSec = 60): Promise<T | null> {
+async function fetchApi<T>(path: string, revalidateSec = 60, tags: string[] = []): Promise<T | null> {
   const key = process.env.FOOTBALL_DATA_API_KEY
   if (!key) return null
   const base = process.env.FOOTBALL_DATA_BASE_URL || "https://api.football-data.org/v4"
   try {
-    const res = await fetch(`${base}${path}`, {
+    const opts: RequestInit & { next?: { revalidate: number; tags?: string[] } } = {
       headers: { "X-Auth-Token": key },
       next: { revalidate: revalidateSec },
-    })
+    }
+    if (tags.length > 0) opts.next!.tags = tags
+    const res = await fetch(`${base}${path}`, opts)
     if (res.status === 429) {
       console.warn("[football-data] rate limit (429)")
       await sleep(1000)
@@ -113,7 +115,8 @@ export async function fetchTodaysFixtures(): Promise<{ items: FDMatch[]; current
   const today = new Date().toISOString().split("T")[0]
   const data = await fetchApi<FDMatchesResponse>(
     `/competitions/${COMPETITION_CODE}/matches?dateFrom=${today}&dateTo=${today}`,
-    120
+    120,
+    ["fixtures-today"]
   )
   if (!data) return { items: [], currentMatchday: 1 }
   const matchday = data.matches[0]?.season?.currentMatchday ?? 1
@@ -138,7 +141,8 @@ export async function fetchUpcoming(limit = 3): Promise<{ items: FDMatch[]; curr
   const to = future.toISOString().split("T")[0]
   const data = await fetchApi<FDMatchesResponse>(
     `/competitions/${COMPETITION_CODE}/matches?dateFrom=${from}&dateTo=${to}`,
-    300
+    300,
+    ["upcoming"]
   )
   if (!data) return { items: [], currentMatchday: 1 }
   const now = today.toISOString()
@@ -160,7 +164,8 @@ export async function fetchLiveFixtures(): Promise<FDMatch[]> {
 export async function fetchStandings(): Promise<FDStandingsGroup[]> {
   const data = await fetchApi<FDStandingsResponse>(
     `/competitions/${COMPETITION_CODE}/standings?season=${SEASON}`,
-    300
+    300,
+    ["standings"]
   )
   if (!data?.standings) return []
   return data.standings.filter((s) => s.type === "TOTAL" && s.group)
