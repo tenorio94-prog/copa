@@ -1,4 +1,5 @@
 import type { StoryBrief } from "@/lib/types"
+import { TOURNAMENT_LABEL } from "@/lib/story-brief"
 
 interface ContinuityBarProps {
   continuity: StoryBrief["continuity"]
@@ -75,6 +76,9 @@ function PhaseRail({ phase }: { phase: string }) {
 export function ContinuityBar({ continuity }: ContinuityBarProps) {
   return (
     <div className="animate-fade-up flex flex-col gap-2">
+      <span className="text-[10px] font-semibold uppercase tracking-[1.8px] text-[#71717a]">
+        {TOURNAMENT_LABEL}
+      </span>
       <div className="text-[11px] font-bold uppercase tracking-[1.5px] text-[#fbbf24]">
         DIA {continuity.day}
       </div>

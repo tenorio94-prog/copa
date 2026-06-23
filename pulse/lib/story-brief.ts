@@ -1,6 +1,7 @@
 import type { EditorialStory, TournamentMemory, StoryBrief } from "./types"
 
 const WC_START_DATE = "2026-06-11"
+export const TOURNAMENT_LABEL = "Copa do Mundo 2026"
 
 function calcDay(memory?: TournamentMemory, currentMatchday?: number): number {
   if (currentMatchday && currentMatchday > 1) return currentMatchday

@@ -44,9 +44,11 @@ export default async function Home() {
                 />
               )}
 
-              {/* 5. Narrative Tracker — apenas se relevante */}
+              {/* 5. Narrative Tracker (mobile apenas — desktop tem no sidebar) */}
               {activeNarratives.length > 0 && (
-                <NarrativeTracker narratives={activeNarratives} />
+                <div className="md:hidden">
+                  <NarrativeTracker narratives={activeNarratives} />
+                </div>
               )}
 
               {/* 6. Matches (mobile only) */}
@@ -66,7 +68,7 @@ export default async function Home() {
               {isGroupStage && (
                 <section>
                   <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
-                    📊 Tabela • {standingsGroupName || "Grupo C"}
+                    📊 Tabela • {standingsGroupName || "Grupo A"}
                   </h2>
                   <div className="rounded-xl border border-[#222226] bg-[#121214] p-3">
                     <div className="flex flex-col gap-1">
@@ -107,7 +109,7 @@ export default async function Home() {
             {isGroupStage && (
               <section className="mb-6">
                 <h2 className="mb-2 text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
-                  📊 Tabela • {standingsGroupName || "Grupo C"}
+                  📊 Tabela • {standingsGroupName || "Grupo A"}
                 </h2>
                 <div className="rounded-xl border border-[#222226] bg-[#121214] p-3">
                   <div className="flex flex-col gap-1">

@@ -30,7 +30,7 @@ export function MatchCard({ match }: MatchCardProps) {
       {isLive && (
         <div className="flex items-center gap-1.5 text-[10px] font-medium text-[#ef4444]">
           <span className="inline-block h-1.5 w-1.5 animate-pulse-dot rounded-full bg-[#ef4444]" />
-          AO VIVO • {match.minute}&apos;
+          AO VIVO{match.minute ? ` • ${match.minute}'` : ""}
         </div>
       )}
 
