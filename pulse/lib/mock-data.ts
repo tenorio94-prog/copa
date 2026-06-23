@@ -105,11 +105,24 @@ function buildDashboardFromFixtures(
 
   const memoryWithArcs = buildMemory(matches)
   memoryWithArcs.historicalFacts = memory.historicalFacts
-  const stories = selectStories(enriched, memoryWithArcs)
+  const stories = selectStories(enriched, memoryWithArcs, matches)
 
   const currentStage = deriveCurrentStage(fixtures, upcoming)
+  const currentMatchday = fixtures[0]?.season?.currentMatchday ?? 1
+  const upcomingLabel = upcoming[0]
+    ? `${upcoming[0].homeTeam.name} vs ${upcoming[0].awayTeam.name}`
+    : undefined
+  const todayLabel = matches.length > 0
+    ? `${matches[0].homeTeam.name} ${matches[0].homeScore ?? ""}×${matches[0].awayScore ?? ""} ${matches[0].awayTeam.name}`
+    : "Nenhum jogo hoje"
 
-  const brief = buildBrief(stories, memory, currentStage)
+  const brief = buildBrief(stories, memory, {
+    currentStage,
+    currentMatchday,
+    matchesTodayCount: fixtures.length,
+    upcomingLabel,
+    todayLabel,
+  })
   const nextChapter = buildNextChapter(brief, memoryWithArcs.narrativeArcs, memory)
   const activeNarratives = buildNarratives(memoryWithArcs.narrativeArcs, memory)
 

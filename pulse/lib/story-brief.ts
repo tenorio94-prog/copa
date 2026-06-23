@@ -69,7 +69,35 @@ export function buildBrief(
   stories: EditorialStory[],
   memory?: TournamentMemory,
   currentStage?: string
+): StoryBrief
+export function buildBrief(
+  stories: EditorialStory[],
+  memory?: TournamentMemory,
+  options?: {
+    currentStage?: string
+    currentMatchday?: number
+    matchesTodayCount?: number
+    upcomingLabel?: string
+    todayLabel?: string
+  }
+): StoryBrief
+export function buildBrief(
+  stories: EditorialStory[],
+  memory?: TournamentMemory,
+  optionsOrStage?: string | {
+    currentStage?: string
+    currentMatchday?: number
+    matchesTodayCount?: number
+    upcomingLabel?: string
+    todayLabel?: string
+  }
 ): StoryBrief {
+  const opts = typeof optionsOrStage === "string"
+    ? { currentStage: optionsOrStage }
+    : optionsOrStage ?? {}
+
+  const { currentStage, currentMatchday, matchesTodayCount, upcomingLabel, todayLabel } = opts
+
   const sorted = [...stories].sort((a, b) => a.priority - b.priority)
   const hero = sorted[0] || stories[0]
   const secondary = sorted[1] || null
@@ -77,14 +105,15 @@ export function buildBrief(
 
   const headline = hero?.headline ?? "Aguardando jogos da Copa"
 
-  const todayMatch = stories.length > 0 ? stories[0].headline : undefined
   const bullets: [string, string, string] = [
     makeBullet(hero),
     makeSecondaryBullet(secondary),
-    makeEmergingBullet(emerging, hero, todayMatch),
+    makeEmergingBullet(emerging, hero, upcomingLabel),
   ]
 
   const phase = currentStage ?? calcPhase(memory)
+  const day = currentMatchday ?? calcDay(memory)
+  const matchCount = matchesTodayCount ?? calcMatchCount(memory)
 
   return {
     id: `brief-${new Date().toISOString().split("T")[0]}`,
@@ -92,12 +121,12 @@ export function buildBrief(
     headline,
     bullets,
     continuity: {
-      day: calcDay(memory),
+      day,
       phase,
       phaseProgress: phase,
-      matchCount: calcMatchCount(memory),
+      matchCount,
       yesterday: findYesterday(memory),
-      today: findToday(todayMatch),
+      today: findToday(todayLabel),
     },
     storyType: hero?.storyType ?? "historical",
     tag: hero?.tag ?? "📅 Copa",

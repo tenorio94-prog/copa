@@ -253,10 +253,14 @@ export function fromFDMatch(m: FDMatch): Match {
     status,
     minute: status === "live" ? undefined : undefined,
     scheduledAt: m.utcDate,
-    round: m.group ? `${m.stage} • ${m.group}` : m.stage,
+    round: m.group ? `${mapStageFD(m.stage)} • ${m.group.replace("Group ", "Grupo ")}` : mapStageFD(m.stage),
     stage: mapStageFD(m.stage),
     importanceScore: importance,
-    whyItMatters: importance > 20 ? `${m.homeTeam.name} vs ${m.awayTeam.name} — jogo decisivo.` : null,
+    whyItMatters: importance >= 50
+      ? `${m.homeTeam.name} vs ${m.awayTeam.name}. Jogo decisivo: o vencedor dá passo forte rumo à classificação.`
+      : importance >= 20
+        ? `${m.homeTeam.name} vs ${m.awayTeam.name}. Resultado impacta classificação do ${m.group?.replace("Group ", "Grupo ") || "grupo"}.`
+        : `${m.homeTeam.name} vs ${m.awayTeam.name}. Primeira rodada do ${m.group?.replace("Group ", "Grupo ") || "grupo"}.`,
   }
 }
 

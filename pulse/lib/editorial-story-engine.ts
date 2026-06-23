@@ -5,7 +5,9 @@ import type {
   NarrativeArc,
   EditorialStory,
   EditorialStoryType,
+  Match,
 } from "./types"
+import { getTeamInfo } from "./knowledge"
 
 const POPULAR = [
   "brazil", "argentina", "germany", "france", "england",
@@ -52,7 +54,8 @@ function classifyStoryType(
 function calcConfidence(
   match: EnrichedMatch,
   arcs: NarrativeArc[],
-  facts: HistoricalFact[]
+  facts: HistoricalFact[],
+  isLive?: boolean
 ): number {
   let c = 0.1 // base
 
@@ -90,6 +93,22 @@ function calcConfidence(
   // Upset
   if (match.narrativeFlags.includes("upset")) c += 0.15
 
+  // Group stage boost when no narrative context
+  const isGroupsStage = match.stage === "Fase de grupos"
+  const isPopularHome = isPopular(match.homeTeam)
+  const isPopularAway = isPopular(match.awayTeam)
+  const lowNarrativeContext = facts.length === 0 && arcs.length === 0
+
+  if (isGroupsStage && lowNarrativeContext) {
+    if (isLive && (isPopularHome || isPopularAway)) c += 0.30
+    else if (match.winner && (isPopularHome || isPopularAway)) {
+      if (match.narrativeFlags.includes("comeback") || match.narrativeFlags.includes("upset") || match.narrativeFlags.includes("blowout")) c += 0.25
+      else c += 0.20
+    }
+    else if (match.winner && (match.narrativeFlags.includes("comeback") || match.narrativeFlags.includes("upset"))) c += 0.15
+    else c += 0.05
+  }
+
   return Math.min(c, 1.0)
 }
 
@@ -109,6 +128,18 @@ function buildEvidence(
     ev.push("Decisão dramática nos pênaltis")
   if (match.narrativeFlags.includes("upset"))
     ev.push("Resultado surpreendente que contrariou as expectativas")
+
+  // Group stage evidence
+  if (match.stage === "Fase de grupos" && match.winner) {
+    const info = getTeamInfo(match.winner)
+    if (info) {
+      if (info.firstWorldCup === 2026) ev.push(`${match.winner} faz sua estreia em Copas do Mundo`)
+      else if (info.continent === "CAF") ev.push(`${match.winner} representa o continente africano`)
+      else if (info.continent === "AFC") ev.push(`${match.winner} representa a Ásia na Copa`)
+      if (info.isTraditional) ev.push(`${match.winner} é uma potência tradicional`)
+    }
+    if (ev.length === 0) ev.push(`${match.winner} busca classificação rumo às oitavas de final`)
+  }
 
   // Evidence from historical facts
   for (const f of facts) {
@@ -135,6 +166,30 @@ function buildHeadline(match: EnrichedMatch, storyType: EditorialStoryType): str
     return `${match.winner} surpreende ${match.loser}`
   if (match.winner && match.loser && match.stage !== "Fase de grupos")
     return `${match.winner} elimina ${match.loser} e avança`
+
+  // Group stage headlines
+  if (match.winner && match.loser && match.stage === "Fase de grupos") {
+    const winnerInfo = getTeamInfo(match.winner)
+    const groupLabel = extractGroupLabel(match.round)
+
+    if (winnerInfo?.firstWorldCup === 2026 && match.winner) {
+      return `${match.winner} estreia vencendo${groupLabel ? ` no ${groupLabel}` : ""}`
+    }
+    if (match.narrativeFlags.includes("comeback")) {
+      return `${match.winner} vira ${match.loser} e segura primeira vitória`
+    }
+    if (match.narrativeFlags.includes("blowout")) {
+      return `${match.winner} atropela ${match.loser} e assume liderança`
+    }
+    if (match.narrativeFlags.includes("upset")) {
+      return `${match.winner} surpreende ${match.loser} e equilibra o grupo`
+    }
+    if (isPopular(match.winner)) {
+      return `${match.winner} vence ${match.loser} e assume liderança do grupo`
+    }
+    return `${match.winner} abre com vitória sobre ${match.loser}`
+  }
+
   if (match.winner && match.loser)
     return `${match.winner} vence ${match.loser}`
   return `${match.homeTeam} vs ${match.awayTeam}`
@@ -165,6 +220,10 @@ function buildHook(match: EnrichedMatch, arcs: NarrativeArc[], facts: Historical
   if (match.narrativeFlags.includes("upset"))
     return "O torneio continua desafiando todas as previsões."
 
+  if (match.stage === "Fase de grupos" && facts.length === 0 && arcs.length === 0) {
+    return "Os primeiros contornos dos grupos começam a aparecer."
+  }
+
   return "O resultado do dia:"
 }
 
@@ -179,6 +238,24 @@ function buildWhyItMatters(match: EnrichedMatch, arcs: NarrativeArc[]): string {
     return "Uma campanha de superação que será lembrada por gerações."
   if (match.narrativeFlags.includes("upset"))
     return "Resultado que muda completamente as projeções para o resto do torneio."
+
+  // Group stage
+  if (match.stage === "Fase de grupos") {
+    if (match.winner && isPopular(match.winner)) {
+      return `${match.winner} assume a liderança do grupo. Vitória deixa time tradicional perto da classificação.`
+    }
+    if (match.winner) {
+      const info = getTeamInfo(match.winner)
+      if (info?.firstWorldCup === 2026) {
+        return `${match.winner} conquista primeira vitória em Copas. Estreia histórica para o país.`
+      }
+      return `${match.winner} dá primeiro passo rumo à classificação no grupo.`
+    }
+    if (isPopular(match.homeTeam)) {
+      return `${match.homeTeam} faz sua estreia na Copa hoje. Vitória é esperada para o favorito do grupo.`
+    }
+  }
+
   return `Partida válida pela ${match.round}.`
 }
 
@@ -214,20 +291,33 @@ function factsForMatch(match: EnrichedMatch, allFacts: HistoricalFact[]): Histor
 
 // ─── Main engine ──────────────────────────────────────────
 
+function isMatchLive(matchId: string, rawMatches?: Match[]): boolean {
+  if (!rawMatches) return false
+  const raw = rawMatches.find((m) => m.id === matchId)
+  return raw?.status === "live" || false
+}
+
+function extractGroupLabel(round: string): string | null {
+  const m = round.match(/Grupo ([A-L])/)
+  return m ? `Grupo ${m[1]}` : null
+}
+
 export function selectStories(
-  matches: EnrichedMatch[],
-  memory?: TournamentMemory
+  enrichedMatches: EnrichedMatch[],
+  memory?: TournamentMemory,
+  rawMatches?: Match[]
 ): EditorialStory[] {
   const stories: EditorialStory[] = []
   const allArcs = memory?.narrativeArcs || []
   const allFacts = memory?.historicalFacts || []
-  const finished = matches.filter((m) => m.homeScore !== null || m.awayScore !== null)
+  const finished = enrichedMatches.filter((m) => m.homeScore !== null || m.awayScore !== null)
 
   for (const match of finished) {
     const arcs = arcsForMatch(match, allArcs)
     const facts = factsForMatch(match, allFacts)
+    const isLive = isMatchLive(match.matchId, rawMatches)
     const storyType = classifyStoryType(match, arcs, facts)
-    const confidence = calcConfidence(match, arcs, facts)
+    const confidence = calcConfidence(match, arcs, facts, isLive)
     const evidence = buildEvidence(match, arcs, facts)
     const headline = buildHeadline(match, storyType)
     const narrativeHook = buildHook(match, arcs, facts)
