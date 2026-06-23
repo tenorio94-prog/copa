@@ -12,7 +12,7 @@ export function HeroMini({ tag, headline, whyItMatters, storyType = "historical"
   const color = getStoryColor(storyType)
 
   return (
-    <section className="animate-fade-up w-full">
+    <section className="animate-fade-up-delayed w-full">
       <div
         className="rounded-lg bg-[#121214]/80 p-4 border-l-2"
         style={{

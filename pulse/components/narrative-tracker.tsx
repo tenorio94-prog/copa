@@ -50,9 +50,32 @@ function NarrativeRow({ n }: { n: ActiveNarrative }) {
           </div>
         )}
 
-        <p className="text-[11px] text-[#71717a] leading-snug truncate">
+        <p className="text-[11px] text-[#71717a] leading-snug truncate mb-1.5">
           {n.status === "active" ? `Próximo: ${n.nextChapter}` : n.journey.slice(-1)[0] || ""}
         </p>
+
+        {n.journey.length > 0 && n.status !== "completed" && (
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
+            {n.journey.map((step, i) => {
+              const isLast = i === n.journey.length - 1
+              return (
+                <div key={i} className="flex items-center gap-1 shrink-0">
+                  <span
+                    className={`text-[9px] px-1.5 py-0.5 rounded leading-none truncate max-w-[80px] ${
+                      isLast
+                        ? "font-medium"
+                        : "text-[#71717a] bg-[#222226]/50"
+                    }`}
+                    style={isLast ? { color: color.hexLight, backgroundColor: `${color.hex}1a` } : {}}
+                  >
+                    {step}
+                  </span>
+                  {!isLast && <span className="text-[#3a3a3e] text-[8px]">›</span>}
+                </div>
+              )
+            })}
+          </div>
+        )}
       </div>
     </div>
   )
@@ -62,8 +85,8 @@ export function NarrativeTracker({ narratives }: NarrativeTrackerProps) {
   if (narratives.length === 0) return null
 
   return (
-    <section className="animate-fade-up w-full">
-      <div className="rounded-xl border border-[#222226] bg-[#121214] p-4">
+    <section className="animate-fade-up-late w-full">
+      <div className="rounded-xl border border-[#222226] bg-[#121214]/80 backdrop-blur-md p-4">
         <div className="flex items-center gap-2 mb-3">
           <span className="text-[10px] font-semibold uppercase tracking-[1.2px] text-[#71717a]">
             📖 Histórias da Copa
