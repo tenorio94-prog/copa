@@ -80,31 +80,36 @@ function PhaseRail({ phase }: { phase: string }) {
 export function ContinuityBar({ continuity, currentDay }: ContinuityBarProps) {
   const router = useRouter()
 
+  const totalDays = currentDay ?? continuity.day
+
   return (
     <div className="animate-fade-up flex flex-col gap-2">
       <span className="text-[10px] font-semibold uppercase tracking-[1.8px] text-[#71717a]">
         {TOURNAMENT_LABEL}
       </span>
-      <div className="flex items-center justify-between">
-        <div className="text-[11px] font-bold uppercase tracking-[1.5px] text-[#fbbf24]">
-          DIA {continuity.day}
-        </div>
-        <div className="flex items-center gap-1 text-[10px]">
-          <button
-            disabled={continuity.day <= 1}
-            onClick={() => router.push(`/?day=${continuity.day - 1}`)}
-            className="px-2 py-1 rounded-full border border-[#222226] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#1a1a1e] transition-colors text-[#71717a]"
-          >
-            ‹
-          </button>
-          <button
-            disabled={currentDay ? continuity.day >= currentDay : false}
-            onClick={() => router.push(`/?day=${continuity.day + 1}`)}
-            className="px-2 py-1 rounded-full border border-[#222226] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#1a1a1e] transition-colors text-[#71717a]"
-          >
-            ›
-          </button>
-        </div>
+
+      <div className="flex items-center gap-1 overflow-x-auto no-scrollbar snap-x -mx-1 px-1">
+        {Array.from({ length: totalDays }, (_, i) => {
+          const d = i + 1
+          const isCurrent = d === continuity.day
+          const isPast = d < continuity.day
+
+          return (
+            <button
+              key={d}
+              onClick={() => router.push(`/?day=${d}`)}
+              className={`snap-center shrink-0 transition-all duration-300 rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-[1px] ${
+                isCurrent
+                  ? "bg-amber-500/15 border-amber-500/40 text-[#fbbf24] scale-105"
+                  : isPast
+                    ? "bg-[#1a1a1e] border-[#222226] text-[#71717a] hover:text-[#a1a1aa] hover:border-[#52525b]"
+                    : "bg-transparent border-[#222226] text-[#52525b]"
+              }`}
+            >
+              DIA {d}
+            </button>
+          )
+        })}
       </div>
 
       <PhaseRail phase={continuity.phase} />
