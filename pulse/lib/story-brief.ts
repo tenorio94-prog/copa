@@ -64,10 +64,17 @@ function makeEmergingBullet(emerging: EditorialStory | null, hero: EditorialStor
   return `⚽ Amanhã: ${findToday(todayLabel)}`
 }
 
-function buildShareText(headline: string, stories: EditorialStory[]): string | null {
+function buildShareText(headline: string, stories: EditorialStory[], phase?: string): string | null {
   if (stories.length === 0) return null
   const top = stories[0]
-  return `${top.tag} ${headline}. copapulse.vercel.app`
+  const url = "https://pulse-indol-sigma.vercel.app/"
+  const phaseStr = phase ? ` • ${phase}` : ""
+  const colorEmoji = top.storyType === "milestone" ? "🌍"
+    : top.storyType === "redemption" ? "🔥"
+    : top.storyType === "cinderella" ? "🌟"
+    : top.storyType === "upset" ? "⚖️"
+    : "⚽"
+  return `${colorEmoji} ${headline}${phaseStr}\n\nLeia em 15s ↓\n${url}`
 }
 
 export function buildBrief(
@@ -137,7 +144,7 @@ export function buildBrief(
     tag: hero?.tag ?? "📅 Copa",
     confidence: hero?.confidence ?? 0,
     readingTime: 15,
-    shareText: buildShareText(headline, sorted),
+    shareText: buildShareText(headline, sorted, phase),
     audioAvailable: false,
   }
 }

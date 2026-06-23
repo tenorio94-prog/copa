@@ -1,8 +1,12 @@
+"use client"
+
 import type { StoryBrief } from "@/lib/types"
 import { TOURNAMENT_LABEL } from "@/lib/story-brief"
+import { useRouter } from "next/navigation"
 
 interface ContinuityBarProps {
   continuity: StoryBrief["continuity"]
+  currentDay?: number
 }
 
 const PHASES = [
@@ -73,14 +77,34 @@ function PhaseRail({ phase }: { phase: string }) {
   )
 }
 
-export function ContinuityBar({ continuity }: ContinuityBarProps) {
+export function ContinuityBar({ continuity, currentDay }: ContinuityBarProps) {
+  const router = useRouter()
+
   return (
     <div className="animate-fade-up flex flex-col gap-2">
       <span className="text-[10px] font-semibold uppercase tracking-[1.8px] text-[#71717a]">
         {TOURNAMENT_LABEL}
       </span>
-      <div className="text-[11px] font-bold uppercase tracking-[1.5px] text-[#fbbf24]">
-        DIA {continuity.day}
+      <div className="flex items-center justify-between">
+        <div className="text-[11px] font-bold uppercase tracking-[1.5px] text-[#fbbf24]">
+          DIA {continuity.day}
+        </div>
+        <div className="flex items-center gap-1 text-[10px]">
+          <button
+            disabled={continuity.day <= 1}
+            onClick={() => router.push(`/?day=${continuity.day - 1}`)}
+            className="px-2 py-1 rounded-full border border-[#222226] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#1a1a1e] transition-colors text-[#71717a]"
+          >
+            ‹
+          </button>
+          <button
+            disabled={currentDay ? continuity.day >= currentDay : false}
+            onClick={() => router.push(`/?day=${continuity.day + 1}`)}
+            className="px-2 py-1 rounded-full border border-[#222226] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#1a1a1e] transition-colors text-[#71717a]"
+          >
+            ›
+          </button>
+        </div>
       </div>
 
       <PhaseRail phase={continuity.phase} />

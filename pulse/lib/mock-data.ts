@@ -39,7 +39,7 @@ import { templateHeadline, templateSummary, templateWhyItMatters, templateTag } 
 
 const today = new Date().toISOString().split("T")[0]
 
-export async function fetchDashboardData(): Promise<DashboardData> {
+export async function fetchDashboardData(targetDay: number = 0): Promise<DashboardData> {
   const dataSource = process.env.DATA_SOURCE || "auto"
   const useReal = dataSource !== "mock" && isKeyConfigured()
 
@@ -54,8 +54,17 @@ export async function fetchDashboardData(): Promise<DashboardData> {
     // competition code and works on football-data.org free tier.
     // The probe is only useful as a one-time diagnostic via scripts/probe-fd.mjs.
 
+    let dateForFixtures = new Date()
+    if (targetDay > 0) {
+      const targetDate = new Date()
+      targetDate.setDate(targetDate.getDate() + (targetDay - 13))
+      dateForFixtures = targetDate
+    }
+    const dateStr = dateForFixtures.toISOString().split("T")[0]
+    const { fetchFixturesByDate } = await import("./football-data")
+
     const [todayResult, upcomingResult, fdStandings] = await Promise.all([
-      fetchTodaysFixtures(),
+      targetDay > 0 ? fetchFixturesByDate(dateStr) : fetchTodaysFixtures(),
       fetchUpcoming(3),
       fdFetchStandings(),
     ])
