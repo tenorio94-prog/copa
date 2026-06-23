@@ -113,7 +113,7 @@ export async function fetchTodaysFixtures(): Promise<{ items: FDMatch[]; current
   const today = new Date().toISOString().split("T")[0]
   const data = await fetchApi<FDMatchesResponse>(
     `/competitions/${COMPETITION_CODE}/matches?dateFrom=${today}&dateTo=${today}`,
-    60
+    120
   )
   if (!data) return { items: [], currentMatchday: 1 }
   const matchday = data.matches[0]?.season?.currentMatchday ?? 1
@@ -138,7 +138,7 @@ export async function fetchUpcoming(limit = 3): Promise<{ items: FDMatch[]; curr
   const to = future.toISOString().split("T")[0]
   const data = await fetchApi<FDMatchesResponse>(
     `/competitions/${COMPETITION_CODE}/matches?dateFrom=${from}&dateTo=${to}`,
-    120
+    300
   )
   if (!data) return { items: [], currentMatchday: 1 }
   const now = today.toISOString()

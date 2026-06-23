@@ -11,7 +11,6 @@ import {
   fetchStandings as fdFetchStandings,
   deriveCurrentStage,
   isKeyConfigured,
-  probeCompetition,
 } from "./football-data"
 import type { FDMatch } from "./football-data"
 import { toMatch, toStandings, fromFDMatch, fromFDStandingsGroups } from "./transformers"
@@ -50,11 +49,10 @@ export async function fetchDashboardData(): Promise<DashboardData> {
   }
 
   try {
-    const probe = await probeCompetition()
-    if (!probe) {
-      console.warn("[real-data] no World Cup competition found, falling back to mock")
-      return mockDashboardData()
-    }
+    // NOTE: probeCompetition() was removed from the hot path to avoid
+    // burning the free-tier rate quota (10 req/min). "WC" is the default
+    // competition code and works on football-data.org free tier.
+    // The probe is only useful as a one-time diagnostic via scripts/probe-fd.mjs.
 
     const [todayResult, upcomingResult, fdStandings] = await Promise.all([
       fetchTodaysFixtures(),
@@ -63,11 +61,14 @@ export async function fetchDashboardData(): Promise<DashboardData> {
     ])
 
     const apiMatches = todayResult.items
-    const liveFixtures = await fetchLiveFixturesFD()
+    // Extract live fixtures from the already-fetched today's fixtures.
+    // This avoids a separate `/matches?status=LIVE` call (saves 1 req/page view).
+    const liveFixtures = apiMatches.filter(
+      (f) => f.status === "LIVE" || f.status === "IN_PLAY" || f.status === "PAUSED"
+    )
 
-    const allToday = [...apiMatches, ...liveFixtures]
     const seen = new Set<number>()
-    const unique = allToday.filter((f) => {
+    const unique = [...apiMatches, ...liveFixtures].filter((f) => {
       if (seen.has(f.id)) return false
       seen.add(f.id)
       return true
@@ -77,22 +78,23 @@ export async function fetchDashboardData(): Promise<DashboardData> {
       return dashboardWithNoGamesToday(upcomingResult.items, fdStandings)
     }
 
-    return buildDashboardFromFixtures(unique, upcomingResult.items, fdStandings)
+    return buildDashboardFromFixtures(
+      unique,
+      upcomingResult.items,
+      fdStandings,
+      todayResult.currentMatchday
+    )
   } catch (err) {
     console.error("[real-data]", err)
     return null as unknown as DashboardData
   }
 }
 
-async function fetchLiveFixturesFD(): Promise<FDMatch[]> {
-  const { fetchLiveFixtures } = await import("./football-data")
-  return fetchLiveFixtures()
-}
-
 function buildDashboardFromFixtures(
   fixtures: FDMatch[],
   upcoming: FDMatch[],
-  fdStandings: FDStandingsGroupType[]
+  fdStandings: FDStandingsGroupType[],
+  currentMatchday: number = 1
 ): DashboardData {
   const matches = fixtures.map(fromFDMatch)
   const eligibleForStory = matches.filter(m => {
@@ -124,6 +126,8 @@ function buildDashboardFromFixtures(
   const todayDate = new Date()
   const dayDiff = Math.floor((todayDate.getTime() - tourneyStart.getTime()) / 86400000) + 1
   const computedDay = Math.max(1, dayDiff)
+  // Prefer API-provided matchday when sensible (more reliable than date math).
+  const effectiveDay = currentMatchday && currentMatchday > 1 ? currentMatchday : computedDay
 
   const upcomingLabel = upcoming[0]
     ? `${upcoming[0].homeTeam.name} vs ${upcoming[0].awayTeam.name}`
@@ -134,7 +138,7 @@ function buildDashboardFromFixtures(
 
   const brief = buildBrief(stories, memory, {
     currentStage,
-    currentMatchday: computedDay,
+    currentMatchday: effectiveDay,
     matchesTodayCount: fixtures.length,
     upcomingLabel,
     todayLabel,
