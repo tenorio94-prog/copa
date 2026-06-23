@@ -14,16 +14,17 @@ export function HeroMini({ tag, headline, whyItMatters, storyType = "historical"
   return (
     <section className="animate-fade-up-delayed w-full">
       <div
-        className="rounded-lg bg-[#121214]/80 backdrop-blur-md p-4 border-l-2"
+        className="rounded-lg bg-[#121214]/80 backdrop-blur-md p-4 relative overflow-hidden"
         style={{
-          borderColor: color.hex,
-          backgroundImage: `linear-gradient(90deg, ${color.hex}0a 0%, transparent 50%)`,
+          borderLeft: `2px solid ${color.hex}`,
+          background: `linear-gradient(135deg, ${color.hex}08 0%, transparent 50%)`,
         }}
       >
         <div className="flex items-center gap-2 mb-2">
           <span
-            className="inline-flex h-1.5 w-1.5 rounded-full"
-            style={{ backgroundColor: color.hex }}
+            className="inline-flex items-center justify-center"
+            style={{ color: color.hexLight }}
+            dangerouslySetInnerHTML={{ __html: color.icon }}
           />
           <span
             className="text-[9px] font-bold uppercase tracking-[1.5px]"

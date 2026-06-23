@@ -16,14 +16,15 @@ export function QuickRead({ brief }: QuickReadProps) {
   return (
     <section className="animate-fade-up w-full">
       <div
-        className="rounded-xl border border-[#222226] bg-[#121214]/80 backdrop-blur-md p-6"
-        style={{ backgroundImage: `linear-gradient(135deg, ${color.hex}0d 0%, transparent 60%)` }}
+        className="rounded-xl border border-[#222226] bg-[#121214]/80 backdrop-blur-md p-6 relative overflow-hidden"
+        style={{ borderTop: `2px solid ${color.hex}` }}
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <span
-              className="inline-flex h-1.5 w-1.5 rounded-full"
-              style={{ backgroundColor: color.hex }}
+              className="inline-flex items-center justify-center"
+              style={{ color: color.hexLight }}
+              dangerouslySetInnerHTML={{ __html: color.icon }}
             />
             <span
               className="text-[9px] font-bold uppercase tracking-[1.8px]"

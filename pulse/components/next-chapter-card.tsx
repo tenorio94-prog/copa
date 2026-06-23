@@ -51,16 +51,18 @@ export function NextChapterCard({ chapter }: NextChapterCardProps) {
   return (
     <section className="animate-fade-up-delayed w-full">
       <div
-        className="rounded-xl border p-6 backdrop-blur-md"
+        className="rounded-xl border p-6 backdrop-blur-md relative overflow-hidden"
         style={{
-          backgroundImage: `linear-gradient(135deg, ${color.hex}1f 0%, ${color.hexLight}0a 70%)`,
+          borderTop: `2px solid ${color.hex}`,
           borderColor: `${color.hex}40`,
+          background: `linear-gradient(180deg, ${color.hex}08 0%, transparent 40%)`,
         }}
       >
-        <div className="flex items-center gap-2 mb-3.5">
+        <div className="flex items-center gap-2 mb-4">
           <span
-            className="inline-flex h-1.5 w-1.5 rounded-full"
-            style={{ backgroundColor: color.hex }}
+            className="inline-flex items-center justify-center"
+            style={{ color: color.hexLight }}
+            dangerouslySetInnerHTML={{ __html: color.icon }}
           />
           <span
             className="text-[9px] font-bold uppercase tracking-[1.8px]"
@@ -83,41 +85,44 @@ export function NextChapterCard({ chapter }: NextChapterCardProps) {
         </div>
 
         {rivalry && (
-          <p className="text-[10px] italic text-[#71717a] mb-2">
+          <p className="text-[11px] italic leading-relaxed text-[#71717a] mb-4 border-l-2 pl-3"
+            style={{ borderColor: `${color.hex}50` }}>
             {rivalry.description}
           </p>
         )}
 
-        <h3 className="font-editorial text-[clamp(18px,3vw,22px)] font-bold leading-[1.15] tracking-tight mb-3 text-[#f4f4f5]">
-          {chapter.headline}
-        </h3>
-
-        <p className="text-[13px] leading-relaxed text-[#a1a1aa] mb-4">
-          {chapter.hook}
-        </p>
-
         {chapter.openQuestion && (
-          <div
-            className="border-l-2 pl-3 py-1 mb-4"
-            style={{ borderColor: color.hex }}
-          >
+          <div className="mb-5">
             <p
-              className="font-editorial text-[clamp(15px,2.5vw,18px)] italic leading-relaxed font-medium"
+              className="font-editorial text-[clamp(22px,4vw,30px)] italic leading-[1.2] font-medium text-center"
               style={{ color: "#e8e8ea" }}
             >
+              <span style={{ color: color.hexLight, opacity: 0.6 }}>"</span>
               {chapter.openQuestion}
+              <span style={{ color: color.hexLight, opacity: 0.6 }}>"</span>
             </p>
           </div>
         )}
 
+        <h3 className="font-editorial text-[clamp(16px,2.5vw,20px)] font-bold leading-[1.15] tracking-tight mb-3 text-[#f4f4f5]">
+          {chapter.headline}
+        </h3>
+
+        <p className="text-[13px] leading-relaxed text-[#a1a1aa] mb-5">
+          {chapter.hook}
+        </p>
+
+        <div className="border-t border-[#222226] pt-4" />
+
         {chapter.nextEvent && countdown && (
-          <div className="flex items-center gap-3 text-[11px] bg-[#121214] rounded-lg px-3 py-2.5">
+          <div className="flex items-center gap-3 text-[11px] bg-[#121214] rounded-lg px-3 py-2.5 mt-4">
             <span
-              className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide"
+              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[9px] font-bold uppercase tracking-wide"
               style={{
                 backgroundColor: countdown.bg,
                 color: countdown.text,
                 border: `1px solid ${countdown.border}`,
+                textShadow: countdown.urgent ? `0 0 8px ${countdown.text}` : "none",
                 ...(countdown.urgent ? { animation: "pulse-dot 1.5s infinite" } : {}),
               }}
             >

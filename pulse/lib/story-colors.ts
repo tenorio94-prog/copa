@@ -4,17 +4,42 @@ export interface StoryColor {
   hex: string
   hexLight: string
   label: string
+  icon: string
 }
 
 const STORY_COLORS: Record<EditorialStoryType, StoryColor> = {
-  redemption: { hex: "#f59e0b", hexLight: "#fbbf24", label: "REDENÇÃO" },
-  cinderella: { hex: "#10b981", hexLight: "#34d399", label: "CINDERELA" },
-  upset: { hex: "#ec4899", hexLight: "#f472b6", label: "ZEBRA" },
-  historical: { hex: "#6366f1", hexLight: "#818cf8", label: "HISTÓRICO" },
-  elimination: { hex: "#ef4444", hexLight: "#f87171", label: "ELIMINAÇÃO" },
-  dynasty_fall: { hex: "#ea580c", hexLight: "#fb923c", label: "QUEDA DE GIGANTE" },
-  milestone: { hex: "#eab308", hexLight: "#facc15", label: "MARCO HISTÓRICO" },
-  rivalry: { hex: "#a855f7", hexLight: "#c084fc", label: "CLÁSSICO" },
+  redemption: {
+    hex: "#f59e0b", hexLight: "#fbbf24", label: "REDENÇÃO",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  },
+  cinderella: {
+    hex: "#10b981", hexLight: "#34d399", label: "CINDERELA",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v2M3 4l3 3 3-3M6 7v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M4 11h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  },
+  upset: {
+    hex: "#ec4899", hexLight: "#f472b6", label: "ZEBRA",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6.5 1L4 4.5h3L4.5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  },
+  historical: {
+    hex: "#6366f1", hexLight: "#818cf8", label: "HISTÓRICO",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10V3l2-1 2 1 2-1 2 1v7l-2-1-2 1-2-1-2 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>',
+  },
+  elimination: {
+    hex: "#ef4444", hexLight: "#f87171", label: "ELIMINAÇÃO",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  },
+  dynasty_fall: {
+    hex: "#ea580c", hexLight: "#fb923c", label: "QUEDA DE GIGANTE",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2 10h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  },
+  milestone: {
+    hex: "#eab308", hexLight: "#facc15", label: "MARCO HISTÓRICO",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 7l2-2 2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.3"/></svg>',
+  },
+  rivalry: {
+    hex: "#a855f7", hexLight: "#c084fc", label: "CLÁSSICO",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4v4l4 2 4-2V4L6 2 2 4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>',
+  },
 }
 
 const NARRATIVE_TYPE_TO_STORY_TYPE: Record<string, EditorialStoryType> = {
@@ -34,3 +59,4 @@ export function getNarrativeColor(narrativeType: string): StoryColor {
   const storyType = NARRATIVE_TYPE_TO_STORY_TYPE[narrativeType] ?? "historical"
   return getStoryColor(storyType)
 }
+

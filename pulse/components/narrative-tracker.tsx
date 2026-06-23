@@ -13,15 +13,16 @@ function NarrativeRow({ n }: { n: ActiveNarrative }) {
 
   return (
     <div
-      className="flex items-start gap-3 rounded-lg bg-[#1a1a1e] border border-[#222226] p-3"
-      style={{ borderLeft: `2px solid ${color.hex}` }}
+      className="flex items-start gap-3 rounded-lg bg-[#1a1a1e] border border-[#222226] p-3 relative overflow-hidden"
+      style={{
+        borderLeft: `2px solid ${color.hex}`,
+        borderTop: `1px solid ${color.hex}20`,
+      }}
     >
       <span
-        className="mt-1 inline-block h-2 w-2 shrink-0 rounded-full"
-        style={{
-          backgroundColor: n.status === "active" ? color.hex : n.status === "completed" ? "#22c55e" : "#52525b",
-          ...(n.status === "active" ? { animation: "pulse-dot 1.5s infinite" } : {}),
-        }}
+        className="mt-1 inline-flex items-center justify-center shrink-0"
+        style={{ color: n.status === "active" ? color.hexLight : n.status === "completed" ? "#22c55e" : "#52525b" }}
+        dangerouslySetInnerHTML={{ __html: color.icon }}
       />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap mb-1.5">
