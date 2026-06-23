@@ -1,10 +1,13 @@
 import type { EditorialStory, TournamentMemory, StoryBrief } from "./types"
 
-function calcDay(memory?: TournamentMemory): number {
-  if (!memory) return 1
-  const allSteps = Object.values(memory.teamJourneys).flat()
-  if (allSteps.length === 0) return 1
-  return Math.max(Math.ceil(allSteps.length / 4), 1)
+const WC_START_DATE = "2026-06-11"
+
+function calcDay(memory?: TournamentMemory, currentMatchday?: number): number {
+  if (currentMatchday && currentMatchday > 1) return currentMatchday
+  const today = new Date()
+  const start = new Date(WC_START_DATE)
+  const dayDiff = Math.floor((today.getTime() - start.getTime()) / 86400000) + 1
+  return Math.max(dayDiff, 1)
 }
 
 function calcPhase(memory?: TournamentMemory): string {
@@ -38,8 +41,8 @@ function findYesterday(memory?: TournamentMemory): string {
   return lines.length > 0 ? lines[lines.length - 1] : "—"
 }
 
-function findToday(upcomingLabel?: string): string {
-  return upcomingLabel || "Argentina vs França"
+function findToday(label?: string): string {
+  return label || "Aguardando próximos jogos"
 }
 
 function makeBullet(hero: EditorialStory): string {
@@ -112,7 +115,7 @@ export function buildBrief(
   ]
 
   const phase = currentStage ?? calcPhase(memory)
-  const day = currentMatchday ?? calcDay(memory)
+  const day = calcDay(memory, currentMatchday)
   const matchCount = matchesTodayCount ?? calcMatchCount(memory)
 
   return {

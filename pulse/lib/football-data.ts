@@ -11,7 +11,7 @@ export interface FDCompetition {
 
 export interface FDMatch {
   id: number
-  status: "SCHEDULED" | "LIVE" | "IN_PLAY" | "PAUSED" | "FINISHED" | "POSTPONED" | "SUSPENDED" | "CANCELLED"
+  status: "TIMED" | "SCHEDULED" | "LIVE" | "IN_PLAY" | "PAUSED" | "FINISHED" | "POSTPONED" | "SUSPENDED" | "CANCELLED"
   matchday: number
   stage: "GROUP_STAGE" | "LAST_64" | "LAST_32" | "LAST_16" | "QUARTER_FINALS" | "SEMI_FINALS" | "FINAL" | "THIRD_PLACE" | "PRELIMINARY_ROUND"
   group: string | null
@@ -143,7 +143,7 @@ export async function fetchUpcoming(limit = 3): Promise<{ items: FDMatch[]; curr
   if (!data) return { items: [], currentMatchday: 1 }
   const now = today.toISOString()
   const upcoming = (data.matches ?? [])
-    .filter((m) => m.status === "SCHEDULED" && m.utcDate > now)
+    .filter((m) => (m.status === "TIMED" || m.status === "SCHEDULED") && m.utcDate > now)
     .slice(0, limit)
   const matchday = data.matches[0]?.season?.currentMatchday ?? 1
   return { items: upcoming, currentMatchday: matchday }

@@ -95,7 +95,15 @@ function buildDashboardFromFixtures(
   fdStandings: FDStandingsGroupType[]
 ): DashboardData {
   const matches = fixtures.map(fromFDMatch)
-  const enriched = enrichMatches(matches.filter(m => m.status === "finished"), matches)
+  const eligibleForStory = matches.filter(m => {
+    if (m.status === "finished") return true
+    if (m.status === "live") {
+      const hasScore = m.homeScore !== null && m.awayScore !== null && (m.homeScore > 0 || m.awayScore > 0)
+      return hasScore
+    }
+    return false
+  })
+  const enriched = enrichMatches(eligibleForStory, matches)
   const memory = buildMemory(matches)
   const enrichedWithFacts = enriched.map((e) => ({
     ...e,
@@ -108,7 +116,15 @@ function buildDashboardFromFixtures(
   const stories = selectStories(enriched, memoryWithArcs, matches)
 
   const currentStage = deriveCurrentStage(fixtures, upcoming)
-  const currentMatchday = fixtures[0]?.season?.currentMatchday ?? 1
+
+  const allFixtures = [...fixtures, ...upcoming].filter((f) => f.utcDate)
+  const dates = allFixtures.map((f) => new Date(f.utcDate).getTime()).filter((t) => !isNaN(t))
+  const earliestDate = dates.length > 0 ? Math.min(...dates) : Date.now()
+  const tourneyStart = new Date(earliestDate)
+  const todayDate = new Date()
+  const dayDiff = Math.floor((todayDate.getTime() - tourneyStart.getTime()) / 86400000) + 1
+  const computedDay = Math.max(1, dayDiff)
+
   const upcomingLabel = upcoming[0]
     ? `${upcoming[0].homeTeam.name} vs ${upcoming[0].awayTeam.name}`
     : undefined
@@ -118,7 +134,7 @@ function buildDashboardFromFixtures(
 
   const brief = buildBrief(stories, memory, {
     currentStage,
-    currentMatchday,
+    currentMatchday: computedDay,
     matchesTodayCount: fixtures.length,
     upcomingLabel,
     todayLabel,

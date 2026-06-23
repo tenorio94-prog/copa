@@ -93,20 +93,21 @@ function calcConfidence(
   // Upset
   if (match.narrativeFlags.includes("upset")) c += 0.15
 
-  // Group stage boost when no narrative context
+  // Group stage boost — policy table
   const isGroupsStage = match.stage === "Fase de grupos"
   const isPopularHome = isPopular(match.homeTeam)
   const isPopularAway = isPopular(match.awayTeam)
+  const isAnyPopular = isPopularHome || isPopularAway
+  const hasDramaticFlag = match.narrativeFlags.includes("comeback") || match.narrativeFlags.includes("upset") || match.narrativeFlags.includes("blowout")
   const lowNarrativeContext = facts.length === 0 && arcs.length === 0
 
   if (isGroupsStage && lowNarrativeContext) {
-    if (isLive && (isPopularHome || isPopularAway)) c += 0.30
-    else if (match.winner && (isPopularHome || isPopularAway)) {
-      if (match.narrativeFlags.includes("comeback") || match.narrativeFlags.includes("upset") || match.narrativeFlags.includes("blowout")) c += 0.25
-      else c += 0.20
-    }
-    else if (match.winner && (match.narrativeFlags.includes("comeback") || match.narrativeFlags.includes("upset"))) c += 0.15
-    else c += 0.05
+    if (isLive && isAnyPopular) c += 0.30
+    else if (match.winner && isAnyPopular && hasDramaticFlag) c += 0.25
+    else if (match.winner && isAnyPopular) c += 0.20
+    else if (isLive) c += 0.10
+    else if (match.winner && hasDramaticFlag) c += 0.15
+    else if (match.winner) c += 0.05
   }
 
   return Math.min(c, 1.0)
@@ -158,6 +159,17 @@ function buildEvidence(
 // ─── Headline builder ─────────────────────────────────────
 
 function buildHeadline(match: EnrichedMatch, storyType: EditorialStoryType): string {
+  // Live matches with score
+  if (match.isLive && match.winner) {
+    if (isPopular(match.winner)) {
+      if ((match.homeScore ?? 0) >= 3 && (match.awayScore ?? 0) === 0) {
+        return `${match.winner} atropela ${match.loser} ao vivo e assume liderança do grupo`
+      }
+      return `${match.winner} ao vivo: vence e dá passo firme rumo à próxima fase`
+    }
+    return `${match.winner} ao vivo: vence provisoriamente contra ${match.loser}`
+  }
+
   if (match.stage === "Final" && match.winner)
     return `${match.winner} é campeão mundial`
   if (match.penaltyScore && match.winner && match.loser)
@@ -220,6 +232,13 @@ function buildHook(match: EnrichedMatch, arcs: NarrativeArc[], facts: Historical
   if (match.narrativeFlags.includes("upset"))
     return "O torneio continua desafiando todas as previsões."
 
+  if (match.isLive && facts.length === 0 && arcs.length === 0) {
+    if (isPopular(match.winner || match.homeTeam)) {
+      return "O torneio está acontecendo agora — o time favorito está em campo."
+    }
+    return "Surpresa em andamento — o torneio reservou emoção para agora."
+  }
+
   if (match.stage === "Fase de grupos" && facts.length === 0 && arcs.length === 0) {
     return "Os primeiros contornos dos grupos começam a aparecer."
   }
@@ -230,6 +249,14 @@ function buildHook(match: EnrichedMatch, arcs: NarrativeArc[], facts: Historical
 // ─── Why it matters ───────────────────────────────────────
 
 function buildWhyItMatters(match: EnrichedMatch, arcs: NarrativeArc[]): string {
+  // Live matches
+  if (match.isLive && match.winner) {
+    if (isPopular(match.winner)) {
+      return `${match.winner} ao vivo confirma favoritismo. Vitória deixaria classificação quase garantida.`
+    }
+    return `${match.winner} está vencendo ao vivo. Resultado surpreendente se confirmar.`
+  }
+
   if (match.competitionImpact.eliminated)
     return `${match.loser} está eliminado. ${match.winner} segue vivo na competição.`
   if (match.stage === "Final" && match.winner)
