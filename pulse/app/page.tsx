@@ -27,7 +27,7 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
   const liveMatches = matches.filter((m) => m.status === "live")
   const finishedMatches = matches.filter((m) => m.status === "finished")
   const scheduledMatches = matches.filter((m) => m.status === "scheduled")
-  const heroMiniStory = stories.length > 1 ? stories[1] : null
+  const heroMiniStory = stories.length > 3 ? stories[3] : null
 
   if (standings.length === 0) {
     console.warn("[real-data] standings empty for stage:", brief.continuity.phase)
@@ -53,7 +53,7 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
                 <NextChapterCard chapter={nextChapter} />
               )}
 
-              {/* 4. Hero Mini — segunda story do dia (evita duplicar QuickRead) */}
+              {/* 4. Hero Mini — 4ª story+ (só quando há além dos 3 bullets do QuickRead) */}
               {heroMiniStory && (
                 <HeroMini
                   tag={heroMiniStory.tag}
