@@ -9,6 +9,14 @@ export function MatchCard({ match }: MatchCardProps) {
   const isScheduled = match.status === "scheduled"
   const isFinished = match.status === "finished"
 
+  const stageBorderColor = match.stage === "Final"
+    ? "border-[#f59e0b]/40"
+    : match.stage === "Semifinal"
+      ? "border-[#fb923c]/30"
+      : match.stage.includes("Mata-mata")
+        ? "border-[#ef4444]/25"
+        : "border-[#222226]"
+
   const scoreDisplay = isScheduled ? (
     <span className="text-lg font-bold text-[#a1a1aa]">-</span>
   ) : (
@@ -18,7 +26,7 @@ export function MatchCard({ match }: MatchCardProps) {
   )
 
   return (
-    <div className="flex flex-1 flex-col items-center gap-1 rounded-xl border border-[#222226] bg-[#121214] p-3.5 text-center transition-colors hover:border-[#6366f1]/30">
+    <div className={`flex flex-1 flex-col items-center gap-1 rounded-xl border ${stageBorderColor} bg-[#121214] p-3.5 text-center transition-colors hover:border-[#6366f1]/30`}>
       <div className="flex items-center gap-2 text-sm font-semibold">
         <span>{match.homeTeam.flag}</span>
         <span>{match.homeTeam.code}</span>

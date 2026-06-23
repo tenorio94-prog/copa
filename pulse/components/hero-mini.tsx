@@ -14,7 +14,7 @@ export function HeroMini({ tag, headline, whyItMatters, storyType = "historical"
   return (
     <section className="animate-fade-up-delayed w-full">
       <div
-        className="rounded-lg bg-[#121214]/80 p-4 border-l-2"
+        className="rounded-lg bg-[#121214]/80 backdrop-blur-md p-4 border-l-2"
         style={{
           borderColor: color.hex,
           backgroundImage: `linear-gradient(90deg, ${color.hex}0a 0%, transparent 50%)`,

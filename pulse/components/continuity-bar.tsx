@@ -97,8 +97,9 @@ export function ContinuityBar({ continuity }: ContinuityBarProps) {
             🔥 Ontem: {continuity.yesterday}
           </span>
         )}
-        <span className="inline-flex items-center gap-1 rounded-full border border-[#f59e0b]/20 bg-[#f59e0b]/5 px-3 py-1.5 text-[#f59e0b]">
-          👉 Hoje: {continuity.today}
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-[#f59e0b]/20 bg-[#f59e0b]/5 px-3 py-1.5 text-[#f59e0b]">
+          <span className="inline-block h-1.5 w-1.5 animate-pulse-dot rounded-full bg-[#f59e0b]" />
+          Hoje: {continuity.today}
         </span>
       </div>
     </div>

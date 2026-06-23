@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { NavBar } from "@/components/navbar"
 import { MatchesSection } from "@/components/matches-section"
 import { QuickRead } from "@/components/quick-read"
@@ -6,6 +7,11 @@ import { NextChapterCard } from "@/components/next-chapter-card"
 import { NarrativeTracker } from "@/components/narrative-tracker"
 import { HeroMini } from "@/components/hero-mini"
 import { fetchDashboardData } from "@/lib/mock-data"
+
+export const metadata: Metadata = {
+  title: "Resumo diário — Copa do Mundo 2026",
+  description: "O que aconteceu hoje, por que importa e o que vem depois. 3 minutos de leitura.",
+}
 
 export default async function Home() {
   const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = await fetchDashboardData()
@@ -144,6 +150,26 @@ export default async function Home() {
             </footer>
           </div>
         </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Copa Pulse",
+              "url": "https://pulse-indol-sigma.vercel.app",
+              "description": "Resumo diário da Copa do Mundo. O que aconteceu, por que importa e o que vem depois.",
+              "inLanguage": "pt-BR",
+              "about": {
+                "@type": "SportsEvent",
+                "name": "Copa do Mundo FIFA 2026",
+                "sport": "Soccer",
+                "startDate": "2026-06-11",
+                "url": "https://pulse-indol-sigma.vercel.app",
+              },
+            }),
+          }}
+        />
       </main>
     </>
   )
