@@ -40,6 +40,7 @@ export default async function Home() {
                   tag={hero.tag}
                   headline={hero.headline}
                   whyItMatters={hero.whyItMatters}
+                  storyType={hero.storyType}
                 />
               )}
 

@@ -1,16 +1,32 @@
 import type { NextChapter } from "@/lib/types"
+import { getNarrativeColor } from "@/lib/story-colors"
 
 interface NextChapterCardProps {
   chapter: NextChapter
 }
 
 export function NextChapterCard({ chapter }: NextChapterCardProps) {
+  const color = getNarrativeColor(chapter.narrativeType)
+
   return (
     <section className="animate-fade-up w-full">
-      <div className="rounded-xl border border-[#6366f1]/25 bg-gradient-to-br from-[#6366f1]/12 to-[#a78bfa]/8 p-6">
+      <div
+        className="rounded-xl border p-6"
+        style={{
+          backgroundImage: `linear-gradient(135deg, ${color.hex}1f 0%, ${color.hexLight}0a 70%)`,
+          borderColor: `${color.hex}40`,
+        }}
+      >
         <div className="flex items-center gap-2 mb-3.5">
-          <span className="text-[10px] font-semibold uppercase tracking-[1.2px] text-[#818cf8]">
-            📖 Próximo capítulo
+          <span
+            className="inline-flex h-1.5 w-1.5 rounded-full"
+            style={{ backgroundColor: color.hex }}
+          />
+          <span
+            className="text-[9px] font-bold uppercase tracking-[1.8px]"
+            style={{ color: color.hexLight }}
+          >
+            PRÓXIMO CAPÍTULO
           </span>
         </div>
 
@@ -23,8 +39,14 @@ export function NextChapterCard({ chapter }: NextChapterCardProps) {
         </p>
 
         {chapter.openQuestion && (
-          <div className="border-l-2 border-[#818cf8] pl-3 py-1 mb-4">
-            <p className="text-[13px] italic leading-relaxed text-[#818cf8] font-medium">
+          <div
+            className="border-l-2 pl-3 py-1 mb-4"
+            style={{ borderColor: color.hex }}
+          >
+            <p
+              className="font-editorial text-[clamp(15px,2.5vw,18px)] italic leading-relaxed font-medium"
+              style={{ color: "#e8e8ea" }}
+            >
               {chapter.openQuestion}
             </p>
           </div>
