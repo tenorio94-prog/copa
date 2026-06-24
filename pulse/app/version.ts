@@ -1,1 +1,1 @@
-export const BUILD_VERSION = "c5aa67b"
+export const BUILD_VERSION = "FIXED-DEPLOY-2026-06-24-V2"
