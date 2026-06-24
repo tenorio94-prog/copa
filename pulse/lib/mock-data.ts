@@ -26,6 +26,8 @@ export interface DashboardData {
   activeNarratives: ActiveNarrative[]
   standings: StandingsRow[]
   standingsGroupName?: string
+  _error?: string
+  _source?: string
 }
 import { enrichMatches } from "./context-builder"
 import { generateBulletinContent } from "./llm"
@@ -45,7 +47,10 @@ export async function fetchDashboardData(targetDay: number = 0): Promise<Dashboa
 
   if (!useReal) {
     console.info("[real-data] using mock data source (DATA_SOURCE=mock or no key)")
-    return mockDashboardData()
+    const mock = await mockDashboardData()
+    mock._source = `useReal=false (DATA_SOURCE=${dataSource}, key=${!!process.env.FOOTBALL_DATA_API_KEY})`
+    mock._error = ""
+    return mock
   }
 
   try {
@@ -99,9 +104,12 @@ export async function fetchDashboardData(targetDay: number = 0): Promise<Dashboa
       targetDay
     )
   } catch (err) {
-    console.error("[real-data] CAUGHT:", (err as Error)?.name, (err as Error)?.message, (err as Error)?.stack?.split("\n").slice(0, 4).join("\n"))
-    console.warn("[real-data] falling back to mock data")
-    return mockDashboardData()
+    console.error("[real-data] CAUGHT:", (err as Error)?.name, (err as Error)?.message)
+    console.error("[real-data] STACK:", (err as Error)?.stack)
+    const mock = await mockDashboardData()
+    mock._error = `${(err as Error)?.name}: ${(err as Error)?.message}`
+    mock._source = "catch"
+    return mock
   }
 }
 
@@ -112,7 +120,9 @@ function buildDashboardFromFixtures(
   currentMatchday: number = 1,
   targetDay: number = 0
 ): DashboardData {
+  console.log("STEP_MAP_1: before fromFDMatch, fixtures=", fixtures.length)
   const matches = fixtures.map(fromFDMatch)
+  console.log("STEP_MAP_2: after fromFDMatch, matches=", matches.length)
   const eligibleForStory = matches.filter(m => {
     if (m.status === "finished") return true
     if (m.status === "live") {
@@ -121,19 +131,25 @@ function buildDashboardFromFixtures(
     }
     return false
   })
+  console.log("STEP_ENRICH_3: before enrichMatches, eligible=", eligibleForStory.length)
   const enriched = enrichMatches(eligibleForStory, matches)
+  console.log("STEP_ENRICH_4: after enrichMatches, enriched=", enriched.length)
   const memory = buildMemory(matches)
   const enrichedWithFacts = enriched.map((e) => ({
     ...e,
     historicalFacts: buildHistoricalFacts(e, memory),
   }))
   memory.historicalFacts = enrichedWithFacts.flatMap((e) => e.historicalFacts)
+  console.log("STEP_MEMORY_5: after buildMemory + buildHistoricalFacts")
 
   const memoryWithArcs = buildMemory(matches)
   memoryWithArcs.historicalFacts = memory.historicalFacts
+  console.log("STEP_SELECT_6: before selectStories")
   const stories = selectStories(enriched, memoryWithArcs, matches)
+  console.log("STEP_SELECT_7: after selectStories, stories=", stories.length)
 
   const currentStage = deriveCurrentStage(fixtures, upcoming)
+  console.log("STEP_BRIEF_8: before buildBrief, stories=", stories.length)
 
   const wcStart = new Date("2026-06-11")
   const todayDate = new Date()
@@ -155,15 +171,19 @@ function buildDashboardFromFixtures(
     upcomingLabel: targetDay > 0 ? undefined : upcomingLabel,
     todayLabel,
   })
+  console.log("STEP_NEXT_9: before buildNextChapter")
   const nextChapter = buildNextChapter(brief, memoryWithArcs.narrativeArcs, memory)
+  console.log("STEP_NARR_10: before buildNarratives, arcs=", memoryWithArcs.narrativeArcs.length)
   let activeNarratives = buildNarratives(memoryWithArcs.narrativeArcs, memory)
   if (activeNarratives.length === 0) {
     activeNarratives = buildGroupSummary(memory)
   }
-
+ 
+  console.log("STEP_STAND_11: before standings, activeNarratives=", activeNarratives.length)
   const standingsGroups = fromFDStandingsGroups(fdStandings)
   const { group: selectedGroup, standings: flatStandings } = pickBestGroup(standingsGroups)
   const resultStandings = flatStandings.length > 0 ? flatStandings : []
+  console.log("STEP_RETURN_12: returning DashboardData")
 
   return {
     matches,
