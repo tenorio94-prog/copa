@@ -75,7 +75,7 @@ function classifyStoryType(
 
   // 2. Recovery: lost previous match, now won (uses teamForm.lost_opener)
   if (!isDraw && winner && match.teamForm.lost_opener && hasTraditionalWinner) {
-    return "redemption"
+    return "recovery"
   }
 
   // 3. Favorite stumbles: popular or traditional team didn't win (draw or loss)
@@ -442,6 +442,7 @@ function buildTag(storyType: EditorialStoryType): string {
     rivalry: "⚔️ Clássico",
     favorite_stumbles: "🟡 Favorito tropeça",
     statement_win: "🔵 Demonstração de força",
+    recovery: "🟢 Reação",
   }
   return tags[storyType]
 }

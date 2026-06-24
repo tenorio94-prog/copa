@@ -48,6 +48,10 @@ const STORY_COLORS: Record<EditorialStoryType, StoryColor> = {
     hex: "#14b8a6", hexLight: "#2dd4bf", label: "DEMONSTRAÇÃO DE FORÇA",
     icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8l3-5 2 3 3-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   },
+  recovery: {
+    hex: "#22c55e", hexLight: "#4ade80", label: "REAÇÃO",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  },
 }
 
 const NARRATIVE_TYPE_TO_STORY_TYPE: Record<string, EditorialStoryType> = {

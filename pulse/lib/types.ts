@@ -139,6 +139,7 @@ export type EditorialStoryType =
   | "rivalry"
   | "favorite_stumbles"
   | "statement_win"
+  | "recovery"
 
 export interface EditorialStory {
   id: string
