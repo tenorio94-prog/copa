@@ -137,6 +137,8 @@ export type EditorialStoryType =
   | "cinderella"
   | "milestone"
   | "rivalry"
+  | "favorite_stumbles"
+  | "statement_win"
 
 export interface EditorialStory {
   id: string

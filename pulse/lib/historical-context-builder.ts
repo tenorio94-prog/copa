@@ -61,7 +61,9 @@ function detectGiantKilling(match: EnrichedMatch): HistoricalFact | null {
   const winnerRank = getFifaRank(match.winner)
   const loserRank = getFifaRank(match.loser)
   if (winnerRank === null || loserRank === null) return null
-  const diff = loserRank - winnerRank
+  // Only a true giant killing: the WINNER must be ranked WORSE (higher number) than the LOSER
+  if (winnerRank <= loserRank) return null
+  const diff = winnerRank - loserRank
   if (diff < 10) return null
   return {
     id: "giant_killing",
@@ -72,6 +74,7 @@ function detectGiantKilling(match: EnrichedMatch): HistoricalFact | null {
 }
 
 function detectYearsSinceLastTitle(match: EnrichedMatch): HistoricalFact | null {
+  if (match.stage === "Fase de grupos") return null
   const candidates = [match.winner, match.loser].filter(Boolean) as string[]
   const team = candidates.find((t) => getLastTitle(t) !== null)
   if (!team) return null

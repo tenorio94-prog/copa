@@ -7,7 +7,7 @@ import type {
   EditorialStoryType,
   Match,
 } from "./types"
-import { getTeamInfo } from "./knowledge"
+import { getTeamInfo, isTraditional } from "./knowledge"
 
 const POPULAR = [
   "brazil", "argentina", "germany", "france", "england",
@@ -16,6 +16,16 @@ const POPULAR = [
 
 function isPopular(name: string): boolean {
   return POPULAR.some((t) => name.toLowerCase().includes(t))
+}
+
+const WEAK_NATIONS = [
+  "haiti", "curacao", "qatar", "cape verde islands",
+  "uzbekistan", "panama", "jordan", "congo dr",
+  "new zealand", "bosnia-herzegovina",
+]
+
+function isWeak(name: string): boolean {
+  return WEAK_NATIONS.some((w) => name.toLowerCase().includes(w))
 }
 
 function classifyStoryType(
@@ -43,6 +53,48 @@ function classifyStoryType(
   if (match.stage === "Final") return "historical"
   if (match.competitionImpact.eliminated && isPopular(match.loser || "")) return "elimination"
   if (match.narrativeFlags.includes("penalty_drama")) return "elimination"
+
+  // ─── Group stage editorial cascade ─────────────────────
+  if (match.stage !== "Fase de grupos") return "historical"
+
+  const isDraw = match.homeScore === match.awayScore && match.homeScore !== null
+  const winner = match.winner
+  const loser = match.loser
+  const isWinnerPopular = winner ? isPopular(winner) : false
+  const isWinnerTraditional = winner ? isTraditional(winner) : false
+  const isLoserPopular = loser ? isPopular(loser) : false
+  const isLoserTraditional = loser ? isTraditional(loser) : false
+  const homeIsPopularOrTrad = isPopular(match.homeTeam) || isTraditional(match.homeTeam)
+  const awayIsPopularOrTrad = isPopular(match.awayTeam) || isTraditional(match.awayTeam)
+  const hasTraditionalWinner = isWinnerPopular || isWinnerTraditional
+
+  // 1. Upset: non-popular/non-traditional beats popular/traditional
+  if (!isDraw && winner && !isWinnerPopular && !isWinnerTraditional && (isLoserPopular || isLoserTraditional)) {
+    return "upset"
+  }
+
+  // 2. Recovery: lost previous match, now won (uses teamForm.lost_opener)
+  if (!isDraw && winner && match.teamForm.lost_opener && hasTraditionalWinner) {
+    return "redemption"
+  }
+
+  // 3. Favorite stumbles: popular or traditional team didn't win (draw or loss)
+  if ((homeIsPopularOrTrad || awayIsPopularOrTrad) && (!winner || isDraw)) {
+    return "favorite_stumbles"
+  }
+
+  // 4. Statement win: large win by popular/traditional team
+  if (!isDraw && winner && hasTraditionalWinner) {
+    const homeScore = match.homeScore ?? 0
+    const awayScore = match.awayScore ?? 0
+    const goalDiff = Math.abs(homeScore - awayScore)
+    const opponentIsWeak = loser ? isWeak(loser) : false
+
+    if (goalDiff >= 5) return "statement_win"
+    if (goalDiff >= 4 && !opponentIsWeak) return "statement_win"
+    if (goalDiff === 3 && isWinnerPopular && !opponentIsWeak) return "statement_win"
+    if (goalDiff >= 3 && isWinnerTraditional && !opponentIsWeak) return "statement_win"
+  }
 
   return "historical"
 }
@@ -379,7 +431,7 @@ function buildWhyItMatters(match: EnrichedMatch, arcs: NarrativeArc[]): string {
 }
 
 function buildTag(storyType: EditorialStoryType): string {
-  const tags: Record<EditorialStoryType, string> = {
+  const tags: Record<string, string> = {
     redemption: "🔥 Redenção",
     historical: "🏆 Histórico",
     upset: "⚡ Zebra",
@@ -388,6 +440,8 @@ function buildTag(storyType: EditorialStoryType): string {
     cinderella: "🌟 Jornada histórica",
     milestone: "📜 Marco histórico",
     rivalry: "⚔️ Clássico",
+    favorite_stumbles: "🟡 Favorito tropeça",
+    statement_win: "🔵 Demonstração de força",
   }
   return tags[storyType]
 }

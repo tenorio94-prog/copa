@@ -7,7 +7,7 @@ export interface StoryColor {
   icon: string
 }
 
-const STORY_COLORS: Record<EditorialStoryType, StoryColor> = {
+const STORY_COLORS: Record<string, StoryColor> = {
   redemption: {
     hex: "#f59e0b", hexLight: "#fbbf24", label: "REDENÇÃO",
     icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
@@ -39,6 +39,14 @@ const STORY_COLORS: Record<EditorialStoryType, StoryColor> = {
   rivalry: {
     hex: "#a855f7", hexLight: "#c084fc", label: "CLÁSSICO",
     icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4v4l4 2 4-2V4L6 2 2 4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>',
+  },
+  favorite_stumbles: {
+    hex: "#f97316", hexLight: "#fb923c", label: "FAVORITO TROPEÇA",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v5M3 4l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2 10h8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+  },
+  statement_win: {
+    hex: "#14b8a6", hexLight: "#2dd4bf", label: "DEMONSTRAÇÃO DE FORÇA",
+    icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 8l3-5 2 3 3-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   },
 }
 
