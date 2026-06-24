@@ -8,6 +8,7 @@ import { NarrativeTracker } from "@/components/narrative-tracker"
 import { HeroMini } from "@/components/hero-mini"
 import { ShareButtons } from "@/components/share-buttons"
 import { fetchDashboardData } from "@/lib/mock-data"
+import { BUILD_VERSION } from "./version"
 
 function truncateAtWord(text: string, maxChars: number): string {
   if (text.length <= maxChars) return text
@@ -27,8 +28,8 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
   const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = data
 
 
-{/* DEBUG: data source */}
 {data._source && <div style={{display:'none'}} data-source={data._source} data-error={data._error || ''} />}
+<div style={{display:'none'}} data-build-version={BUILD_VERSION} />
   const liveMatches = matches.filter((m) => m.status === "live")
   const finishedMatches = matches.filter((m) => m.status === "finished")
   const scheduledMatches = matches.filter((m) => m.status === "scheduled")
