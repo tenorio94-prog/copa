@@ -29,7 +29,7 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
 
 
 {data._source && <div style={{display:'none'}} data-source={data._source} data-error={data._error || ''} />}
-<div style={{display:'none'}} data-build-version={BUILD_VERSION} />
+<div style={{display:'none'}} data-build-version={BUILD_VERSION} data-build-time={process.env.NEXT_PUBLIC_BUILD_ID} />
   const liveMatches = matches.filter((m) => m.status === "live")
   const finishedMatches = matches.filter((m) => m.status === "finished")
   const scheduledMatches = matches.filter((m) => m.status === "scheduled")
