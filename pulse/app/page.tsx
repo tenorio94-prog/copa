@@ -23,7 +23,10 @@ export const metadata: Metadata = {
 
 export default async function Home({ searchParams }: { searchParams?: { day?: string } }) {
   const targetDay = parseInt(searchParams?.day || "0", 10) || 0
-  const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = await fetchDashboardData(targetDay)
+  const data = await fetchDashboardData(targetDay)
+  const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = data
+
+  console.log("[SSR] DATA SOURCE:", data.brief?.headline?.includes("Argentina vence Croácia") ? "MOCK" : "REAL", "stories:", stories?.length || 0)
   const liveMatches = matches.filter((m) => m.status === "live")
   const finishedMatches = matches.filter((m) => m.status === "finished")
   const scheduledMatches = matches.filter((m) => m.status === "scheduled")
