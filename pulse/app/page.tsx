@@ -22,8 +22,15 @@ export const metadata: Metadata = {
 }
 
 export default async function Home({ searchParams }: { searchParams?: { day?: string } }) {
+  console.log("[SSR] start")
   const targetDay = parseInt(searchParams?.day || "0", 10) || 0
-  const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = await fetchDashboardData(targetDay)
+  console.log("[SSR] targetDay:", targetDay)
+  console.log("[SSR] before fetchDashboardData")
+  const raw = await fetchDashboardData(targetDay)
+  console.log("[SSR] after fetchDashboardData, raw is null?", raw === null)
+  if (!raw) throw new Error("fetchDashboardData returned null")
+  const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = raw
+  console.log("[SSR] stories:", stories?.length, "matches:", matches?.length)
   const liveMatches = matches.filter((m) => m.status === "live")
   const finishedMatches = matches.filter((m) => m.status === "finished")
   const scheduledMatches = matches.filter((m) => m.status === "scheduled")
