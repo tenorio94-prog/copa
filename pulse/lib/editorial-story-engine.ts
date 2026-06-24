@@ -34,30 +34,30 @@ function classifyStoryType(
   facts: HistoricalFact[]
 ): EditorialStoryType {
   const events = facts.filter((f) =>
-    ["traditional_power_eliminated", "defending_champion_eliminated", "title_favorite_eliminated_early"].includes(f.id)
-  )
-  if (events.length > 0) return "dynasty_fall"
+      ["traditional_power_eliminated", "defending_champion_eliminated", "title_favorite_eliminated_early"].includes(f.id)
+    )
+    if (events.length > 0) return "dynasty_fall"
 
-  const arcTypes = arcs.map((a) => a.type)
-  if (arcTypes.includes("redemption_journey")) return "redemption"
-  if (arcTypes.includes("cinderella_progression")) return "cinderella"
-  if (arcTypes.includes("giant_slayer")) return "cinderella"
-  if (arcTypes.includes("multi_upset_run")) return "upset"
+    const arcTypes = arcs.map((a) => a.type)
+    if (arcTypes.includes("redemption_journey")) return "redemption"
+    if (arcTypes.includes("cinderella_progression")) return "cinderella"
+    if (arcTypes.includes("giant_slayer")) return "cinderella"
+    if (arcTypes.includes("multi_upset_run")) return "upset"
 
-  if (facts.some((f) => f.id === "first_african_semifinalist" || f.id === "years_since_last_title")) return "milestone"
-  if (facts.some((f) => f.id === "giant_killing" || f.id === "streak_broken")) return "upset"
-  if (facts.some((f) => f.id === "first_title_ever" || f.id === "title_drought_ended")) return "milestone"
-  if (facts.some((f) => f.id === "best_result_surpassed")) return "milestone"
-  if (facts.some((f) => f.id === "repeat_final" || f.id === "back_to_back_final")) return "historical"
+    if (facts.some((f) => f.id === "first_african_semifinalist" || f.id === "years_since_last_title")) return "milestone"
+    if (facts.some((f) => f.id === "giant_killing" || f.id === "streak_broken")) return "upset"
+    if (facts.some((f) => f.id === "first_title_ever" || f.id === "title_drought_ended")) return "milestone"
+    if (facts.some((f) => f.id === "best_result_surpassed")) return "milestone"
+    if (facts.some((f) => f.id === "repeat_final" || f.id === "back_to_back_final")) return "historical"
 
-  if (match.stage === "Final") return "historical"
-  if (match.competitionImpact.eliminated && isPopular(match.loser || "")) return "elimination"
-  if (match.narrativeFlags.includes("penalty_drama")) return "elimination"
+    if (match.stage === "Final") return "historical"
+    if (match.competitionImpact.eliminated && isPopular(match.loser || "")) return "elimination"
+    if (match.narrativeFlags.includes("penalty_drama")) return "elimination"
 
-  // ─── Group stage editorial cascade ─────────────────────
-  if (match.stage !== "Fase de grupos") return "historical"
+    // ─── Group stage editorial cascade ─────────────────────
+    if (match.stage !== "Fase de grupos") return "historical"
 
-  const isDraw = match.homeScore === match.awayScore && match.homeScore !== null
+    const isDraw = match.homeScore === match.awayScore && match.homeScore !== null
   const winner = match.winner
   const loser = match.loser
   const isWinnerPopular = winner ? isPopular(winner) : false
