@@ -43,12 +43,15 @@ const today = new Date().toISOString().split("T")[0]
 
 export async function fetchDashboardData(targetDay: number = 0): Promise<DashboardData> {
   const dataSource = process.env.DATA_SOURCE || "auto"
-  const useReal = dataSource !== "mock" && isKeyConfigured()
+  const keyValue = process.env.FOOTBALL_DATA_API_KEY
+  const keyLen = keyValue ? keyValue.length : -1
+  const keyConfigured = isKeyConfigured()
+  const useReal = dataSource !== "mock" && keyConfigured
 
   if (!useReal) {
-    console.info("[real-data] using mock data source (DATA_SOURCE=mock or no key)")
+    console.info(`[real-data] using mock data source (DATA_SOURCE=${dataSource}, key_len=${keyLen}, key_configured=${keyConfigured})`)
     const mock = await mockDashboardData()
-    mock._source = `useReal=false (DATA_SOURCE=${dataSource}, key=${!!process.env.FOOTBALL_DATA_API_KEY})`
+    mock._source = `useReal=false (DATA_SOURCE=${dataSource}, key_len=${keyLen}, key_configured=${keyConfigured})`
     mock._error = ""
     return mock
   }
