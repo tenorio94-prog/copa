@@ -100,7 +100,8 @@ export async function fetchDashboardData(targetDay: number = 0): Promise<Dashboa
     )
   } catch (err) {
     console.error("[real-data]", err)
-    return null as unknown as DashboardData
+    console.warn("[real-data] falling back to mock data")
+    return mockDashboardData()
   }
 }
 
