@@ -99,7 +99,7 @@ export async function fetchDashboardData(targetDay: number = 0): Promise<Dashboa
       targetDay
     )
   } catch (err) {
-    console.error("[real-data]", err)
+    console.error("[real-data] CAUGHT:", (err as Error)?.name, (err as Error)?.message, (err as Error)?.stack?.split("\n").slice(0, 4).join("\n"))
     console.warn("[real-data] falling back to mock data")
     return mockDashboardData()
   }
