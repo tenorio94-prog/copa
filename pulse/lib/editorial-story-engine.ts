@@ -431,7 +431,7 @@ function buildWhyItMatters(match: EnrichedMatch, arcs: NarrativeArc[]): string {
 }
 
 function buildTag(storyType: EditorialStoryType): string {
-  const tags: Record<string, string> = {
+  const tags: Record<EditorialStoryType, string> = {
     redemption: "🔥 Redenção",
     historical: "🏆 Histórico",
     upset: "⚡ Zebra",

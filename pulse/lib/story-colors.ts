@@ -7,7 +7,7 @@ export interface StoryColor {
   icon: string
 }
 
-const STORY_COLORS: Record<string, StoryColor> = {
+const STORY_COLORS: Record<EditorialStoryType, StoryColor> = {
   redemption: {
     hex: "#f59e0b", hexLight: "#fbbf24", label: "REDENÇÃO",
     icon: '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
