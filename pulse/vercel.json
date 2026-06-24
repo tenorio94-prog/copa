@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "buildCommand": "rm -rf .next/cache && npm run build",
+  "buildCommand": "rm -rf .next .next/cache node_modules/.cache && npm run build",
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "crons": [
