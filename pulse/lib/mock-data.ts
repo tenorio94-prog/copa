@@ -131,22 +131,10 @@ function buildDashboardFromFixtures(
     }
     return false
   })
-  console.log("STEP_ENRICH_3: before enrichMatches, eligible=", eligibleForStory.length)
-  const enriched = enrichMatches(eligibleForStory, matches)
-  console.log("STEP_ENRICH_4: after enrichMatches, enriched=", enriched.length)
+  const enriched: import("./types").EnrichedMatch[] = []
   const memory = buildMemory(matches)
-  const enrichedWithFacts = enriched.map((e) => ({
-    ...e,
-    historicalFacts: buildHistoricalFacts(e, memory),
-  }))
-  memory.historicalFacts = enrichedWithFacts.flatMap((e) => e.historicalFacts)
-  console.log("STEP_MEMORY_5: after buildMemory + buildHistoricalFacts")
-
   const memoryWithArcs = buildMemory(matches)
-  memoryWithArcs.historicalFacts = memory.historicalFacts
-  console.log("STEP_SELECT_6: before selectStories")
-  const stories = selectStories(enriched, memoryWithArcs, matches)
-  console.log("STEP_SELECT_7: after selectStories, stories=", stories.length)
+  const stories: import("./types").EditorialStory[] = []
 
   const currentStage = deriveCurrentStage(fixtures, upcoming)
   console.log("STEP_BRIEF_8: before buildBrief, stories=", stories.length)
