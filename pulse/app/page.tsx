@@ -25,7 +25,7 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
   const targetDay = parseInt(searchParams?.day || "0", 10) || 0
   const data = await fetchDashboardData(targetDay)
   const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = data
-  if (typeof window === "undefined") console.log("BUILD_MARKER_2026_ABC_DEF")
+
 
 {/* DEBUG: data source */}
 {data._source && <div style={{display:'none'}} data-source={data._source} data-error={data._error || ''} />}
@@ -179,9 +179,6 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
           }}
         />
       </main>
-      <div style={{position:"fixed",top:0,left:0,right:0,zIndex:9999,background:"red",color:"white",fontSize:"24px",padding:"12px",textAlign:"center"}}>
-        BUILD TEST 404c959-fix
-      </div>
     </>
   )
 }
