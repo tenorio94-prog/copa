@@ -9,6 +9,7 @@ import { HeroMini } from "@/components/hero-mini"
 import { ShareButtons } from "@/components/share-buttons"
 import { fetchDashboardData } from "@/lib/mock-data"
 import { BUILD_VERSION } from "./version"
+import { MARKER } from "./marker"
 
 function truncateAtWord(text: string, maxChars: number): string {
   if (text.length <= maxChars) return text
@@ -27,9 +28,6 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
   const data = await fetchDashboardData(targetDay)
   const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = data
 
-
-{data._source && <div style={{display:'none'}} data-source={data._source} data-error={data._error || ''} />}
-<div style={{display:'none'}} data-build-version={BUILD_VERSION} data-build-time={process.env.NEXT_PUBLIC_BUILD_ID} />
   const liveMatches = matches.filter((m) => m.status === "live")
   const finishedMatches = matches.filter((m) => m.status === "finished")
   const scheduledMatches = matches.filter((m) => m.status === "scheduled")
@@ -180,6 +178,9 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
           }}
         />
       </main>
+      <div style={{position:"fixed",top:0,left:0,zIndex:99999,background:"red",color:"white",fontSize:"20px",padding:"8px"}}>
+        BUILD_FIXED:{BUILD_VERSION}:{MARKER}
+      </div>
     </>
   )
 }
