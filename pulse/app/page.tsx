@@ -8,7 +8,6 @@ import { NarrativeTracker } from "@/components/narrative-tracker"
 import { HeroMini } from "@/components/hero-mini"
 import { ShareButtons } from "@/components/share-buttons"
 import { fetchDashboardData } from "@/lib/mock-data"
-import { BUILD_VERSION } from "./version"
 
 function truncateAtWord(text: string, maxChars: number): string {
   if (text.length <= maxChars) return text
@@ -27,13 +26,12 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
   const data = await fetchDashboardData(targetDay)
   const { matches, bulletin, stories, brief, nextChapter, activeNarratives, standings, standingsGroupName } = data
 
-
-{data._source && <div style={{display:'none'}} data-source={data._source} data-error={data._error || ''} />}
-<div style={{display:'none'}} data-build-version={BUILD_VERSION} />
   const liveMatches = matches.filter((m) => m.status === "live")
   const finishedMatches = matches.filter((m) => m.status === "finished")
   const scheduledMatches = matches.filter((m) => m.status === "scheduled")
   const heroMiniStory = stories.length > 3 ? stories[3] : null
+  const heroMatch = stories.length > 0 ? matches.find((m) => m.id === stories[0].matchId) : undefined
+  const realToday = Math.floor((Date.now() - new Date("2026-06-11").getTime()) / 86400000) + 1
 
   if (standings.length === 0) {
     console.warn("[real-data] standings empty for stage:", brief.continuity.phase)
@@ -49,10 +47,10 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
           <div className="md:grid md:grid-cols-[1.5fr_1fr] md:gap-8">
             <div className="flex flex-col gap-4">
               {/* 1. Continuity Bar — orientação */}
-              <ContinuityBar continuity={brief.continuity} currentDay={brief.continuity.day} />
+              <ContinuityBar continuity={brief.continuity} currentDay={realToday} />
 
               {/* 2. Quick Read — 15s, o produto */}
-              <QuickRead brief={brief} />
+              <QuickRead brief={brief} heroMatch={heroMatch} />
 
               {/* 3. Next Chapter — retenção (logo após QuickRead) */}
               {nextChapter?.hasOpenQuestion && (

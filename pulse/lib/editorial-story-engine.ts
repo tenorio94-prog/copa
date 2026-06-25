@@ -138,14 +138,18 @@ function calcConfidence(
   const isAnyPopular = isPopularHome || isPopularAway
   const hasDramaticFlag = match.narrativeFlags.includes("comeback") || match.narrativeFlags.includes("upset") || match.narrativeFlags.includes("blowout")
   const lowNarrativeContext = facts.length === 0 && arcs.length === 0
+  const isDraw = match.homeScore === match.awayScore && match.homeScore !== null
+  const matchWinner = match.winner
 
   if (isGroupsStage && lowNarrativeContext) {
     if (isLive && isAnyPopular) c += 0.30
-    else if (match.winner && isAnyPopular && hasDramaticFlag) c += 0.25
-    else if (match.winner && isAnyPopular) c += 0.20
+    else if (matchWinner && isAnyPopular && hasDramaticFlag) c += 0.25
+    else if (matchWinner && isAnyPopular) c += 0.20
     else if (isLive) c += 0.10
-    else if (match.winner && hasDramaticFlag) c += 0.15
-    else if (match.winner) c += 0.05
+    else if (matchWinner && hasDramaticFlag) c += 0.15
+    else if (!matchWinner && isDraw && (isAnyPopular || isTraditional(match.homeTeam) || isTraditional(match.awayTeam))) c += 0.12
+    else if (!matchWinner && isDraw) c += 0.02
+    else if (matchWinner) c += 0.05
   }
 
   return Math.min(c, 1.0)
@@ -174,7 +178,13 @@ function buildEvidence(
       } else {
         const participations = (2026 - info.firstWorldCup) / 4 + 1
         if (info.isTraditional) {
-          ev.push(`${match.winner} é uma das seleções mais tradicionais do mundo`)
+          if (match.stage === "Fase de grupos" && match.matchday === 3) {
+            ev.push(`${match.winner} confirma favoritismo e decide vaga no grupo`)
+          } else if (match.matchday && match.matchday >= 2 && !match.teamForm.lost_opener) {
+            ev.push(`${match.winner} mantém campanha sólida no grupo`)
+          } else {
+            ev.push(`${match.winner} busca confirmar favoritismo na chave`)
+          }
         } else if (info.continent === "CAF") {
           ev.push(`${match.winner} representa o continente africano`)
         } else if (info.continent === "AFC") {
@@ -245,7 +255,36 @@ function buildHeadline(match: EnrichedMatch, storyType: EditorialStoryType): str
   if (match.winner && match.loser && match.stage !== "Fase de grupos")
     return `${match.winner} elimina ${match.loser} e avança`
 
-  // ─── Group stage ───────────────────────────────────────
+  // ─── Group stage: draws of favorites ──────────────────
+  if (match.winner === null && match.loser === null && match.stage === "Fase de grupos") {
+    const homePop = isPopular(match.homeTeam) || isTraditional(match.homeTeam)
+    const awayPop = isPopular(match.awayTeam) || isTraditional(match.awayTeam)
+    const anyTrad = homePop || awayPop
+    const homeScore = match.homeScore ?? 0
+    const awayScore = match.awayScore ?? 0
+    const hs = Math.max(homeScore, awayScore)
+    const ls = Math.min(homeScore, awayScore)
+    const popularTeam = homePop ? match.homeTeam : awayPop ? match.awayTeam : null
+
+    if (hs === 0 && ls === 0 && anyTrad) {
+      return `${popularTeam || "Favorito"} não sai do 0 a 0 e deixa alerta no grupo`
+    }
+    if (hs === 0 && ls === 0) {
+      return `${match.homeTeam} e ${match.awayTeam} ficam no 0 a 0 sem destaque`
+    }
+    if ((hs >= 2 && hs === ls) && anyTrad) {
+      return `${popularTeam} empate em ${hs} gols mantém grupo completamente aberto`
+    }
+    if ((hs >= 2 && hs === ls) && !anyTrad) {
+      return `${match.homeTeam} e ${match.awayTeam} empatam em partida movimentada`
+    }
+    if (anyTrad) {
+      return `${match.homeTeam} e ${match.awayTeam} empatam — ${popularTeam} tropeça na fase de grupos`
+    }
+    return `${match.homeTeam} e ${match.awayTeam} empatam sem grandes emoções`
+  }
+
+  // ─── Group stage: winners ─────────────────────────────
   if (match.winner && match.loser && match.stage === "Fase de grupos") {
     if (match.narrativeFlags.includes("comeback")) {
       return isRecovering
@@ -271,7 +310,7 @@ function buildHeadline(match: EnrichedMatch, storyType: EditorialStoryType): str
       }
       return isWinnerPopular
         ? `${match.winner} atropela ${match.loser} e assume liderança`
-        : `${match.winner} domina ${match.loser} em partida equilibrada`
+        : `${match.winner} vence ${match.loser} em jogo equilibrado`
     }
 
     if (match.narrativeFlags.includes("upset")) {
@@ -292,9 +331,17 @@ function buildHeadline(match: EnrichedMatch, storyType: EditorialStoryType): str
       return `${match.winner} confirma na segunda rodada`
     }
     if (isSecondMd) {
-      return isWinnerPopular
-        ? `${match.winner} embala com mais uma vitória`
-        : `${match.winner} busca recuperação no grupo`
+      if (isWinnerPopular) {
+        const embalaPick = ((match.matchday || 2) + (match.winner?.length || 0)) % 4
+        if (embalaPick === 0) return `${match.winner} embala com mais uma vitória`
+        if (embalaPick === 1) return `${match.winner} confirma momento e vence de novo`
+        if (embalaPick === 2) return `${match.winner} mantém 100% na Copa`
+        return `${match.winner} segue invicto na competição`
+      }
+      const buscaPick = ((match.matchday || 2) + (match.loser?.length || 0)) % 3
+      if (buscaPick === 0) return `${match.winner} busca recuperação no grupo`
+      if (buscaPick === 1) return `${match.winner} reage e segue vivo no grupo`
+      return `${match.winner} vence e volta à disputa`
     }
     if (isWinnerDebutant) {
       return `${match.winner} estreia vencendo${groupLabel ? ` no ${groupLabel}` : ""}`
@@ -303,7 +350,11 @@ function buildHeadline(match: EnrichedMatch, storyType: EditorialStoryType): str
       return `${match.winner} estreia com vitória no grupo`
     }
     if (isFirstMd) {
-      return `${match.winner} abre campanha vencendo ${match.loser}`
+      const teamSum = (match.winner?.length || 0) + (match.loser?.length || 0)
+      const openerPick = teamSum % 3
+      if (openerPick === 0) return `${match.winner} abre campanha vencendo ${match.loser}`
+      if (openerPick === 1) return `${match.winner} larga na frente com vitória sobre ${match.loser}`
+      return `${match.winner} começa bem e vence ${match.loser} na estreia`
     }
 
     // Fallback by popularity
@@ -465,6 +516,20 @@ function isMatchLive(matchId: string, rawMatches?: Match[]): boolean {
   return raw?.status === "live" || false
 }
 
+const STORY_TYPE_RANK: Record<string, number> = {
+  upset: 1,
+  dynasty_fall: 2,
+  elimination: 3,
+  favorite_stumbles: 4,
+  milestone: 5,
+  redemption: 6,
+  cinderella: 7,
+  recovery: 8,
+  rivalry: 9,
+  statement_win: 10,
+  historical: 11,
+}
+
 export function selectStories(
   enrichedMatches: EnrichedMatch[],
   memory?: TournamentMemory,
@@ -502,7 +567,12 @@ export function selectStories(
     })
   }
 
-  stories.sort((a, b) => b.confidence - a.confidence)
+  stories.sort((a, b) => {
+    const rankA = STORY_TYPE_RANK[a.storyType] ?? 99
+    const rankB = STORY_TYPE_RANK[b.storyType] ?? 99
+    if (rankA !== rankB) return rankA - rankB
+    return b.confidence - a.confidence
+  })
 
   stories.forEach((s, i) => { s.priority = i + 1 })
   if (stories.length > 0) stories[0].priority = 1

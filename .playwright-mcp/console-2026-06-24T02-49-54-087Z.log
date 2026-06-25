@@ -1,0 +1,32 @@
+[    1201ms] [LOG] %c
+▲
+
+__  __                                     _            __
+\ \/ /___  __  __   _________ _____       (_)_  _______/ /_
+ \  / __ \/ / / /  / ___/ __ `/ __ \     / / / / / ___/ __/
+ / / /_/ / /_/ /  / /__/ /_/ / / / /    / / /_/ (__  ) /_
+/_/\____/\__,_/   \___/\__,_/_/ /_/  __/ /\__,_/____/\__/
+         __    _          __  __    /___/
+   _____/ /_  (_)___     / /_/ /_  (_)___  ____ ______
+  / ___/ __ \/ / __ \   / __/ __ \/ / __ \/ __ `/ ___/
+ (__  ) / / / / /_/ /  / /_/ / / / / / / / /_/ (__  )
+/____/_/ /_/_/ .___/   \__/_/ /_/_/_/ /_/\__, /____/
+            /_/                         /____/
+  
+
+Hello!
+
+- Open Source https://vercel.com/oss
+- Careers https://vercel.com/careers
+- Status https://vercel-status.com
+
+ font-family: "Geist Mono", monospace; white-space: pre; line-height: 1; @ https://vercel.com/_next/static/immutable/chunks/09cizcx7bxmnn.js:78
+[    2031ms] [WARNING] [GSI_LOGGER]: Your client application uses one of the Google One Tap prompt UI status methods that may stop functioning when FedCM becomes mandatory. Refer to the migration guide to update your code accordingly and opt-in to FedCM to test your changes. Learn more: https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#display_moment and https://developers.google.com/identity/gsi/web/guides/fedcm-migration?s=dc#skipped_moment @ https://accounts.google.com/gsi/client:86
+[    2061ms] [ERROR] Not signed in with the identity provider. @ https://vercel.com/login?next=%2Fsso-api%3Furl%3Dhttps%253A%252F%252Fpulse-a9qhre0tg-lucas-projects-60a50c61.vercel.app%252F%26nonce%3D9e8d67b139dd91eceaf3bac9df145a146d12a67452771b15561dda570b6af8b5:0
+[    2219ms] [ERROR] Failed to load resource: the server responded with a status of 403 () @ https://vercel.com/api/jwt:0
+[    2796ms] [WARNING] Deprecated API for given entry type. @ https://vercel.com/_next/static/immutable/chunks/30boi8e69jjip.js:18
+[    4960ms] [ERROR] [GSI_LOGGER]: FedCM get() rejects with NetworkError: Error retrieving a token. @ https://vercel.com/_next/static/immutable/chunks/2gxd-4lsov6m_.js:8
+[   12484ms] [VERBOSE] [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) %o @ https://accounts.google.com/v3/signin/identifier?opparams=%253F&dsh=S923412968%3A1782269405905415&client_id=1078992815106-brpsupgvhheqg35tupphbh0qk9c32nq8.apps.googleusercontent.com&code_challenge=LKAXPGj_J6axX6dCZzXwe2NzqnIhzinPkNV_g5403R4&code_challenge_method=S256&nonce=2c866ba61d546d54d247858576ba58c9&o2v=2&prompt=select_account&redirect_uri=https%3A%2F%2Fgithub.com%2Fsessions%2Fsocial%2Fgoogle%2Fcallback&response_type=code&scope=openid+email+profile&service=lso&state=b6c1ee9e6c4ed9fa4d47dd00c8782790&flowName=GeneralOAuthFlow&continue=https%3A%2F%2Faccounts.google.com%2Fsignin%2Foauth%2Fconsent%3Fauthuser%3Dunknown%26part%3DAJi8hAOqlE4teNGr8TFnqs8gvab2FhrEbAfaS8UAvIOmsvu_fX4LCa-WMvQU7oVBhNPfQMWJJXUk1B_x8a8Ba49SYjViD2kCMm34QvFqOT4lWvWbvMnFNMeRBbanBNN9npucOiVrOd0Ia4eUZyQtktb0_vWncdXaqN7AR5qSIzrWJBQ_p48bzyHSyrBDPsKqPBc0HbK8KxVegynG2f5DgkZ06loMgmqvgt5j2OTkqUyx4yofwUI_wEz0562g30p3gA8yFAWhu71vnW_nIubUvI4_QhOf_FadfkDg6uT4HXJ6PiVh6VO3z0O9xLHhcXUy8JREhgcOaBijKPiFqCtR0GoCEggcyJdUyVJqCA0E5flbgcqcgFY6htNowTBcSqQru5pZjAnhDicy32c2uVoZ2IPeMK1cnjShcY-UFCV0epwATTc5yvuU_BZWLop5aK1XIwgFntZczuKZj0MCEfQoZXFEdV4QTQ9JjA%26flowName%3DGeneralOAuthFlow%26as%3DS923412968%253A1782269405905415%26client_id%3D1078992815106-brpsupgvhheqg35tupphbh0qk9c32nq8.apps.googleusercontent.com%26requestPath%3D%252Fsignin%252Foauth%252Fconsent%23&app_domain=https%3A%2F%2Fgithub.com&rart=ANgoxccFigxX8hfS5U2y-RFR696MPykXwibqTFAvfLcnkULfky13nql2WBe8Lt35aHV5ZKFXEjqIkykHU3YsvYt18jeFCGKhooiT1kmtqAt-jKGX5Q5ScWU:0
+[   12502ms] [LOG] %c%s color: red; background: yellow; font-size: 24px; AVISO @ https://www.gstatic.com/_/mss/boq-identity/_/js/k=boq-identity.AccountsSignInUi.pt_BR.Vb_mc7x6giQ.es5.O/am=EQ0AAAAwULyQAcD-_28AAAIIsh3wPQugCRAyAAAAAAAAAABgAQAAGgE/d=1/excm=_b,_tp,identifierview/ed=1/dg=0/wt=2/ujg=1/rs=AOaEmlEaAm5Dz3sfGRtzCUys2t4PJo8YMA/dti=1/m=_b,_tp:551
+[   12502ms] [LOG] %c%s font-size: 18px; O uso deste console pode permitir que invasores falsifiquem sua identidade para roubar informações por meio de um ataque chamado Self-XSS.
+Não insira nem cole códigos que você não conheça. @ https://www.gstatic.com/_/mss/boq-identity/_/js/k=boq-identity.AccountsSignInUi.pt_BR.Vb_mc7x6giQ.es5.O/am=EQ0AAAAwULyQAcD-_28AAAIIsh3wPQugCRAyAAAAAAAAAABgAQAAGgE/d=1/excm=_b,_tp,identifierview/ed=1/dg=0/wt=2/ujg=1/rs=AOaEmlEaAm5Dz3sfGRtzCUys2t4PJo8YMA/dti=1/m=_b,_tp:551
