@@ -49,9 +49,9 @@ function findToday(label?: string): string {
 
 function makeBullet(hero: EditorialStory): string {
   const parts = hero.evidence.filter(Boolean)
-  const evidence = parts.length > 0 ? ` — ${parts[0]}` : ""
-  const emoji = hero.storyType === "milestone" ? "🌍" : hero.storyType === "redemption" ? "🔥" : hero.storyType === "dynasty_fall" ? "💥" : hero.storyType === "cinderella" ? "🌟" : "⚽"
-  return `${emoji} ${hero.headline}${evidence}`
+  const evidence = parts.length > 0 ? parts[0] : hero.whyItMatters || hero.headline
+  const emoji = hero.storyType === "milestone" ? "🌍" : hero.storyType === "redemption" ? "🔥" : hero.storyType === "dynasty_fall" ? "💥" : hero.storyType === "cinderella" ? "🌟" : "📰"
+  return `${emoji} ${evidence}`
 }
 
 function makeSecondaryBullet(secondary: EditorialStory | null): string {

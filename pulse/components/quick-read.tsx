@@ -57,15 +57,15 @@ export function QuickRead({ brief, heroMatch }: QuickReadProps) {
         )}
 
         {heroMatch && heroMatch.status !== "scheduled" && (
-          <div className="flex items-center gap-3 mb-3">
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="text-[15px]">{heroMatch.homeTeam.flag}</span>
-              <span className="text-[14px] font-medium text-[#e8e8ea] truncate">{heroMatch.homeTeam.name}</span>
+          <div className="flex items-center justify-center gap-4 mb-4 py-3 rounded-lg" style={{backgroundColor: `${color.hex}0d`}}>
+            <div className="flex items-center gap-2">
+              <span className="text-[20px]">{heroMatch.homeTeam.flag}</span>
+              <span className="text-[15px] font-semibold text-[#f4f4f5]">{heroMatch.homeTeam.code}</span>
             </div>
-            <span className="text-[22px] font-bold text-[#f4f4f5] shrink-0">{scoreDisplay(heroMatch)}</span>
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="text-[14px] font-medium text-[#e8e8ea] truncate">{heroMatch.awayTeam.name}</span>
-              <span className="text-[15px]">{heroMatch.awayTeam.flag}</span>
+            <span className="text-[32px] font-black tracking-tight" style={{color: color.hexLight}}>{scoreDisplay(heroMatch)}</span>
+            <div className="flex items-center gap-2">
+              <span className="text-[15px] font-semibold text-[#f4f4f5]">{heroMatch.awayTeam.code}</span>
+              <span className="text-[20px]">{heroMatch.awayTeam.flag}</span>
             </div>
           </div>
         )}
