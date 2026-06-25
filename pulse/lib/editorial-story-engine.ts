@@ -138,14 +138,18 @@ function calcConfidence(
   const isAnyPopular = isPopularHome || isPopularAway
   const hasDramaticFlag = match.narrativeFlags.includes("comeback") || match.narrativeFlags.includes("upset") || match.narrativeFlags.includes("blowout")
   const lowNarrativeContext = facts.length === 0 && arcs.length === 0
+  const isDraw = match.homeScore === match.awayScore && match.homeScore !== null
+  const matchWinner = match.winner
 
   if (isGroupsStage && lowNarrativeContext) {
     if (isLive && isAnyPopular) c += 0.30
-    else if (match.winner && isAnyPopular && hasDramaticFlag) c += 0.25
-    else if (match.winner && isAnyPopular) c += 0.20
+    else if (matchWinner && isAnyPopular && hasDramaticFlag) c += 0.25
+    else if (matchWinner && isAnyPopular) c += 0.20
     else if (isLive) c += 0.10
-    else if (match.winner && hasDramaticFlag) c += 0.15
-    else if (match.winner) c += 0.05
+    else if (matchWinner && hasDramaticFlag) c += 0.15
+    else if (!matchWinner && isDraw && (isAnyPopular || isTraditional(match.homeTeam) || isTraditional(match.awayTeam))) c += 0.12
+    else if (!matchWinner && isDraw) c += 0.02
+    else if (matchWinner) c += 0.05
   }
 
   return Math.min(c, 1.0)
@@ -465,6 +469,20 @@ function isMatchLive(matchId: string, rawMatches?: Match[]): boolean {
   return raw?.status === "live" || false
 }
 
+const STORY_TYPE_RANK: Record<string, number> = {
+  upset: 1,
+  dynasty_fall: 2,
+  elimination: 3,
+  favorite_stumbles: 4,
+  milestone: 5,
+  redemption: 6,
+  cinderella: 7,
+  recovery: 8,
+  rivalry: 9,
+  statement_win: 10,
+  historical: 11,
+}
+
 export function selectStories(
   enrichedMatches: EnrichedMatch[],
   memory?: TournamentMemory,
@@ -502,7 +520,12 @@ export function selectStories(
     })
   }
 
-  stories.sort((a, b) => b.confidence - a.confidence)
+  stories.sort((a, b) => {
+    const rankA = STORY_TYPE_RANK[a.storyType] ?? 99
+    const rankB = STORY_TYPE_RANK[b.storyType] ?? 99
+    if (rankA !== rankB) return rankA - rankB
+    return b.confidence - a.confidence
+  })
 
   stories.forEach((s, i) => { s.priority = i + 1 })
   if (stories.length > 0) stories[0].priority = 1
