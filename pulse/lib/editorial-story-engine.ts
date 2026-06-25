@@ -178,7 +178,13 @@ function buildEvidence(
       } else {
         const participations = (2026 - info.firstWorldCup) / 4 + 1
         if (info.isTraditional) {
-          ev.push(`${match.winner} é uma das seleções mais tradicionais do mundo`)
+          if (match.stage === "Fase de grupos" && match.matchday === 3) {
+            ev.push(`${match.winner} confirma favoritismo e decide vaga no grupo`)
+          } else if (match.matchday && match.matchday >= 2 && !match.teamForm.lost_opener) {
+            ev.push(`${match.winner} mantém campanha sólida no grupo`)
+          } else {
+            ev.push(`${match.winner} busca confirmar favoritismo na chave`)
+          }
         } else if (info.continent === "CAF") {
           ev.push(`${match.winner} representa o continente africano`)
         } else if (info.continent === "AFC") {
@@ -275,7 +281,7 @@ function buildHeadline(match: EnrichedMatch, storyType: EditorialStoryType): str
       }
       return isWinnerPopular
         ? `${match.winner} atropela ${match.loser} e assume liderança`
-        : `${match.winner} domina ${match.loser} em partida equilibrada`
+        : `${match.winner} vence ${match.loser} em jogo equilibrado`
     }
 
     if (match.narrativeFlags.includes("upset")) {

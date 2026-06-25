@@ -32,8 +32,6 @@ export function HeroMini({ tag, headline, whyItMatters, storyType = "historical"
           >
             {color.label}
           </span>
-          <span className="text-[9px] text-[#71717a]">•</span>
-          <span className="text-[9px] text-[#71717a]">{tag}</span>
         </div>
         <h3 className="font-editorial text-[16px] font-semibold leading-[1.2] tracking-tight text-[#e8e8ea] mb-1.5">
           {headline}
