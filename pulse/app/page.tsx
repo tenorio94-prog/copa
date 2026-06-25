@@ -8,8 +8,6 @@ import { NarrativeTracker } from "@/components/narrative-tracker"
 import { HeroMini } from "@/components/hero-mini"
 import { ShareButtons } from "@/components/share-buttons"
 import { fetchDashboardData } from "@/lib/mock-data"
-import { BUILD_VERSION } from "./version"
-import { MARKER } from "./marker"
 
 function truncateAtWord(text: string, maxChars: number): string {
   if (text.length <= maxChars) return text
@@ -179,9 +177,6 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
           }}
         />
       </main>
-      <div style={{position:"fixed",top:0,left:0,zIndex:99999,background:"red",color:"white",fontSize:"20px",padding:"8px"}}>
-        BUILD_FIXED:{BUILD_VERSION}:{MARKER}
-      </div>
     </>
   )
 }

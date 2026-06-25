@@ -1,0 +1,163 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: CP
+        - generic [ref=e6]: Copa Pulse
+      - navigation
+  - main [ref=e7]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - generic [ref=e12]: Copa do Mundo 2026
+          - generic [ref=e13]:
+            - button "DIA 1" [ref=e14] [cursor=pointer]
+            - button "DIA 2" [ref=e15] [cursor=pointer]
+            - button "DIA 3" [ref=e16] [cursor=pointer]
+            - button "DIA 4" [ref=e17] [cursor=pointer]
+            - button "DIA 5" [ref=e18] [cursor=pointer]
+            - button "DIA 6" [ref=e19] [cursor=pointer]
+            - button "DIA 7" [ref=e20] [cursor=pointer]
+            - button "DIA 8" [ref=e21] [cursor=pointer]
+            - button "DIA 9" [ref=e22] [cursor=pointer]
+            - button "DIA 10" [ref=e23] [cursor=pointer]
+            - button "DIA 11" [ref=e24] [cursor=pointer]
+            - button "DIA 12" [ref=e25] [cursor=pointer]
+            - button "DIA 13" [ref=e26] [cursor=pointer]
+            - button "DIA 14" [ref=e27] [cursor=pointer]
+            - button "DIA 15" [ref=e28] [cursor=pointer]
+            - button "DIA 16" [ref=e29] [cursor=pointer]
+            - button "DIA 17" [ref=e30] [cursor=pointer]
+            - button "DIA 18" [ref=e31] [cursor=pointer]
+            - button "DIA 19" [ref=e32] [cursor=pointer]
+            - button "DIA 20" [ref=e33] [cursor=pointer]
+            - button "DIA 21" [ref=e34] [cursor=pointer]
+            - button "DIA 22" [ref=e35] [cursor=pointer]
+            - button "DIA 23" [ref=e36] [cursor=pointer]
+            - button "DIA 24" [ref=e37] [cursor=pointer]
+            - button "DIA 25" [ref=e38] [cursor=pointer]
+            - button "DIA 26" [ref=e39] [cursor=pointer]
+            - button "DIA 27" [ref=e40] [cursor=pointer]
+            - button "DIA 28" [ref=e41] [cursor=pointer]
+          - generic [ref=e67]: Final
+          - generic [ref=e72]:
+            - generic [ref=e73]: 🏆 Final
+            - generic [ref=e74]: ⚽ 2 jogos hoje
+            - generic [ref=e75]: "🔥 Ontem: Argentina: Eliminou Croácia"
+            - generic [ref=e76]: "Hoje: Final: Argentina vs França"
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - generic [ref=e81]:
+              - img [ref=e83]
+              - generic [ref=e85]: REDENÇÃO
+            - generic [ref=e86]: 15s de leitura
+          - heading "Argentina vence Croácia e vai à final contra a França" [level=2] [ref=e87]
+          - generic [ref=e88]:
+            - generic [ref=e89]:
+              - generic [ref=e90]: 🔥
+              - generic [ref=e91]: Argentina 3×0 Croácia — Messi decide. Argentina vai à final após 36 anos.
+            - generic [ref=e92]:
+              - generic [ref=e93]: 📰
+              - generic [ref=e94]: França 2×0 Marrocos — Atual campeã chega à segunda final consecutiva. Marrocos faz história.
+            - generic [ref=e95]:
+              - generic [ref=e96]: ⚽
+              - generic [ref=e97]: "Amanhã: Final — Argentina vs França. Messi busca o título que faltava."
+          - generic [ref=e98]:
+            - link "𝕏 Compartilhar" [ref=e99] [cursor=pointer]:
+              - /url: https://twitter.com/intent/tweet?text=Argentina%20vence%20Cro%C3%A1cia%20e%20vai%20%C3%A0%20final%20contra%20a%20Fran%C3%A7a%20%E2%80%94%20Copa%20Pulse&url=https%3A%2F%2Fpulse-indol-sigma.vercel.app%2F
+            - link "WhatsApp" [ref=e100] [cursor=pointer]:
+              - /url: https://wa.me/?text=Argentina%20vence%20Cro%C3%A1cia%20e%20vai%20%C3%A0%20final%20contra%20a%20Fran%C3%A7a%20%E2%80%94%20Copa%20Pulse%20https%3A%2F%2Fpulse-indol-sigma.vercel.app%2F
+            - button "📋 Link" [ref=e101] [cursor=pointer]
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - img [ref=e106]
+            - generic [ref=e108]: PRÓXIMO CAPÍTULO
+          - paragraph [ref=e110]: "\"Messi finalmente conquista o título que faltava? Ou a França confirma a dinastia?\""
+          - heading "Argentina busca encerrar jejum de 36 anos contra a França na grande final" [level=3] [ref=e111]
+          - paragraph [ref=e112]: Argentina perdeu na estreia, se reconstruiu e agora está a um jogo do título. Do outro lado, a França tenta o bicampeonato.
+          - generic [ref=e114]:
+            - generic [ref=e115]: AMANHÃ
+            - generic [ref=e116]: Argentina vs França
+            - generic [ref=e117]: Final
+      - generic [ref=e118]:
+        - generic [ref=e119]:
+          - heading "⚽ Jogos" [level=2] [ref=e120]
+          - generic [ref=e121]:
+            - generic [ref=e122]: Encerrados hoje
+            - generic [ref=e123]:
+              - generic [ref=e125]:
+                - generic [ref=e126]:
+                  - generic [ref=e127]: 🇦🇷
+                  - generic [ref=e128]: ARG
+                  - generic [ref=e130]: 3 – 0
+                  - generic [ref=e131]: CRO
+                  - generic [ref=e132]: 🇭🇷
+                - generic [ref=e133]: Encerrado
+              - generic [ref=e135]:
+                - generic [ref=e136]:
+                  - generic [ref=e137]: 🇫🇷
+                  - generic [ref=e138]: FRA
+                  - generic [ref=e140]: 2 – 0
+                  - generic [ref=e141]: MAR
+                  - generic [ref=e142]: 🇲🇦
+                - generic [ref=e143]: Encerrado
+          - generic [ref=e144]:
+            - generic [ref=e145]: Ainda vai começar
+            - generic [ref=e148]:
+              - generic [ref=e149]:
+                - generic [ref=e150]: 🇫🇷
+                - generic [ref=e151]: FRA
+                - generic [ref=e152]: "-"
+                - generic [ref=e153]: ARG
+                - generic [ref=e154]: 🇦🇷
+              - generic [ref=e155]: 12:00
+        - generic [ref=e157]:
+          - generic [ref=e158]:
+            - generic [ref=e159]: 📖 Histórias da Copa
+            - generic [ref=e160]: 2 ativas
+          - generic [ref=e161]:
+            - generic [ref=e162]:
+              - img [ref=e164]
+              - generic [ref=e166]:
+                - generic [ref=e168]: "Argentina: Jornada de redenção"
+                - generic [ref=e172]: Cap. 6/7
+                - paragraph [ref=e173]: "Próximo: Buscar o título que completa a redenção"
+                - generic [ref=e174]:
+                  - generic [ref=e175]:
+                    - generic [ref=e176]: Perdeu para Arábia Saudita
+                    - generic [ref=e177]: ›
+                  - generic [ref=e178]:
+                    - generic [ref=e179]: Venceu México
+                    - generic [ref=e180]: ›
+                  - generic [ref=e181]:
+                    - generic [ref=e182]: Eliminou Holanda nos pênaltis
+                    - generic [ref=e183]: ›
+                  - generic [ref=e185]: Eliminou Croácia
+            - generic [ref=e186]:
+              - img [ref=e188]
+              - generic [ref=e190]:
+                - generic [ref=e191]:
+                  - generic [ref=e192]: "Marrocos: Campanha histórica"
+                  - generic [ref=e193]: ✅ Concluída
+                - paragraph [ref=e194]: Eliminado pela França na semi
+            - generic [ref=e195]:
+              - img [ref=e197]
+              - generic [ref=e199]:
+                - generic [ref=e201]: "França: Dinastia"
+                - generic [ref=e205]: Cap. 4/5
+                - paragraph [ref=e206]: "Próximo: Buscar o bicampeonato na final"
+                - generic [ref=e207]:
+                  - generic [ref=e208]:
+                    - generic [ref=e209]: Eliminou Inglaterra
+                    - generic [ref=e210]: ›
+                  - generic [ref=e212]: Eliminou Marrocos
+        - generic [ref=e213]:
+          - generic [ref=e214]:
+            - generic [ref=e215]: "Compartilhe:"
+            - link "X" [ref=e216] [cursor=pointer]:
+              - /url: https://twitter.com/intent/tweet?text=Argentina%20vence%20Cro%C3%A1cia%20e%20vai%20%C3%A0%20final%20contra%20a%20Fran%C3%A7a%20%E2%80%94%20Copa%20Pulse&url=https%3A%2F%2Fpulse-indol-sigma.vercel.app%2F
+            - link "WhatsApp" [ref=e217] [cursor=pointer]:
+              - /url: https://wa.me/?text=Argentina%20vence%20Cro%C3%A1cia%20e%20vai%20%C3%A0%20final%20contra%20a%20Fran%C3%A7a%20%E2%80%94%20Copa%20Pulse%20https%3A%2F%2Fpulse-indol-sigma.vercel.app%2F
+            - button "📋 Link" [ref=e218] [cursor=pointer]
+          - paragraph [ref=e219]: Copa Pulse • Argentina vence Croácia e
+  - generic [ref=e220]: BUILD TEST 404c959-fix

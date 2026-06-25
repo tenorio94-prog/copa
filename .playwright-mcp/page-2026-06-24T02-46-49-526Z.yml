@@ -1,0 +1,173 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content":
+    - /url: "#geist-skip-nav"
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e9]:
+            - link "lucas-projects-60a50c61" [ref=e10] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61
+              - generic [ref=e13]: lucas-projects-60a50c61
+            - button [ref=e15] [cursor=pointer]:
+              - img [ref=e17]
+          - button "Find… F" [ref=e20]:
+            - generic [ref=e22]:
+              - img [ref=e24]
+              - generic [ref=e26]: Find…
+              - generic [ref=e28]: F
+        - navigation [ref=e30]:
+          - generic [ref=e33]:
+            - link "Overview" [ref=e34] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse
+              - generic [ref=e37]: Overview
+            - link "Deployments" [ref=e38] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/deployments
+              - img [ref=e40]
+              - generic [ref=e43]: Deployments
+            - link "Logs" [ref=e44] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/logs
+              - img [ref=e46]
+              - generic [ref=e49]: Logs
+            - link "Analytics" [ref=e50] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/analytics
+              - img [ref=e52]
+              - generic [ref=e55]: Analytics
+            - link "Speed Insights" [ref=e56] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/speed-insights
+              - img [ref=e58]
+              - generic [ref=e61]: Speed Insights
+            - link "Observability" [ref=e62] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/observability
+              - img [ref=e64]
+              - generic [ref=e67]: Observability
+              - img [ref=e69]
+            - link "Firewall" [ref=e71] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/firewall
+              - img [ref=e73]
+              - generic [ref=e77]: Firewall
+              - img [ref=e79]
+            - link "CDN" [ref=e81] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/cdn
+              - img [ref=e83]
+              - generic [ref=e86]: CDN
+              - img [ref=e88]
+            - separator [ref=e90]
+            - link "Environment Variables" [ref=e91] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/settings/environment-variables
+              - img [ref=e93]
+              - generic [ref=e96]: Environment Variables
+            - link "Domains" [ref=e97] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/settings/domains
+              - img [ref=e99]
+              - generic [ref=e102]: Domains
+            - link "Connect Beta" [ref=e103] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/connect
+              - img [ref=e105]
+              - generic [ref=e107]:
+                - generic [ref=e108]: Connect
+                - generic [ref=e109]: Beta
+            - link "Integrations" [ref=e110] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/settings/integrations
+              - img [ref=e112]
+              - generic [ref=e115]: Integrations
+            - link "Storage" [ref=e116] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/stores
+              - img [ref=e118]
+              - generic [ref=e121]: Storage
+            - link "Flags" [ref=e122] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/flags
+              - img [ref=e124]
+              - generic [ref=e127]: Flags
+              - img [ref=e129]
+            - link "Agent" [ref=e131] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/agent
+              - img [ref=e133]
+              - generic [ref=e136]: Agent
+              - img [ref=e138]
+            - link "AI Gateway" [ref=e140] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/ai-gateway
+              - img [ref=e142]
+              - generic [ref=e145]: AI Gateway
+              - img [ref=e147]
+            - link "Sandboxes" [ref=e149] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/sandboxes
+              - img [ref=e151]
+              - generic [ref=e154]: Sandboxes
+              - img [ref=e156]
+            - link "Workflows" [ref=e158] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/workflows
+              - img [ref=e160]
+              - generic [ref=e163]: Workflows
+            - separator [ref=e164]
+            - link "Usage" [ref=e165] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/usage
+              - img [ref=e167]
+              - generic [ref=e170]: Usage
+            - link "Support" [ref=e171] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/support
+              - img [ref=e173]
+              - generic [ref=e176]: Support
+            - link "Settings" [ref=e177] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/settings
+              - img [ref=e179]
+              - generic [ref=e182]: Settings
+              - img [ref=e184]
+        - generic [ref=e188]:
+          - button [disabled]:
+            - img
+            - generic:
+              - img
+          - img [ref=e191]
+      - button [ref=e194] [cursor=pointer]:
+        - img [ref=e195]
+    - generic [ref=e198]:
+      - generic [ref=e199]:
+        - generic [ref=e202]:
+          - link "pulse" [ref=e203] [cursor=pointer]:
+            - /url: /lucas-projects-60a50c61/pulse
+            - generic [ref=e206]: pulse
+          - button [ref=e207] [cursor=pointer]:
+            - img [ref=e209]
+          - link "Back to team view" [ref=e213] [cursor=pointer]:
+            - /url: /lucas-projects-60a50c61/~/deployments
+            - img [ref=e215]
+        - generic [ref=e217]:
+          - generic [ref=e218]:
+            - link "Deployments" [ref=e219] [cursor=pointer]:
+              - /url: /lucas-projects-60a50c61/pulse/deployments
+            - img [ref=e220]
+          - generic [ref=e222]:
+            - generic [ref=e225]: 38qv9dWoB
+            - button "Copy ID" [ref=e227] [cursor=pointer]:
+              - generic [ref=e228]:
+                - img [ref=e230]
+                - img [ref=e233]
+      - generic [ref=e236]:
+        - generic [ref=e238]:
+          - link "Deployment" [ref=e239] [cursor=pointer]:
+            - /url: /lucas-projects-60a50c61/pulse/38qv9dWoBxeGQKLXYmPPCJgHJ45a
+          - link "Logs" [ref=e240] [cursor=pointer]:
+            - /url: /lucas-projects-60a50c61/pulse/38qv9dWoBxeGQKLXYmPPCJgHJ45a/logs
+          - link "Resources" [ref=e241] [cursor=pointer]:
+            - /url: /lucas-projects-60a50c61/pulse/38qv9dWoBxeGQKLXYmPPCJgHJ45a/resources
+          - link "Source" [ref=e242] [cursor=pointer]:
+            - /url: /lucas-projects-60a50c61/pulse/38qv9dWoBxeGQKLXYmPPCJgHJ45a/source
+          - link "Open Graph" [ref=e243] [cursor=pointer]:
+            - /url: /lucas-projects-60a50c61/pulse/38qv9dWoBxeGQKLXYmPPCJgHJ45a/og
+        - generic [ref=e244]:
+          - generic [ref=e246]:
+            - heading "Deployment Details" [level=3] [ref=e249]
+            - generic [ref=e258]:
+              - generic [ref=e259]:
+                - generic [ref=e261]: Created
+                - generic [ref=e265]: Status
+                - generic [ref=e269]: Duration
+                - generic [ref=e273]: Environment
+              - generic [ref=e277]: Domains
+              - generic [ref=e283]: Source
+            - button [disabled] [ref=e291] [cursor=pointer]
+          - generic [ref=e295]:
+            - heading [level=2] [ref=e297]
+            - heading [level=2] [ref=e299]
+            - heading [level=2] [ref=e301]
