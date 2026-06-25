@@ -54,6 +54,7 @@ export function buildGroupSummary(memory?: TournamentMemory): ActiveNarrative[] 
     seen.add(team)
     const journey = memory.teamJourneys?.[team] || []
     const lastMatch = journey[journey.length - 1] || ""
+    const streak = form.current_streak
 
     let status: ActiveNarrative["status"] = "active"
 
@@ -62,16 +63,28 @@ export function buildGroupSummary(memory?: TournamentMemory): ActiveNarrative[] 
       : form.momentum === "struggling" ? "giant_slayer"
       : "redemption_journey"
 
+    let nextChapter: string
+    if (form.momentum === "dominant") {
+      if (streak >= 3) nextChapter = "Embalo — time vive melhor fase na Copa"
+      else nextChapter = "Líder do grupo — vitória aproxima da classificação"
+    } else if (form.momentum === "recovering") {
+      nextChapter = "Reação após tropeço — busca sequência positiva"
+    } else if (form.lost_opener) {
+      nextChapter = "Precisa vencer para não se distanciar"
+    } else {
+      nextChapter = "Busca recuperação no grupo"
+    }
+
     entries.push({
       id: `group-${team}`,
       title: team,
       narrativeType,
       team,
-      currentChapter: form.current_streak,
-      totalChaptersKnown: Math.max(3, form.current_streak + 2),
+      currentChapter: Math.min(streak + 1, 3),
+      totalChaptersKnown: 3,
       status,
-      nextChapter: form.momentum === "dominant" ? "Líder do grupo" : "Busca recuperação",
-      importance: form.lost_opener ? 25 : form.current_streak >= 2 ? 20 : 15,
+      nextChapter,
+      importance: form.lost_opener ? 25 : streak >= 2 ? 20 : 15,
       journey: journey.slice(-2),
     })
   }

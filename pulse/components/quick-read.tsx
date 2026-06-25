@@ -1,14 +1,23 @@
 "use client"
 
-import type { StoryBrief } from "@/lib/types"
+import type { StoryBrief, Match } from "@/lib/types"
 import { getStoryColor } from "@/lib/story-colors"
 import { extractTeamsFromText, getRivalry } from "@/lib/rivalries"
 
 interface QuickReadProps {
   brief: StoryBrief
+  heroMatch?: Match
 }
 
-export function QuickRead({ brief }: QuickReadProps) {
+function scoreDisplay(m: Match): string {
+  if (m.status === "scheduled") return ""
+  const h = m.homeScore ?? "?"
+  const a = m.awayScore ?? "?"
+  if (m.penaltyScore) return `${h}–${a} (${m.penaltyScore} pen)`
+  return `${h}–${a}`
+}
+
+export function QuickRead({ brief, heroMatch }: QuickReadProps) {
   const color = getStoryColor(brief.storyType)
   const teams = extractTeamsFromText(brief.headline)
   const rivalry = teams && teams.length >= 2 ? getRivalry(teams[0], teams[1]) : null
@@ -46,6 +55,21 @@ export function QuickRead({ brief }: QuickReadProps) {
             {rivalry.label}
           </span>
         )}
+
+        {heroMatch && heroMatch.status !== "scheduled" && (
+          <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="text-[15px]">{heroMatch.homeTeam.flag}</span>
+              <span className="text-[14px] font-medium text-[#e8e8ea] truncate">{heroMatch.homeTeam.name}</span>
+            </div>
+            <span className="text-[22px] font-bold text-[#f4f4f5] shrink-0">{scoreDisplay(heroMatch)}</span>
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="text-[14px] font-medium text-[#e8e8ea] truncate">{heroMatch.awayTeam.name}</span>
+              <span className="text-[15px]">{heroMatch.awayTeam.flag}</span>
+            </div>
+          </div>
+        )}
+
         <h2 className="font-editorial text-[clamp(20px,3.5vw,24px)] font-bold leading-[1.15] tracking-tight mb-4 text-[#f4f4f5]">
           {brief.headline}
         </h2>

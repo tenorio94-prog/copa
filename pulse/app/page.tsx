@@ -32,6 +32,7 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
   const finishedMatches = matches.filter((m) => m.status === "finished")
   const scheduledMatches = matches.filter((m) => m.status === "scheduled")
   const heroMiniStory = stories.length > 3 ? stories[3] : null
+  const heroMatch = stories.length > 0 ? matches.find((m) => m.id === stories[0].matchId) : undefined
 
   if (standings.length === 0) {
     console.warn("[real-data] standings empty for stage:", brief.continuity.phase)
@@ -50,7 +51,7 @@ export default async function Home({ searchParams }: { searchParams?: { day?: st
               <ContinuityBar continuity={brief.continuity} currentDay={brief.continuity.day} />
 
               {/* 2. Quick Read — 15s, o produto */}
-              <QuickRead brief={brief} />
+              <QuickRead brief={brief} heroMatch={heroMatch} />
 
               {/* 3. Next Chapter — retenção (logo após QuickRead) */}
               {nextChapter?.hasOpenQuestion && (
