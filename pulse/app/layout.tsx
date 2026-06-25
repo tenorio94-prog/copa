@@ -55,6 +55,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className="relative min-h-screen bg-[#0a0a0b]">
         <div className="fixed inset-0 pointer-events-none z-0 bg-grid" />
+        <div className="fixed inset-0 pointer-events-none z-10 bg-noise opacity-50" />
         <div className="fixed -top-[300px] -right-[200px] w-[600px] h-[600px] rounded-full bg-[#6366f1]/5 blur-3xl pointer-events-none z-0" />
         {children}
       </body>
